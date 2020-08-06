@@ -1,0 +1,72 @@
+知らない関数まとめ
+
+・fork() : pid_t fork(void); は呼び出し元プロセスを複製して新しいプロセスを生成する。
+・wait : pid_t wait(int *status); プロセスの状態変化を待つ。
+・waitpid : pid_t waitpid(pid_t pid, int *status, int options);
+pid 引き数で指定した子プロセスの状態変化が起こるまで、 呼び出し元のプロセスの実行を一時停止する。デフォルトでは、 waitpid() は子プロセスの終了だけを待つが、この動作は options 引き数により変更可能である。
+・wait3 : pid_t wait3(int *status, int options, struct rusage *rusage); wait3() 関数によって、呼び出しプロセスは指定された子プロセスの 状況情報を取得できます
+・wait4 : pid_t wait4(pid_t wpid, int *status, int options, struct rusage *rusage);  wait3() と wait4() は waitpid(2) と同様の動作をする。そ
+       れに加え、子プロセスのリソース使用状況の情報を rusage が指す構造体に 入れて返す。
+・signal : sighandler_t signal(int signum, sighandler_t sighandler); 
+・kill : int kill(pid_t pid, int sig); 
+・getcwd char *getcwd(char *buf, size_t size); カレントワーキングディレクトリ名の取得(絶対パス)  
+・chdir int chdir(const char *path); 作業ディレクトリの変更
+・stat int stat(const char *pathname, struct stat *buf); ファイルの状態を取得する
+・lstat int lstat(const char *pathname, struct stat *buf); pathnames がシンボリックリンクの場合、リンクが参照しているファイルではなく、 リンク自身の状態を返す点が異なる。
+・fstat int fstat(int fd, struct stat *buf); 状態を取得するファイルをファイルディスクリプター fd で指定する点が異なる。
+・execve int execve(const char *filename, char *const argv[], char *const envp[]); プログラムを実行する (fork()によって複製されたプロセスを新しくする)
+*filenameは実行形式のプログラムファイルのパスを指定。 実行ファイルがどこにあるかを指定。
+第二引数のargv がforkで複製されたプロセスに渡される。ここにコマンドの引数を渡す。arg[0]は無視されて、”filename argv[1]” みたいな感じで先のプロセスで実行される。
+第三引数は、次のプロセスで使う環境変数を渡す。これは、envp で渡せばいい。 これを渡さないと親のプロセスと同じ環境での実行ができなくなる。
+
+
+argv[]は実行するプログラムに渡す引数を、char型のポインタの配列として指定。
+envp[]は実行するプログラムの環境変数を、char型のポインタの配列として指定する。伝統的に、key=valueの形式。
+argv[]及び、envp[]の最後の要素はNULLでなければならない。
+
+execve がプロセス内で何かを実行する手段。この関数の呼び出しの後にはプロセスが終了する為、子プロセスを作ってそっちで実行する必要ある。
+exec はプロセスを書き換える。なので子プロセスに適用しないと親プロセスが書き換わってshellが終わってしまう。
+
+処理が成功した場合は戻ってこない。失敗した場合は-1を返す。だから、ビルトイン以外のコマンドがきた場合のみ行うべし。
+
+*************　　　　　　execvec　　　　　　***********は今回指定されていないコマンドが呼ばれた時のみforkして、path を渡して実行させる。環境変数PATH から一個ずつpathを取ってきて、コマンドを実行させる
+
+・dup int dup(int oldfd);  ファイルディスクリプター oldfd のコピーを作成し、 最も小さい番号の未使用のディスクリプターを 新しいディスクリプターとして使用する。<-リダイレクトの実装で使う
+・dup2  flags に O_CLOEXEC を指定する（よく意味わからん） <- これは標準入力のパイプとか、リダイレクトで行われるっぽい
+・pipe int pipe(int pipefd[2]); パイプを生成する   
+・opendir DIR *opendir(const char *name); opendir() 関数はディレクトリ name に対応する ディレクトリストリームをオープンし、そのストリームへのポインターを返す。
+・readdir struct dirent *readdir(DIR *dirp); dirp が指すディレクトリストリームの中で、 次のディレクトリエントリーを表す dirent 構造体へのポインターを返す。
+・closedir int closedir(DIR *dirp); 閉じる
+・strerror 
+・errno
+
+要件
+・入力待ちのコマンドプロンプトを作る。
+・相対パスと絶対パスを元に正しい実行ファイルを探して実行する事
+・eho の -n オプション付き
+・cd 相対パスまたは絶対パスで　（もしどちらもだった場合でも対応すればよし）
+・pwd　オプションなし <-できた
+・export オプションなし 
+・unset オプションなし
+・env オプションなし
+・exit オプションなし <-できた
+・ ; により連続でコマンドを実行　（コマンド１が以上終了しても、コマンド２を実行）
+・ シングルコマンドの時のみ、'と”がbashのように動くようにせよ(""はダブルクォーテーションはほとんどの特殊文字をエスケープするが、
+	バッククォート（`）、バックスラッシュ（＼）はエスケープできない。''は一番強力なもので、全ての特殊文字をエスケープ)
+・ > < >> の実装　（ファイルディスクリプターの集約と>>は覗く）　リダイレクト　流し込む感じか。
+・ | の実装
+・ 変数（＄に文字が続くやつ）の実装（シェルスクリプトを実行する事が必要になると思われる。）
+・ $? はの実装　直前のコマンドの終了ステータスは が格納されている。 
+・ ctrl-C(実行の終了) と ctrl-D(入力の終了　生で打つと) と　ctrl-l（プロセスのquitらしい） の実装
+・
+int main(int argc, char **argv, char **envp) でenvp には環境変数の値が入る。（ここにPATH やHOME <- home　ディレクトリを指すが入っている。）
+
+{
+    "editor.fontSize": 17,
+    "terminal.integrated.fontSize": 17,
+    "window.zoomLevel": 0,
+    "files.autoSave":  "onFocusChange",
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.renderWhitespace": "all",
+}
