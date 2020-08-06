@@ -28,7 +28,7 @@ t_list		*search_entry(t_list *val, char *key);
 int		command_export(char **args, t_list **e_val);
 char	*get_key(char *arg);
 int	command_unset(char **args, t_list *e_val, t_list *d_val);
-int		update_val(t_list *val, char *arg);
+int		update_val(t_list **val, char *arg);
 
 
 #endif

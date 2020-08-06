@@ -39,12 +39,12 @@ int		check_if_key_value(char *arg)
 	新しい要素をリストの一番後ろに追加する関数
 */
 
-int		add_val(t_list *val, char *arg) //ただ加えるだけじゃなくて、更新もしないといけないか。
+int		add_val(t_list **val, char *arg) //ただ加えるだけじゃなくて、更新もしないといけないか。
 {
 	t_list *new;
 
 	new = ft_lstnew(arg);
-	ft_lstadd_back(&val, new);
+	ft_lstadd_back(val, new);
 	return (1);
 }
 
@@ -52,17 +52,19 @@ int		add_val(t_list *val, char *arg) //ただ加えるだけじゃなくて、�
 	すでにあるkey=valueのvalue を変更する。
 */
 
-int		update_val(t_list *val, char *arg)
+int		update_val(t_list **val, char *arg)
 {
 	t_list *find;
 	char *key;
 
 	key = get_key(arg);
-	find = search_entry(val, key);
+	find = search_entry(*val, key);
 	if (find != NULL)
 		find->content = ft_strdup(arg);
 	else
+	{
 		add_val(val, ft_strdup(arg)); //lst_newで全てmallcする仕様に変えて、delにfreeを渡すように実装する必要あり。
+	}
 	free(key);
 	return (1);
 }
@@ -72,7 +74,7 @@ int		update_val(t_list *val, char *arg)
 	次に、ft_split でコマンドと引数にコマンドラインを分解（エスケープの処理を入れる必要あり）
 	fork() を使ってプロセスを新たに作る必要あり。プロセスを分岐させて各実行ファイルを呼び出す
 	unix は 環境変数PATH を使ってコマンド名前がある実行ファイルを探しにいっている。
-	
+
 */
 /*
 	シェルコマンドを実行するための関数。組み込み以外のがきたらプロセス分けて探しにいく
@@ -95,12 +97,12 @@ int		shell_execute(char **args, t_list **e_val, t_list **d_val)
 		else if(!ft_strncmp(args[0], "export", 6))
 			return (command_export(args, e_val));
 		else if(!ft_strncmp(args[0], "unset", 6))
-			return (command_unset(&args[1], *e_val, *d_val));	
+			return (command_unset(&args[1], *e_val, *d_val));
 		else if(check_if_key_value(args[0]))
-			return (update_val(*d_val, args[0]));
+			return (update_val(d_val, args[0]));
 		// else if (!!ft_strcmp(args[0], "unset"))
 		// 	return(command_unset(args, e_val))
-		
+
 		return (1);
 }
 
@@ -138,7 +140,7 @@ void	prompt_loop(char **envp)
 	t_list *d_val;
 	t_list *e_val;
 	t_list *find;
-	
+
 	errno = 0;
 	state = 1;
 	d_val = NULL;
