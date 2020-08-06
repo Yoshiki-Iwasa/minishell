@@ -6,11 +6,15 @@
 /*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/06 13:36:30 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/06 16:15:09 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+	一番最初に環境変数をリスト構造に初期化する関数。
+*/
 
 void	init_e_val_list(t_list **e_val, char **envp)
 {
@@ -26,6 +30,10 @@ void	init_e_val_list(t_list **e_val, char **envp)
 	}
 	return ;
 }
+
+/*
+	keyに該当するvalue だけを返す関数。これはfreeを考える必要あり
+*/
 
 char*	find_value(t_list **val, char *key)
 {
@@ -50,6 +58,10 @@ char*	find_value(t_list **val, char *key)
 	return ("not_found");
 }
 
+/*
+	num 番目のlistのアドレスを返す関数。
+*/
+
 t_list *find_num_list(t_list *lst, int num)
 {
 	int i = 0;
@@ -65,31 +77,31 @@ t_list *find_num_list(t_list *lst, int num)
 	return (lst);
 }
 
-t_list		*serch_entry(t_list **val, char *key)//リストの長差分だけmallocして検索かける。
+/*
+	key に該当するlist があるかどうかを判定し、あったらそのlistのアドレスを返す関数。
+*/
+
+t_list		*search_entry(t_list *val, char *key)
 {
-	t_list **search;
 	t_list *tmp;
 	int num;
 	char	*result;
 
-	search = malloc(sizeof(t_list*) * ft_lstsize(*val) + 1);
-	search[ft_lstsize(*val)] = NULL;
 	num = 0;
-	search[num] = *val;
-	while (search[num])
+	while (val)
 	{
-		if (!ft_strncmp(search[num]->content, key, ft_strlen(key)))
+		if (!ft_strncmp(val->content, key, ft_strlen(key)))
 		{
-			if (num == 0) //先頭を消さないといけない場合。
-				return (*val);
-			else
-				return (find_num_list(*val, num));//見つけた場所のアドレス。
+			return (val);//見つけた場所のアドレス。
 		}
-		num++;
-		search[num] = search[num - 1]->next;
+		val = val->next;
 	}
 	return (NULL);
 }
+
+/*
+	list のなかのkey に該当するlist を消す関数。
+*/
 
 void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
 {
@@ -114,12 +126,11 @@ void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
 			{
 				tmp = find_num_list(*val, num -1); //keyが見つかった一個前のリストのアドレス
 				tmp->next = search->next; //一個前の次を見つかった奴の次にする。
-				// ft_lstdelone(search, free);
+				// ft_lstdelone(search, free); <- これ入れて領域解放せよ
 			}
 			return ;
 		}
 		search = search->next;
 		num++;
-	}
-	
+	}	
 }

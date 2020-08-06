@@ -1,24 +1,24 @@
-#include "minishell.h"
+// #include "minishell.h"
 
-int main()
-{
-	t_list *test;
-	t_list *new;
+// int main()
+// {
+// 	t_list *test;
+// 	t_list *new;
 
-	test = ft_lstnew("42tokyo");
-	new = ft_lstnew("42paris");
-	ft_lstadd_back(&test, new);
-		new = ft_lstnew("42kansai");
-	ft_lstadd_back(&test, new);
-		new = ft_lstnew("42silicon");
-	ft_lstadd_back(&test, new);
-		new = ft_lstnew("42unko");
-	ft_lstadd_back(&test, new);
-		new = ft_lstnew("42tinko");
-	ft_lstadd_back(&test, new);
+// 	test = ft_lstnew("42tokyo");
+// 	new = ft_lstnew("42paris");
+// 	ft_lstadd_back(&test, new);
+// 		new = ft_lstnew("42kansai");
+// 	ft_lstadd_back(&test, new);
+// 		new = ft_lstnew("42silicon");
+// 	ft_lstadd_back(&test, new);
+// 		new = ft_lstnew("42unko");
+// 	ft_lstadd_back(&test, new);
+// 		new = ft_lstnew("42tinko");
+// 	ft_lstadd_back(&test, new);
 
 	
-}
+// }
 // int main(int argc, char **argv, char **envp){
 //   int pid;
 //   int code;
