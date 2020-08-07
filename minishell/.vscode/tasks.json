@@ -9,8 +9,8 @@
             "command": "gcc",
             "args": [
                 "-g",
-                "*.c",
-                "libft.a",
+				"*.c",
+				"libft.a",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

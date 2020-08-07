@@ -74,13 +74,15 @@ void	insert_unprintable(char *line)
 	i = 0;
 	while(line[i] != '\0')
 	{
-		if (line[i] == '"')
+		if (line[i] == '"' || line[i] == 39)
 		{
 			i++;
-			while(line[i] != '"')
+			while(line[i] != '"' || line[i] == 39)
 			{
 				if(line[i] == ' ')
 					line[i] = 1;
+				else if (line[i] == '\0')
+					break;
 				i++;
 			}
 		}
@@ -107,7 +109,7 @@ char	*preparation_for_escape(char *line)
 	j = 0;
 	while(line[i] != '\0')
 	{
-		if(line[i] == '"')
+		if(line[i] == '"' || line[i] == 39)
 		{
 			i++;
 			continue;
