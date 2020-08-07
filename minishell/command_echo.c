@@ -24,7 +24,7 @@ int	command_echo(char **args)
 			ft_putstr_fd(args[i], 1);
 			i++;
 			if (args[i] != NULL)
-				write(1, " ", 1);
+				write(1, "\n", 1);
 		}
 		write(1, "\n", 1);
 	}

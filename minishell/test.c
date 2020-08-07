@@ -1,4 +1,4 @@
-// #include "minishell.h"
+#include "minishell.h"
 
 // int main()
 // {
@@ -17,8 +17,8 @@
 // 		new = ft_lstnew("42tinko");
 // 	ft_lstadd_back(&test, new);
 
-	
-// }
+
+// // }
 // int main(int argc, char **argv, char **envp){
 //   int pid;
 //   int code;
@@ -34,7 +34,7 @@
 //   if(pid == -1){
 //     fprintf(stderr, "Error\n\n");
 //   }
-  
+
 //   // 子プロセスの処理
 //   if(pid == 0){
 //     printf("Child Process\n");
@@ -51,9 +51,9 @@
 //     printf("%s\n", "子プロセス終了?");
 //   }else{
 //     printf("Parent Process\n");
-    
+
 //     result = wait(&status);
-    
+
 //     if(result < 0){
 //       fprintf(stderr, "Wait Error.\n\n");
 //       exit(-1);
@@ -73,28 +73,9 @@
 //     if (WIFSIGNALED(status)) {
 //       printf("シグナル番号：%dによる終了。\n",WTERMSIG(status));
 //     }
-    
+
 //     printf("親プロセス終了\n");
 //   }
 
 //   return 0;
 // }
- 
-// // int main(int argc, char **argv, char **envp)
-// // {
-// // 	printf("argc = %d\n\n\n", argc);
-// // 	int i = 0;
-// // 	while (argv[i] != 0)
-// // 	{
-// // 		printf("argv[%d] = %s\n", i, argv[i]);
-// // 		i++;
-// // 	}
-// // 	write(1, "\n\n", 2);
-// // 	i = 0;
-// // 	while (envp[i] != 0)
-// // 	{
-// // 		printf("envp[%d] = %s\n", i, envp[i]);
-// // 		i++;
-// // 	}
-	
-// // }
