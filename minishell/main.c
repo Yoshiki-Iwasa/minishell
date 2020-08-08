@@ -63,90 +63,7 @@ void	del_str(void *str)
 	str = 0;
 }
 
-/*
-	クオーテーションで囲まれた文字列のスペースを非表示文字にする。
-*/
-
-void	insert_unprintable(char *line)
-{
-	int		i;
-
-	i = 0;
-	while(line[i] != '\0')
-	{
-		if (line[i] == '"' || line[i] == 39)
-		{
-			i++;
-			while(line[i] != '"' || line[i] == 39)
-			{
-				if(line[i] == ' ')
-					line[i] = 1;
-				else if (line[i] == '\0')
-					break;
-				i++;
-			}
-		}
-		i++;
-	}
-}
-
-/*
-	クオーテーションで囲まれた文字列のスペースを非表示文字にしてクオートを削除
-*/
-
-char	*preparation_for_escape(char *line)
-{
-	int		i;
-	int		j;
-	char	*new_line;
-
-	insert_unprintable(line);
-
-	new_line = malloc(ft_strlen(line) + 1);
-	if (!new_line)
-		return (0);
-	i = 0;
-	j = 0;
-	while(line[i] != '\0')
-	{
-		if(line[i] == '"' || line[i] == 39)
-		{
-			i++;
-			continue;
-		}
-		new_line[j] = line[i];
-		i++;
-		j++;
-	}
-	free(line);
-	new_line[j] = '\0';
-	return (new_line);
-}
-
-/*
-	argsに含まれている非表示文字を空白に変える関数
-*/
-
-void	fix_args(char **args)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while(args[i] != NULL)
-	{
-		j = 0;
-		while(args[i][j] != '\0')
-		{
-			if (args[i][j] == 1)
-				args[i][j] = ' ';
-			j++;
-		}
-		i++;
-	}
-}
-
-void	prompt_loop(char **envp)
+void	prompt_loop(char **envp) //パイプの実装のためには、line を args に分ける段階で分岐させて
 {
 	int		state;
 	char	*line;
@@ -157,7 +74,13 @@ void	prompt_loop(char **envp)
 	int		cmd_num;
 	int		semi_co_place;
 	char	**tmp;
+	int		fd;
+	int		stdin_fd;
+	int		stdout_fd;
+	int		in_out;
 
+	stdin_fd = dup(0);
+	stdout_fd = dup(1);
 	errno = 0;
 	state = 1;
 	d_val = NULL;
@@ -184,11 +107,21 @@ void	prompt_loop(char **envp)
 				free_all(args, line);
 				continue ;
 			}
+			in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
 			state = shell_execute(args, &e_val, &d_val, paths);
 			cmd_num--;
 			if (cmd_num)
 				args = &args[semi_co_place + 1];
-
+			if(in_out == 0)
+			{
+				close(fd);
+				dup2(stdin_fd, 0);
+			}
+			if(in_out == 1)
+			{
+				close(fd);
+				dup2(stdout_fd, 1);
+			}
 		}
 		free_all(tmp, line);
 	}

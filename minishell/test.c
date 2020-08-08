@@ -79,3 +79,12 @@
 
 //   return 0;
 // }
+// int main()//ファイルディスクリプターの値は変わらないけど、ファイルディスクリプターを複製してくれるから、１、でも３でもアクセスできるようになる。
+// {
+	
+// 	int fd;
+// 	int stdout_fd;
+
+// 	open("test.txt", O_RDWR | O_CREAT | S_IREAD | S_IWRITE);
+
+// }

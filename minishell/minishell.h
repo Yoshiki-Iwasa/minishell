@@ -40,5 +40,15 @@ int	child_precess(char **args, char **envp, char **paths);
 char	**change_into_array(t_list *e_val);
 int		count_commands(char **args);
 int		find_semi_co(char	**args);
+void	escape_double(char *line, char *new_line, int *i, int *j);
+void	escape_single(char *line, char *new_line, int *i, int *j);
+char	*preparation_for_escape(char *line);
+void	fix_args(char **args);
+void	pattern_double(char *line, int *i);
+void	pattern_single(char *line, int *i);
+void	insert_unprintable(char *line);
+int		deal_redirection(char **args, int *fd);
+void	change_stdin_fd(char *arg, int *fd);
+void	change_stdout_fd(char *arg, int *fd);
 
 #endif

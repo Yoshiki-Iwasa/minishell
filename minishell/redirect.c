@@ -1,0 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
+/*   Updated: 2020/08/08 11:12:47 by yiwasa           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/*標準出力のリダイレクトの実装*/
+
+void	change_stdout_fd(char *arg, int *fd)
+{
+	*fd = open(arg, O_RDWR | O_CREAT | S_IREAD | S_IWRITE);
+	close(1);
+	dup2(*fd, 1);
+}
+
+/*標準入力のリダイレクトの実装*/
+
+void	change_stdin_fd(char *arg, int *fd)
+{
+	*fd = open(arg, O_RDWR | O_CREAT | S_IREAD | S_IWRITE);
+	close(0);
+	dup2(*fd, 0);
+}
+
+/*
+	リダイレクトの処理をする。具体的には、fd の値を書き換えて標準入出力先を変更する。
+*/
+int		deal_redirection(char **args, int *fd)
+{
+	int i;
+
+	i = 0;
+	while (args[i])
+	{
+		if(!ft_strcmp(args[i], "<"))
+		{
+			args[i] = NULL; //リダイレクト以降が出力されないようにするため
+			i++;
+			change_stdin_fd(args[i], fd);
+			return (0);
+		}
+		else if(!ft_strcmp(args[i], ">"))
+		{
+			args[i] = NULL; //リダイレクト以降が出力されないようにするため
+			i++;
+			change_stdout_fd(args[i], fd);
+			return (1);
+		}
+		i++;
+	}
+	return (2);
+}
