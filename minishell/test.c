@@ -79,12 +79,18 @@
 
 //   return 0;
 // }
-// int main()//ファイルディスクリプターの値は変わらないけど、ファイルディスクリプターを複製してくれるから、１、でも３でもアクセスできるようになる。
-// {
+#ifdef TEST
+
+int main()//ファイルディスクリプターの値は変わらないけど、ファイルディスクリプターを複製してくれるから、１、でも３でもアクセスできるようになる。
+{
 	
-// 	int fd;
-// 	int stdout_fd;
+	int fd;
+	int stdout_fd;
 
-// 	open("test.txt", O_RDWR | O_CREAT | S_IREAD | S_IWRITE);
+	fd = open("test.txt", O_RDWR | O_APPEND | O_CREAT | S_IREAD | S_IWRITE);
+	close(1);
+	dup2(fd, 1);
+	write(1, "123456789", 9);
+}
 
-// }
+#endif

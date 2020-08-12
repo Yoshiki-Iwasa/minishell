@@ -78,6 +78,8 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	int		stdin_fd;
 	int		stdout_fd;
 	int		in_out;
+	int		pipe_place;
+	int		exec_num;
 
 	stdin_fd = dup(0);
 	stdout_fd = dup(1);
@@ -97,7 +99,7 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 		fix_args(args);
 		tmp = args;
 		cmd_num = count_commands(args); //ここで何個コマンドがあるか数える。
-		while(cmd_num)
+		while(cmd_num) // パイプのコマンドたちはこれ以降で分けるべし
 		{
 			semi_co_place = find_semi_co(args);
 			free(args[semi_co_place]);

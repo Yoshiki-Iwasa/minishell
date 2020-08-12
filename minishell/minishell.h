@@ -50,5 +50,6 @@ void	insert_unprintable(char *line);
 int		deal_redirection(char **args, int *fd);
 void	change_stdin_fd(char *arg, int *fd);
 void	change_stdout_fd(char *arg, int *fd);
+int		find_pipe(char	**args);
 
 #endif
