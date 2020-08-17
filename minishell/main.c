@@ -80,7 +80,8 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	int		in_out;
 	int		pipe_place;
 	int		exec_num;
-
+	int		gnl_rv;
+	// line = alloc(260);
 	signal(SIGINT, sig_handle_C);
 	signal(SIGQUIT, sig_handle_bs);
 	stdin_fd = dup(0);
@@ -93,10 +94,17 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	while (state)
 	{
 		ft_putstr_fd("yiwasa$ ", 1);
-		get_next_line(0, &line);//コマンドラインを生で取ってくる
+		// printf("read_rv = %d\n" ,read(0, line, 260));
+		gnl_rv = get_next_line(0, &line);//コマンドラインを生で取ってくる
 		// printf("\n%d\n", *line);
-		if (*line == '\0')
+		if (*line == '\0' && gnl_rv == 1)
 			continue ;
+		if (gnl_rv == 0)
+		{
+			write(1, "\n",1);
+			exit(0);
+			continue ;
+		}
 		line = preparation_for_escape(line);
 		args = ft_split(line, ' ');
 		fix_args(args);
