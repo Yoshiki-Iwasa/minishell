@@ -13,21 +13,21 @@
 */
 int		shell_execute(char **args, t_list **e_val, t_list **d_val, char **paths)
 {
-		if (!ft_strncmp(args[0], "exit", 4))
+		if (!ft_strncmp(args[0], "exit", 5))
 			return(command_exit());
-		else if (!ft_strncmp(args[0], "pwd", 3))
+		else if (!ft_strncmp(args[0], "pwd", 4))
 			return(command_pwd());
-		else if (!ft_strncmp(args[0], "cd", 2))
+		else if (!ft_strncmp(args[0], "cd", 3))
 			return(command_cd(args[1], e_val));
-		else if (!ft_strncmp(args[0], "env", 3))
+		else if (!ft_strncmp(args[0], "env", 4))
 			return (command_env(e_val));
-		else if (!ft_strncmp(args[0], "d_env", 4))
+		else if (!ft_strncmp(args[0], "d_env", 5))
 			return (command_env(d_val));
-		else if(!ft_strncmp(args[0], "echo", 4))
+		else if(!ft_strncmp(args[0], "echo", 5))
 			return (command_echo(args));
-		else if(!ft_strncmp(args[0], "export", 6))
+		else if(!ft_strncmp(args[0], "export", 7))
 			return (command_export(args, e_val));
-		else if(!ft_strncmp(args[0], "unset", 6))
+		else if(!ft_strncmp(args[0], "unset", 7))
 			return (command_unset(&args[1], *e_val, *d_val));
 		else if(check_if_key_value(args[0]))
 			return (update_val(d_val, args[0]));
@@ -89,8 +89,8 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	errno = 0;
 	state = 1;
 	d_val = NULL;
-	init_e_val_list(&e_val, envp);
-	paths = get_PATH(e_val);
+	init_e_val_list(&e_val, envp); //envp に入っている環境変数達をリスト構造にしてリストe_valを作る。
+	paths = get_PATH(e_val); // 環境変数の中からPATH を回収することで、buil in 出ない関数が呼ばれた時も対応できるように。
 	while (state)
 	{
 		ft_putstr_fd("yiwasa$ ", 1);
@@ -105,17 +105,21 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 			exit(0);
 			continue ;
 		}
+		if (gnl_rv == -1) // gnl が失敗したときは、e_val と path を解放する必要あり。path は文字列の配列。
+		{
+
+		}
 		line = preparation_for_escape(line);
-		args = ft_split(line, ' ');
+		args = ft_split(line, ' '); // args が死んだ時の処理必要
 		fix_args(args);
 		tmp = args;
 		cmd_num = count_commands(args); //ここで何個コマンドがあるか数える。
-		while(cmd_num) // パイプのコマンドたちはこれ以降で分けるべし
+		while(cmd_num) 
 		{
 			semi_co_place = find_semi_co(args);
 			free(args[semi_co_place]);
-			args[semi_co_place] = NULL;
-			if(!trans_valiable(args, d_val))
+			args[semi_co_place] = NULL; // args をあとでまとめてfree するためにNULL で　；　を埋めてる
+			if(!trans_valiable(args, d_val)) // ここで$ 変数の格納を行なっているが、= の直後に$が来てしまった場合に対応していないことが判明。
 			{
 				free_all(args, line);
 				continue ;
@@ -138,7 +142,7 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 		}
 		free_all(tmp, line);
 	}
-	ft_lstclear(&e_val, del_str);
+	ft_lstclear(&e_val, del_str); //この処理の後、args, e_val をfreeする必要あり。
 }
 
 int main(int argc, char **argv, char **envp)

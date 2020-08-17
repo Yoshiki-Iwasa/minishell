@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/17 09:57:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/17 13:45:57 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		exec_shell_command(char **args, t_list *e_val, char **paths)
 	char	**envp;
 	int		status;
 
-	envp = change_into_array(e_val);
+	envp = change_into_array(e_val);// ここで、一回envp にmalloc ガードをつける必要ある。　change_into_array も同様。
 	g_pid = fork();
 	if (g_pid == 0)
 	{

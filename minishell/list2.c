@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/07 07:45:45 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/17 14:00:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_key(char *arg)
 	key_len = 0;
 	while (arg[key_len] != '=')
 		key_len++;
-	key = malloc(key_len + 1);
+	key = malloc(key_len + 1); // malloc ガード入れる必要あり。
 	i = 0;
 	while (i < key_len)
 	{
@@ -79,7 +79,7 @@ int		update_val(t_list **val, char *arg)
 	t_list *find;
 	char *key;
 
-	key = get_key(arg);
+	key = get_key(arg); // malloc ガード入れる必要あり。
 	find = search_entry(*val, key);
 	if (find != NULL)
 		find->content = ft_strdup(arg);
