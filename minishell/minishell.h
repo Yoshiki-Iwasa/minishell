@@ -51,5 +51,8 @@ int		deal_redirection(char **args, int *fd);
 void	change_stdin_fd(char *arg, int *fd);
 void	change_stdout_fd(char *arg, int *fd);
 int		find_pipe(char	**args);
+void		sig_handle_C(int sig);
+void		sig_handle_bs(int sig);
+
 
 #endif

@@ -81,6 +81,8 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	int		pipe_place;
 	int		exec_num;
 
+	signal(SIGINT, sig_handle_C);
+	signal(SIGQUIT, sig_handle_bs);
 	stdin_fd = dup(0);
 	stdout_fd = dup(1);
 	errno = 0;
@@ -92,6 +94,7 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	{
 		ft_putstr_fd("yiwasa$ ", 1);
 		get_next_line(0, &line);//コマンドラインを生で取ってくる
+		// printf("\n%d\n", *line);
 		if (*line == '\0')
 			continue ;
 		line = preparation_for_escape(line);
