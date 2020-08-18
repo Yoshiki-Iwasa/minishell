@@ -14,6 +14,12 @@
 #include <errno.h>
 #include <signal.h>
 
+typedef	struct	s_edlist
+{
+	t_list *e_val;
+	t_list *d_val;
+}				t_edlist;
+
 int		ft_strcmp(const char *s1, const char *s2);
 char*	find_value(t_list **val, char *key);
 char	*ft_strcat(char *dest, char *src);
@@ -56,12 +62,6 @@ void	sig_handle_bs(int sig);
 void	setting_signal(void);
 int		count_pipe(char **args);
 int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths);
-void	yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count);
-
-typedef	struct	s_edlist
-{
-	t_list *e_val;
-	t_list *d_val;
-}				t_edlist;
+int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count);
 
 #endif

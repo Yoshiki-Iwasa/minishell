@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/18 11:55:03 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/18 13:58:37 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,99 @@ int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 		return (exec_shell_command(args, *e_val, paths));
 }
 
-/*コマンドにパイプが含まれていた場合の関数。fork して子プロセスを作り上げる。*/
+// forkした後の処理は、子プロセス→親プロセスなので子プロセスの標準出力を
+// pipe_fd[1]に、親プロセスの標準入力をpipe_fd[0]にすればとりあえず1本目のぴぷは対応できる。
 
-void	yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
+/**
+ * 子プロセス。入り口のpipe_fd[0]を塞ぐ。
+ * その上で、標準出力をpipe_fd[1]の入り口に設定する。
+ * 
+*/
+
+void	do_child(char **args, t_edlist *vals, char **paths, int *pipe_fd)
+{
+	int stdout_fd;
+
+	stdout_fd = dup(1); //標準出力のfdを一旦退避
+	close(pipe_fd[0]); //子プロセスの入り口を塞ぐ
+	close(1); //標準出力を塞ぐ
+	dup2(pipe_fd[1], 1); //１番を子プロセスの出口に設定。
+	close(pipe_fd[1]);	//元々の出口を塞ぐ。
+	no_pipe(args, &(vals->e_val), &(vals->d_val), paths);
+	dup2(stdout_fd, 1);// 標準出力を1 番に復帰
+	exit(0);
+}
+
+
+/**
+ * 親プロセス。出口のpipe_fd[1]を塞ぐ。
+ * その上で、標準入力をpipe_fd[0]の出口に設定する。
+ * 
+*/
+
+void	do_parent(char **args, t_edlist *vals, char **paths, int *pipe_fd)
+{
+	int stdin_fd;
+
+	stdin_fd = dup(0); //標準入力のfdを一旦退避
+	close(pipe_fd[1]); // 親プロセスの出口を塞ぐ。
+	close(0); //標準入力を塞ぐ
+	dup2(pipe_fd[0], 0); //0番を親プロセスの入口に設定。
+	close(pipe_fd[0]);	//元々の出口を塞ぐ。
+	no_pipe(args, &(vals->e_val), &(vals->d_val), paths);
+	dup2(stdin_fd, 0);// 標準入力を0 番に復帰
+	
+}
+
+void	divide_args(char **base, char ***args_1, char ***args_2)
 {
 	int i;
 
 	i = 0;
-	while (i < pipe_count) // pipe の数 分だけ fork してexec させる (初めは、一回だけにしよう)
+	*args_1 = &base[0];
+	while (base[i])
 	{
-		
+		if (!ft_strcmp(base[i], "|"))
+		{
+			base[i] = NULL;
+			*args_2 = &base[i + 1];
+		}
 		i++;
 	}
+}
+
+/*コマンドにパイプが含まれていた場合の関数。fork して子プロセスを作り上げる。*/
+
+int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
+{
+	int		i;
+	char	**envp;
+	int		pipe_fd[2];
+	int		status;
+	int		pid;
+	char	**args_1;
+	char	**args_2;
+
+	envp = change_into_array(vals->e_val);
+	divide_args(args, &args_1, &args_2);
+	i = 0;
+	while (i < pipe_count) // pipe の数 分だけ fork してexec させる (初めは、一回だけにしよう)
+	{
+		pipe(pipe_fd); //プロセスの入り口と出口を作った！次はforkだ
+		pid = fork();
+		if (pid == 0)
+		{	
+			do_child(args_1, vals, paths, pipe_fd);
+			return (0);
+		}
+		else if (pid < 0)
+			strerror(errno);
+		else
+		{
+			do_parent(args_2, vals, paths, pipe_fd);
+			wait(&status);
+		}
+		i++;
+	}
+	return (0);
 }
