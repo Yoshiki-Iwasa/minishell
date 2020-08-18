@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/17 13:45:57 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/18 09:34:27 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		sig_handle_C(int sig)
 	int kill_rv;
 
 	if (g_pid != 0)
-		printf("kill_rv = %d\n",kill_rv = kill(g_pid, SIGKILL));
+		kill_rv = kill(g_pid, SIGKILL);
 	else
 		kill_rv = -1;
 	write(1, "\n",1);
