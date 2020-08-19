@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/18 13:58:37 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/19 09:28:27 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ void	do_parent(char **args, t_edlist *vals, char **paths, int *pipe_fd)
 	
 }
 
+/*args の pipe が入ってるところをnull にしてる。*/
+
 void	divide_args(char **base, char ***args_1, char ***args_2)
 {
 	int i;
@@ -160,7 +162,38 @@ void	divide_args(char **base, char ***args_1, char ***args_2)
 	}
 }
 
-/*コマンドにパイプが含まれていた場合の関数。fork して子プロセスを作り上げる。*/
+/*
+	args_array に、args のパイプが入ってるとこの次のコマンドのアドレスを渡す。
+	そうすると、コマンド群の配列ができる。args は、malloc してできた配列で、必ずしもメモリが一列に並んでいるとは限らない？
+*/ 
+
+void	args_into_array(char **args, char ****args_array, int pipe_num)
+{
+	int i;
+	int j;
+
+	*args_array = malloc(sizeof(char **) * (pipe_num + 2));
+	(*args_array)[pipe_num + 1] = NULL;
+	(*args_array)[0] = &args[0];
+	i = 0;
+	j = 1;
+	while (args[i])
+	{
+		if(!ft_strcmp(args[i], "|"))
+		{
+			(*args_array)[j] = &args[i + 1];
+			args[i] = NULL;
+			j++;
+		}
+		i++;
+	}
+	return ;
+}
+
+/*
+	コマンドにパイプが含まれていた場合の関数。fork して子プロセスを作り上げる。
+	ここから、再帰関数を使って、コマンドの右から順に実行させる。
+*/
 
 int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 {
@@ -171,9 +204,13 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	int		pid;
 	char	**args_1;
 	char	**args_2;
+	char	***args_array;
+	int		pipe_num;
 
+	pipe_num = count_pipe(args);
 	envp = change_into_array(vals->e_val);
-	divide_args(args, &args_1, &args_2);
+	args_into_array(args, &args_array, pipe_num);// ここまでで、args_array でコマンドを分割できた
+	// divide_args(args, &args_1, &args_2);
 	i = 0;
 	while (i < pipe_count) // pipe の数 分だけ fork してexec させる (初めは、一回だけにしよう)
 	{
@@ -181,6 +218,7 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 		pid = fork();
 		if (pid == 0)
 		{	
+			write(1, "child\n", 7);
 			do_child(args_1, vals, paths, pipe_fd);
 			return (0);
 		}
@@ -188,6 +226,7 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 			strerror(errno);
 		else
 		{
+			write(1, "parent\n", 7);
 			do_parent(args_2, vals, paths, pipe_fd);
 			wait(&status);
 		}

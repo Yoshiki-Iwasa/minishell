@@ -1,4 +1,5 @@
 #ifdef TEST
+
 #include <unistd.h>
 
 char *cmd1[] = {"cat", "test.c", NULL};
@@ -43,13 +44,12 @@ void dopipes(i) {
 int main(void) {
   pid_t ret;
   
-  ret = fork();
-  if (ret == 0)
+//   ret = fork();
+//   if (ret == 0)
     dopipes(0);
-  else
-    wait(NULL);
+//   else
+//     wait(NULL);
 
   return 0;
 }
-
 #endif
