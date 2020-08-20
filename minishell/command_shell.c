@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/18 09:34:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/20 09:55:33 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void		sig_handle_C(int sig)
 	write(1, "\n",1);
 	if (kill_rv == -1)
 	ft_putstr_fd("yiwasa$ ", 1);
-
 }
 
 /*
@@ -116,5 +115,5 @@ int		exec_shell_command(char **args, t_list *e_val, char **paths)
 		strerror(errno);
 	else
 		wait(&status);
-	return (1);
+	return (status);
 }

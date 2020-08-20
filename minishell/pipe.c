@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/19 09:28:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/20 09:28:50 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,54 @@ void	args_into_array(char **args, char ****args_array, int pipe_num)
 }
 
 /*
+	パイプでつながれたコマンドの実行を再帰的に行う関数
+*/
+void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **paths)
+{
+	pid_t ret;
+	int pp[2] = {};
+	if (i == com_num - 1)
+	{
+		// 左端なら単に実行
+		// execvp(cmds[0][0], cmds[0]);
+		no_pipe(args_array[0], &(vals->e_val), &(vals->d_val), paths);
+		exit(0);
+	}
+	else
+	{
+		// 左端以外ならpipeしてforkして親が実行、子が再帰
+		pipe(pp);
+		ret = fork();
+		if (ret == 0)
+		{
+			// 子プロセスならパイプをstdoutにdup2してdopipes(i+1)で再帰し、
+			// 次のforkで親になった側が右からi+1番目のコマンドを実行
+			close(pp[0]);
+			dup2(pp[1], 1);
+			close(pp[1]);
+			exec_pipes(i + 1, args_array, com_num, vals, paths);
+			exit(0);
+		}
+		else
+		{
+				// 子プロセスの実行を待った後に
+				// 親プロセスならパイプをstdinにdup2して、
+				// 右からi番目のコマンドを実行
+				wait(NULL);
+				close(pp[1]);
+				dup2(pp[0], 0);
+				close(pp[0]);
+				no_pipe(args_array[com_num -i -1], &(vals->e_val), &(vals->d_val), paths);
+				exit(0);
+		}
+	}
+}
+
+/*
 	コマンドにパイプが含まれていた場合の関数。fork して子プロセスを作り上げる。
 	ここから、再帰関数を使って、コマンドの右から順に実行させる。
 */
+
 
 int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 {
@@ -204,33 +249,22 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	int		pid;
 	char	**args_1;
 	char	**args_2;
-	char	***args_array;
+	char	***args_array; // こいつ最終的にfreeする必要あり。
 	int		pipe_num;
 
 	pipe_num = count_pipe(args);
 	envp = change_into_array(vals->e_val);
 	args_into_array(args, &args_array, pipe_num);// ここまでで、args_array でコマンドを分割できた
 	// divide_args(args, &args_1, &args_2);
-	i = 0;
-	while (i < pipe_count) // pipe の数 分だけ fork してexec させる (初めは、一回だけにしよう)
+	pid_t ret;
+
+	ret = fork();
+	if (ret == 0)
 	{
-		pipe(pipe_fd); //プロセスの入り口と出口を作った！次はforkだ
-		pid = fork();
-		if (pid == 0)
-		{	
-			write(1, "child\n", 7);
-			do_child(args_1, vals, paths, pipe_fd);
-			return (0);
-		}
-		else if (pid < 0)
-			strerror(errno);
-		else
-		{
-			write(1, "parent\n", 7);
-			do_parent(args_2, vals, paths, pipe_fd);
-			wait(&status);
-		}
-		i++;
+		exec_pipes(0, args_array, pipe_num + 1, vals, paths);
 	}
+	else
+		wait(&status);
+	printf("status = %d\n", status);
 	return (0);
 }

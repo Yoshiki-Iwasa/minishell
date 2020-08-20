@@ -26,7 +26,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	{
 		yes_pipe(args, vals, paths, pipe_count);
 	}
-		return (1);
+	return (1);
 }
 
 /*
@@ -120,6 +120,7 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 			continue ;
 		if (gnl_rv == 0)
 		{
+
 			write(1, "\n",1);
 			exit(0);
 			continue ;
