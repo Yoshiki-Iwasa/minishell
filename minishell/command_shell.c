@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/20 09:55:33 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/21 07:29:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		sig_handle_bs(int sig)
 	}
 	if (kill_rv == -1)
 	ft_putstr_fd("yiwasa$ ", 1);
-	
+
 }
 /*
 	環境変数リストを文字列の配列に変える関数
@@ -115,5 +115,5 @@ int		exec_shell_command(char **args, t_list *e_val, char **paths)
 		strerror(errno);
 	else
 		wait(&status);
-	return (status);
+	return (1);
 }

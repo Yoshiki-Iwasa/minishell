@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/08 13:57:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/21 07:39:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		deal_redirection(char **args, int *fd)
 			i++;
 			change_stdin_fd(args[i], fd);
 			flag_in = 1;
+			return (0);
 		}
 		else if(!ft_strcmp(args[i], ">"))
 		{
@@ -66,6 +67,7 @@ int		deal_redirection(char **args, int *fd)
 			i++;
 			change_stdout_fd(args[i], fd);
 			flag_out = 1;
+			return (1);
 		}
 		else if (!ft_strcmp(args[i], ">>"))
 		{
