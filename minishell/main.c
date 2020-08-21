@@ -65,17 +65,21 @@ void	deal_semicon(char ***args)
 	(*args)[semi_co_place] = NULL; // args をあとでまとめてfree するためにNULL で　；　を埋めてる
 }
 
-void	recover_stdinout(int in_out, int fd, int *stdin_fd, int *stdout_fd)
+void	recover_stdinout(int in_out, int *fd, int *stdin_fd, int *stdout_fd)
 {
+	int close_rv;
+	int dup2_rv;
 	if(in_out == 0)
 	{
-		close(fd);
+		close(0);
+		close(*fd);
 		dup2(*stdin_fd, 0);
 	}
 	if(in_out == 1)
 	{
-		close(fd);
-		dup2(*stdout_fd, 1);
+		close_rv = close(1);
+		close_rv = close(*fd);
+		dup2_rv = dup2(*stdout_fd, 1);
 	}
 }
 
@@ -148,7 +152,7 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 			cmd_num--;
 			if (cmd_num)
 				args = &args[semi_co_place + 1];
-			recover_stdinout(in_out, fd, &stdin_fd, &stdout_fd);
+			recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
 		}
 		free_all(tmp, line);
 	}

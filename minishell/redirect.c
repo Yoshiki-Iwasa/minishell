@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/21 07:39:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/21 13:36:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 
 void	change_stdout_fd(char *arg, int *fd)
 {
+	int close_rv;
+	int dup2_rv;
+
 	*fd = open(arg, O_RDWR | O_CREAT | S_IREAD | S_IWRITE);
-	close(1);
-	dup2(*fd, 1);
+	close_rv = close(1);
+	dup2_rv = dup2(*fd, 1);
 }
 
 /*標準入力のリダイレクトの実装*/
