@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/22 11:06:57 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/22 14:37:41 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	change_stdout_fd(char *arg, int *fd)
 	int close_rv;
 	int dup2_rv;
 
-	*fd = open(arg, O_RDWR | O_CREAT , S_IRWXU);
+	*fd = open(arg, O_RDWR /*| O_CREAT , S_IRWXU*/);
 	close_rv = close(1);
 	dup2_rv = dup2(*fd, 1);
+	close(*fd);
 }
 
 /*標準入力のリダイレクトの実装*/
@@ -31,6 +32,7 @@ void	change_stdin_fd(char *arg, int *fd)
 	*fd = open(arg, O_RDWR | O_CREAT , S_IRWXU);//これおかしい。入力先が存在しなかったらエラーですお
 	close(0);
 	dup2(*fd, 0);
+	close(*fd);
 }
 /*
 	標準出力の追記用fd 作成
@@ -40,6 +42,7 @@ void	change_stdout_fd_for_append(char *arg, int *fd)
 	*fd = open(arg, O_RDWR | O_APPEND | O_CREAT , S_IRWXU);
 	close(1);
 	dup2(*fd, 1);
+
 }
 /*
 	リダイレクトの処理をする。具体的には、fd の値を書き換えて標準入出力先を変更する。

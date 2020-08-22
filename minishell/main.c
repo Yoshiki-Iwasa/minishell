@@ -78,7 +78,6 @@ void	recover_stdinout(int in_out, int *fd, int *stdin_fd, int *stdout_fd)
 	if(in_out == 1)
 	{
 		close_rv = close(1);
-		close_rv = close(*fd);
 		dup2_rv = dup2(*stdout_fd, 1);
 	}
 }
@@ -121,7 +120,6 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 			continue ;
 		if (gnl_rv == 0)
 		{
-
 			write(1, "\n",1);
 			exit(0);
 			continue ;
