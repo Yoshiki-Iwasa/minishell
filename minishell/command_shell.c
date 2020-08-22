@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/22 14:47:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 07:25:54 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	else
 	{
 		wait(&status);
-		write(1, "dddd\n", 5);
 		//ここで終了ステータスを変更する関数を入れる。そのためには引数を変更する必要ある。
 		num_str = ft_itoa(status);
 		status_str = ft_strjoin("?=", num_str);
