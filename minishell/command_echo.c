@@ -14,8 +14,6 @@ int	command_echo(char **args)
 			if (args[i] != NULL)
 				write(1, " ", 1);
 		}
-		write(1, "%", 1);
-		write(1, "\n", 1);
 	}
 	else
 	{

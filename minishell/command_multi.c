@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 12:39:01 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/07 12:42:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/22 10:38:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int		count_commands(char **args)
 	int		count;
 
 	i = 0;
+	if (args[0][0] == ';')
+		return (0);
 	count = 1; // コマンドの先頭にセミコロンがきた場合を排除
 	while(args[i])
 	{
