@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 07:25:54 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 08:14:18 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,16 @@ int	child_precess(char **args, char **envp, char **paths)
 		cmd_ptr[0] = '\0';
 		i++;
 	}
-	ft_putendl_fd(strerror(errno), 1);
-	exit(errno);
+	if (errno == 2)
+	{
+		printf("bash: %s: commnad not found\n", args[0]);
+		exit(127);
+	}
+	else if (errno == 13)
+	{
+		printf("bash: %s: Permission denied\n", args[0]);
+		exit(126);
+	}
 	return (0);
 }
 
@@ -108,12 +116,12 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	char	*num_str;
 	char	*status_str;
 
-	envp = change_into_array(e_val);// ここで、一回envp にmalloc ガードをつける必要ある。　change_into_array も同様。
+	envp = change_into_array(e_val);// ここで、一回envp にmalloc ガードをつける必要ある。change_into_array も同様。
 	g_pid = fork();
 	if (g_pid == 0)
 	{
 		if(!child_precess(args, envp, paths))
-		return (0);
+		exit (1);
 	}
 	else if (g_pid < 0)
 		strerror(errno);
@@ -121,7 +129,7 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	{
 		wait(&status);
 		//ここで終了ステータスを変更する関数を入れる。そのためには引数を変更する必要ある。
-		num_str = ft_itoa(status);
+		num_str = ft_itoa(WEXITSTATUS(status));
 		status_str = ft_strjoin("?=", num_str);
 		update_val(d_val, status_str);
 	}
