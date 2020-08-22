@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/17 14:00:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/22 10:32:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_key(char *arg)
 	int		i;
 	int		key_len;
 	char	*key;
+	char	*key_equal;
 
 	key_len = 0;
 	while (arg[key_len] != '=')
@@ -32,7 +33,9 @@ char	*get_key(char *arg)
 		i++;
 	}
 	key[i] = '\0';
-	return (key);
+	key_equal = ft_strjoin(key, "=");
+	free(key);
+	return (key_equal);
 }
 
 /*

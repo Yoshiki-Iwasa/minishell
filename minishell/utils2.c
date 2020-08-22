@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/21 12:41:55 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/22 09:45:11 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,17 @@ char	*convert_key_value(char **args, int index, t_list *d_val) // まず、split
 	入力の中に＄があるかどうか探す。そして変数リストから検索して値を変換して返す
 */
 
-int		trans_valiable(char **args, t_list *d_val)
+int		trans_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の時に、ちゃんとno such variableを出せるように。
 {
 	int		i;
 	char	*arg;
 	char	*tmp;
 	char	*key;
+	int		flag;
 	t_list	*find;
 
-
-	i = 0;
+	flag = 0;
+	i = 0; //d_val を確認しに行く
 	while (args[i])
 	{
 		arg = args[i];
@@ -127,17 +128,61 @@ int		trans_valiable(char **args, t_list *d_val)
 		{
 			if((find = search_entry(d_val, &arg[1])))
 			{
+				flag = 1;
 				free(args[i]);
 				args[i] = find_value(&d_val, get_key(find->content));
 			}
-			else
-			{
-				ft_putstr_fd(args[i], 1);
-				ft_putendl(" : No such valiable :)");
-				return (0);
-			}
+			// else
+			// {
+			// 	ft_putstr_fd(args[i], 1);
+			// 	ft_putendl(" : No such valiable :)");
+			// 	return (0);
+			// }
 		}
 		i++;
 	}
+	// e_val を確認しにいく。
+	i = 0;
+	while (args[i])
+	{
+		arg = args[i];
+		if (check_if_key_value(arg)) // ここで、key_value なのか確認する。そしたら別処理。
+		{
+			if (check_doller_exit(arg)) //先頭か、= の直後に "$" が入ってないか確認する。
+			{//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
+				tmp = convert_key_value(args, i, e_val);
+				free(args[i]);
+				args[i] = tmp;
+				i++;
+				continue;
+			}
+			else
+			{
+				i++;
+				continue; // 次の文字列へ。
+			}
+
+		}
+		if (arg[0] == '$')
+		{
+			if((find = search_entry(e_val, &arg[1])))
+			{
+				flag = 1;
+				free(args[i]);
+				args[i] = find_value(&e_val, get_key(find->content));
+			}
+			// else
+			// {
+			
+			// }
+		}
+		i++;
+	}
+	// if (!flag)
+	// {
+	// 	ft_putendl("No such valiable :)");
+	// 	return (0);
+	// }
+	
 	return (1);
 }

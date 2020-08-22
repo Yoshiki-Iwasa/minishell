@@ -95,8 +95,6 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	char	*line;
 	char	**args;
 	t_edlist vals;
-	t_list	*d_val;
-	t_list	*e_val;
 	char	**paths;
 	int		cmd_num;
 	int		semi_co_place;
@@ -110,10 +108,9 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 	int		gnl_rv;
 
 	setting_signal();
+	update_val(&(vals.d_val), "?=1");
 	escape_fds(&stdin_fd, &stdout_fd);
-	errno = 0;
 	state = 1;
-	d_val = NULL;
 	init_e_val_list(&(vals.e_val), envp); //envp に入っている環境変数達をリスト構造にしてリストe_valを作る。
 	paths = get_PATH(vals.e_val); // 環境変数の中からPATH を回収することで、buil in 出ない関数が呼ばれた時も対応できるように。
 	while (state)
@@ -142,7 +139,7 @@ void	prompt_loop(char **envp) //パイプの実装のためには、line を arg
 			semi_co_place = find_semi_co(args);
 			free(args[semi_co_place]);
 			args[semi_co_place] = NULL;
-			if(!trans_valiable(args, (vals.d_val))) // ここで$ 変数の格納を行なっているが、= の直後に$が来てしまった場合に対応していないことが判明。
+			if(!trans_valiable(args, (vals.d_val), vals.e_val)) // ここで$ 変数の格納を行なっているが、= の直後に$が来てしまった場合に対応していないことが判明。
 			{
 				free_all(args, line);
 				continue ;

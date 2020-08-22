@@ -53,3 +53,13 @@ int main(void) {
 }
 
 #endif
+
+#ifdef CMP
+#include "minishell.h"
+int main()
+{
+
+printf("result = %d\n", ft_strncmp("TERM_PROGRAM=vscode", "TERM=", 5));
+}
+
+#endif

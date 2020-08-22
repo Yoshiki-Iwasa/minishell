@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/21 07:29:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/22 09:11:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	child_precess(char **args, char **envp, char **paths)
 		cmd_ptr[0] = '\0';
 		i++;
 	}
+	ft_putendl_fd(strerror(errno), 1);
+	exit(errno);
 	return (0);
 }
 
@@ -99,10 +101,12 @@ int	child_precess(char **args, char **envp, char **paths)
 	build in 以外の関数が呼ばれたときに使う関数
 */
 
-int		exec_shell_command(char **args, t_list *e_val, char **paths)
+int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 {
 	char	**envp;
 	int		status;
+	char	*num_str;
+	char	*status_str;
 
 	envp = change_into_array(e_val);// ここで、一回envp にmalloc ガードをつける必要ある。　change_into_array も同様。
 	g_pid = fork();
@@ -114,6 +118,12 @@ int		exec_shell_command(char **args, t_list *e_val, char **paths)
 	else if (g_pid < 0)
 		strerror(errno);
 	else
+	{
 		wait(&status);
+		//ここで終了ステータスを変更する関数を入れる。そのためには引数を変更する必要ある。
+		num_str = ft_itoa(status);
+		status_str = ft_strjoin("?=", num_str);
+		update_val(d_val, status_str);
+	}
 	return (1);
 }

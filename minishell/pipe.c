@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/20 09:28:50 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/22 08:38:48 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 	else if(check_if_key_value(args[0]))
 		return (update_val(d_val, args[0]));
 	else
-		return (exec_shell_command(args, *e_val, paths));
+		return (exec_shell_command(args, *e_val, d_val, paths));
 }
 
 // forkした後の処理は、子プロセス→親プロセスなので子プロセスの標準出力を
