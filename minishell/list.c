@@ -6,14 +6,14 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/22 10:34:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 10:27:14 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-	一番最初に環境変数をリスト構造に初期化する関数。
+ ** 一番最初に環境変数をリスト構造に初期化する関数。
 */
 
 void	init_e_val_list(t_list **e_val, char **envp)
@@ -32,7 +32,7 @@ void	init_e_val_list(t_list **e_val, char **envp)
 }
 
 /*
-	keyに該当するvalue だけを返す関数。これはfreeを考える必要あり
+ ** keyに該当するvalue だけを返す関数。これはfreeを考える必要あり
 */
 
 char*	find_value(t_list **val, char *key)
@@ -59,7 +59,7 @@ char*	find_value(t_list **val, char *key)
 }
 
 /*
-	num 番目のlistのアドレスを返す関数。
+ ** num 番目のlistのアドレスを返す関数。
 */
 
 t_list *find_num_list(t_list *lst, int num)
@@ -78,7 +78,7 @@ t_list *find_num_list(t_list *lst, int num)
 }
 
 /*
-	key に該当するlist があるかどうかを判定し、あったらそのlistのアドレスを返す関数。
+ ** key に該当するlist があるかどうかを判定し、あったらそのlistのアドレスを返す関数。
 */
 
 t_list		*search_entry(t_list *val, char *key)
@@ -87,7 +87,7 @@ t_list		*search_entry(t_list *val, char *key)
 	int		num;
 	char	*key_equal;//ここで、送られて来たkey は "key="の形に変えて、比較してあげる方がいい。
 					//freeが心配だけど。
-	key_equal = ft_strjoin(key, "=");
+	key_equal = ft_strdup(key); //ここでどうも
 	if (!key_equal)
 		return (NULL);
 	num = 0;

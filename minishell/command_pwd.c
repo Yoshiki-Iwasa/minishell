@@ -9,7 +9,10 @@ int		command_pwd(void)
 	buf = NULL;
 	pwd = getcwd(buf, PATH_MAX);
 	if (!pwd)
-		ft_putendl_fd(strerror(errno), 1);	
+	{
+		ft_putendl_fd(strerror(errno), 1);
+		return (0);
+	}
 	else
 		ft_putendl_fd(pwd, 1);
 	free(pwd);

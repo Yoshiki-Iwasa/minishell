@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 08:14:18 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 10:18:02 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 pid_t	g_pid;
 
 /*
-**	シグナルハンドラー(ctrl-C 用)
+ ** シグナルハンドラー(ctrl-C 用)
 */
 
 void		sig_handle_C(int sig)
@@ -52,7 +52,7 @@ void		sig_handle_bs(int sig)
 
 }
 /*
-	環境変数リストを文字列の配列に変える関数
+ ** 環境変数リストを文字列の配列に変える関数
 */
 
 char	**change_into_array(t_list *e_val) ///malloc失敗したときに全部freeするようにする。
@@ -106,7 +106,7 @@ int	child_precess(char **args, char **envp, char **paths)
 }
 
 /*
-	build in 以外の関数が呼ばれたときに使う関数
+ ** build in 以外の関数が呼ばれたときに使う関数
 */
 
 int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
@@ -133,5 +133,5 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 		status_str = ft_strjoin("?=", num_str);
 		update_val(d_val, status_str);
 	}
-	return (1);
+	return (WEXITSTATUS(status));
 }

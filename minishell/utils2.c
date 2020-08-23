@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/22 09:45:11 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 10:38:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ int		trans_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の
 		}
 		if (arg[0] == '$')
 		{
-			if((find = search_entry(d_val, &arg[1])))
+			key = ft_strjoin(&arg[1], "=");
+			if((find = search_entry(d_val, key)))
 			{
 				flag = 1;
 				free(args[i]);
@@ -149,7 +150,8 @@ int		trans_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の
 		if (check_if_key_value(arg)) // ここで、key_value なのか確認する。そしたら別処理。
 		{
 			if (check_doller_exit(arg)) //先頭か、= の直後に "$" が入ってないか確認する。
-			{//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
+			{
+				//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
 				tmp = convert_key_value(args, i, e_val);
 				free(args[i]);
 				args[i] = tmp;
@@ -165,7 +167,8 @@ int		trans_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の
 		}
 		if (arg[0] == '$')
 		{
-			if((find = search_entry(e_val, &arg[1])))
+			key = ft_strjoin(&arg[1], "=");
+			if((find = search_entry(e_val, key)))
 			{
 				flag = 1;
 				free(args[i]);

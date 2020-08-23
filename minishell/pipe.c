@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/22 08:38:48 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 10:13:43 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,9 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 		exec_pipes(0, args_array, pipe_num + 1, vals, paths);
 	}
 	else
+	{
 		wait(&status);
-	printf("status = %d\n", status);
+		
+	}
 	return (0);
 }

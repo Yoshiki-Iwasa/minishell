@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*
-	command unset を実行するための関数
+ ** command unset を実行するための関数
 */
 
 int	command_unset(char **args, t_list *e_val, t_list *d_val)

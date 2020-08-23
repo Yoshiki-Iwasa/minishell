@@ -16,11 +16,20 @@
 int		shell_execute(char **args, t_edlist *vals, char **paths)
 {
 	int pipe_count;
+	int	rv;
 
 	pipe_count = count_pipe(args);
 	if (pipe_count == 0)
 	{
-		no_pipe(args, &(vals->e_val), &(vals->d_val), paths);
+		rv = no_pipe(args, &(vals->e_val), &(vals->d_val), paths); //ここの返り値を見て、成功したら１、失敗したら０
+		if (rv == 1)
+		{
+			update_val(&(vals->d_val), "?=0");
+		}
+		else
+		{
+			update_val(&(vals->d_val), "?=1");
+		}
 	}
 	if (pipe_count > 0)
 	{
