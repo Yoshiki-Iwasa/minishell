@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 10:41:22 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 14:45:51 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*convert_key_value(char **args, int index, t_list *d_val) // まず、split
 	入力の中に＄があるかどうか探す。そして変数リストから検索して値を変換して返す
 */
 
-int		trans_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の時に、ちゃんとno such variableを出せるように。
+int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の時に、ちゃんとno such variableを出せるように。
 {
 	int		i;
 	char	*arg;

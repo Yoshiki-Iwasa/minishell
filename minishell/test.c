@@ -67,41 +67,15 @@ printf("result = %d\n", ft_strncmp("TERM_PROGRAM=vscode", "TERM=", 5));
 #ifdef OPEN
 
 #include "minishell.h"
+
+void	for_free(char **tmp)
+{
+	free(tmp);
+}
 int main()
 {
-	int fd;
-	fd = open("tttt", O_RDWR | O_CREAT , S_IRWXU);
-	close(1);
-	dup2(fd, 1);
-  close(fd);
-	write(1, "12345\n", 6);
-	close(1);
-  write(1, "123456789", 9);
-  sleep(2);
-	fd = open("tttt", O_RDWR | O_CREAT , S_IRWXU);
-	close(1);
-	dup2(fd, 1);
-  close(fd);
-	write(1, "6789a\n", 6);
-  close(1);
-  sleep(2);
-  fd = open("tttt", O_RDWR | O_CREAT , S_IRWXU);
-	close(1);
-	dup2(fd, 1);
-  close(fd);
-	write(1, "lllll\n", 6);
-  close(1);
-  sleep(2);
-	// fd = open("tttt", O_RDWR | O_CREAT , S_IRWXU);
-	// close(1);
-	// dup2(fd, 1);
-	// write(1, "abcde\n", 6);
-	// close(fd);
-	// fd = open("tttt", O_RDWR | O_CREAT , S_IRWXU);
-	// close(1);
-	// dup2(fd, 1);
-	// write(1, "[],.;\n", 6);
-	// close(fd);
-
+	int fd = open("tttt", O_RDONLY);
+	while (1);
+	
 }
 #endif
