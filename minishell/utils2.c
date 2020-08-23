@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 10:38:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/23 10:41:22 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int		trans_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の
 		if (check_if_key_value(arg)) // ここで、key_value なのか確認する。そしたら別処理。
 		{
 			if (check_doller_exit(arg)) //先頭か、= の直後に "$" が入ってないか確認する。
-			{//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
+			{
+				//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
 				tmp = convert_key_value(args, i, d_val);
 				free(args[i]);
 				args[i] = tmp;

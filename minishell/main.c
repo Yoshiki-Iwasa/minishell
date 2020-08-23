@@ -26,7 +26,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 		{
 			update_val(&(vals->d_val), "?=0");
 		}
-		else
+		else if (rv == 0)
 		{
 			update_val(&(vals->d_val), "?=1");
 		}
