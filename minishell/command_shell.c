@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 10:48:10 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 09:19:16 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		sig_handle_C(int sig)
 		kill_rv = -1;
 	write(1, "\n",1);
 	if (kill_rv == -1)
-	ft_putstr_fd("yiwasa$ ", 1);
+	ft_putstr_fd("minishell$ ", 1);
 }
 
 /*
@@ -48,7 +48,7 @@ void		sig_handle_bs(int sig)
 		kill_rv = -1;
 	}
 	if (kill_rv == -1)
-	ft_putstr_fd("yiwasa$ ", 1);
+	ft_putstr_fd("minishell$ ", 1);
 
 }
 /*

@@ -1,30 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/28 11:36:54 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 08:12:43 by yiwasa           ###   ########.fr       */
+/*   Created: 2020/08/24 07:37:54 by yiwasa            #+#    #+#             */
+/*   Updated: 2020/08/24 07:42:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstnew(void *content)
+/*
+ ** 毎回のコマンドの実行後に各要素をfreeするために使う。
+*/
+
+void	free_all(char **args, char *line)
 {
-	t_list *new_element;
+	int i;
 
-	new_element = malloc(sizeof(t_list));
-	if (new_element == NULL)
-		return (0);
-	new_element->content = ft_strdup(content);
-	if (!new_element->content)
+	i = 0;
+	free(line);
+	while (!args[i])
 	{
-		free(new_element);
-		return (0);
+		free(args[i]);
+		i++;
 	}
-	new_element->next = NULL;
-	return (new_element);
+	free(args);
+}
+
+/*
+ ** lstdelone に渡すために仮置きしてる
+ ** 本来こいつはfreeであるべきなんだ！！！！
+*/
+
+void	del_str(void *str)
+{
+	str = 0;
 }

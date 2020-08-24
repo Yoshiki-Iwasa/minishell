@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   read_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/28 11:36:54 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 08:12:43 by yiwasa           ###   ########.fr       */
+/*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
+/*   Updated: 2020/08/24 07:25:24 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstnew(void *content)
+/*
+ **  コマンドラインを読んでくる関数。
+*/
+
+int		read_command(char **line)
 {
-	t_list *new_element;
+	int gnl_rv;
 
-	new_element = malloc(sizeof(t_list));
-	if (new_element == NULL)
+	ft_putstr_fd("minishell$ ", 1);
+	gnl_rv = get_next_line(0, line);
+	if (**line == '\0' && gnl_rv == 1)
 		return (0);
-	new_element->content = ft_strdup(content);
-	if (!new_element->content)
+	if (gnl_rv == 0)
 	{
-		free(new_element);
+		write(1, "\n", 1);
+		exit(0);
 		return (0);
 	}
-	new_element->next = NULL;
-	return (new_element);
+	if (gnl_rv == -1)
+	{
+		write(1, "GNL Fail\n", 9);
+		exit(0);
+		return (0);
+	}
+	return (1);
 }

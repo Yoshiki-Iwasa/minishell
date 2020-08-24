@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 14:45:51 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 08:40:00 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,14 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 		if (arg[0] == '$')
 		{
 			key = ft_strjoin(&arg[1], "=");
+			if (!key)
+				return (0);
 			if((find = search_entry(d_val, key)))
 			{
 				flag = 1;
 				free(args[i]);
 				args[i] = find_value(&d_val, get_key(find->content));
+				free(key);
 			}
 			// else
 			// {
@@ -169,11 +172,14 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 		if (arg[0] == '$')
 		{
 			key = ft_strjoin(&arg[1], "=");
+			if (!key)
+				return (0);
 			if((find = search_entry(e_val, key)))
 			{
 				flag = 1;
 				free(args[i]);
 				args[i] = find_value(&e_val, get_key(find->content));
+				free(key);
 			}
 			// else
 			// {

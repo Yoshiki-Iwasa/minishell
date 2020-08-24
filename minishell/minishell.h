@@ -29,7 +29,7 @@ int		command_exit(void);
 int		command_env(t_list **e_val);
 int		command_echo(char **args);
 void	ft_putendl(void *str);
-void	init_e_val_list(t_list **e_val, char **envp);
+int		init_e_val_list(t_list **e_val, char **envp);
 void	lst_del_connect(t_list **val, char *key ,void (*del)(void*));
 void	del_str(void *str);
 t_list	*search_entry(t_list *val, char *key);
@@ -63,5 +63,14 @@ void	setting_signal(void);
 int		count_pipe(char **args);
 int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths);
 int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count);
+int		read_command(char **line);
+void	recover_stdinout(int in_out, int *fd, int *stdin_fd, int *stdout_fd);
+void	escape_fds(int *stdin_fd, int *stdout_fd);
+void	free_all(char **args, char *line);
+void	del_str(void *str);
+int		shell_execute(char **args, t_edlist *vals, char **paths);
+int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num);
+int		commnad_loop(t_edlist vals, char **paths);
+void	change_semicon_null(char **args, int *semi_co_place);
 
 #endif

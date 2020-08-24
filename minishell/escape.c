@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/17 13:26:56 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 08:32:15 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	ダブルクオートをline から排除するための関数。
 */
 
-void	escape_double(char *line, char *new_line, int *i, int *j)
+void	escape_double_q(char *line, char *new_line, int *i, int *j)
 {
 	while(line[*i] != '"')
 	{
@@ -31,7 +31,7 @@ void	escape_double(char *line, char *new_line, int *i, int *j)
 	シングルクオートをline から排除するための関数。
 */
 
-void	escape_single(char *line, char *new_line, int *i, int *j)
+void	escape_single_q(char *line, char *new_line, int *i, int *j)
 {
 	while(line[*i] != 39)
 	{
@@ -55,7 +55,10 @@ char	*preparation_for_escape(char *line)
 
 	new_line = malloc(ft_strlen(line) + 1);
 	if (!new_line)
+	{
+		free(line);
 		return (0);
+	}
 	i = 0;
 	j = 0;
 	while(line[i] != '\0')
@@ -63,12 +66,12 @@ char	*preparation_for_escape(char *line)
 		if (line[i] == '"')
 		{
 			i++;
-			escape_double(line, new_line, &i, &j);
+			escape_double_q(line, new_line, &i, &j);
 		}
 		else if (line[i] == 39)
 		{
 			i++;
-			escape_single(line, new_line, &i, &j);
+			escape_single_q(line, new_line, &i, &j);
 		}
 		new_line[j] = line[i];
 		i++;

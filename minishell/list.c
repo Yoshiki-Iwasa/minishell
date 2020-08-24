@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 10:27:14 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 08:22:49 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
  ** 一番最初に環境変数をリスト構造に初期化する関数。
 */
 
-void	init_e_val_list(t_list **e_val, char **envp)
+int		init_e_val_list(t_list **e_val, char **envp)
 {
 	t_list *new;
 
 	*e_val = ft_lstnew(*envp);
+	if (*e_val == NULL)
+		return (0);
 	envp++;
 	while (*envp != NULL)
 	{
@@ -28,7 +30,7 @@ void	init_e_val_list(t_list **e_val, char **envp)
 		ft_lstadd_back(e_val, new);
 		envp++;
 	}
-	return ;
+	return (1);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 07:22:24 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 09:35:03 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	change_stdout_fd_for_append(char *arg, int *fd)
 	*fd = open(arg, O_RDWR | O_APPEND | O_CREAT , S_IRWXU);
 	close(1);
 	dup2(*fd, 1);
+	close(*fd);
 
 }
 /*
@@ -80,6 +81,7 @@ int		deal_redirection(char **args, int *fd)
 			args[i] = NULL;
 			i++;
 			change_stdout_fd_for_append(args[i], fd);
+			flag_out = 1;
 			return (1);
 		}
 		i++;

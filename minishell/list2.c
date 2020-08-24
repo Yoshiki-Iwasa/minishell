@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 10:21:57 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 08:10:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ int		add_val(t_list **val, char *arg) //ただ加えるだけじゃなくて、�
 	t_list *new;
 
 	new = ft_lstnew(arg);
+	if (!new)
+	{
+		return (0);
+	}
 	ft_lstadd_back(val, new);
 	return (1);
 }
@@ -81,14 +85,33 @@ int		update_val(t_list **val, char *arg)
 {
 	t_list *find;
 	char *key;
+	char *tmp;
 
 	key = get_key(arg); // malloc ガード入れる必要あり。 //ここで、'=' を含めたkeyを取得
+	if (!key)
+		return (0);
 	find = search_entry(*val, key);
 	if (find != NULL)
-		find->content = ft_strdup(arg);
+	{
+		if (!(find->content = ft_strdup(arg)))
+		{
+			free(key);
+			return (0);
+		}
+	}
 	else
 	{
-		add_val(val, ft_strdup(arg)); //lst_newで全てmallcする仕様に変えて、delにfreeを渡すように実装する必要あり。
+		if (!(tmp = ft_strdup(arg)))
+		{
+			free(key);
+			return (0);
+		}
+		if (!add_val(val, tmp)) //lst_newで全てmallcする仕様に変えて、delにfreeを渡すように実装する必要あり。
+		{
+			free(tmp);
+			return (0);
+		}
+		free(tmp);
 	}
 	free(key);
 	return (1);
