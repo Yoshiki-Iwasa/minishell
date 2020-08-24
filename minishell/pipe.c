@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/23 10:13:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 10:27:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,31 +242,23 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 
 int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 {
-	int		i;
 	char	**envp;
-	int		pipe_fd[2];
 	int		status;
-	int		pid;
-	char	**args_1;
-	char	**args_2;
 	char	***args_array; // こいつ最終的にfreeする必要あり。
-	int		pipe_num;
 
-	pipe_num = count_pipe(args);
 	envp = change_into_array(vals->e_val);
-	args_into_array(args, &args_array, pipe_num);// ここまでで、args_array でコマンドを分割できた
+	args_into_array(args, &args_array, pipe_count);// ここまでで、args_array でコマンドを分割できた
 	// divide_args(args, &args_1, &args_2);
 	pid_t ret;
 
 	ret = fork();
 	if (ret == 0)
 	{
-		exec_pipes(0, args_array, pipe_num + 1, vals, paths);
+		exec_pipes(0, args_array, pipe_count + 1, vals, paths);
 	}
 	else
 	{
-		wait(&status);
-		
+		wait(&status);		
 	}
 	return (0);
 }

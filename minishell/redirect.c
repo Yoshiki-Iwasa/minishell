@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 09:35:03 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 10:26:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int		deal_redirection(char **args, int *fd)
 	int i;
 	int flag_in;
 	int flag_out;
-	int	flag_attach;
 
 	i = 0;
 	flag_in = 0;
@@ -86,6 +85,5 @@ int		deal_redirection(char **args, int *fd)
 		}
 		i++;
 	}
-	if (flag_in == 0 && flag_out == 0)
 	return (3);
 }

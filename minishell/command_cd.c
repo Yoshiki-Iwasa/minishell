@@ -2,7 +2,6 @@
 
 int	command_cd(char *arg, t_list **e_val)
 {
-	char *pwd;
 	char path[PATH_MAX + 1];
 	char *home;
 	int	chdir_rv;

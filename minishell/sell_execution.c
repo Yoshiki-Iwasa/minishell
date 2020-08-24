@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 09:24:53 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 12:41:11 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 		}
 		else if (rv == 0)
 		{
-			if (update_val(&(vals->d_val), "?=1"))
+			if (!update_val(&(vals->d_val), "?=1"))
 				return (1);
 		}
 		else if (rv == 100)//exit の場合。

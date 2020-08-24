@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 09:19:16 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 12:44:22 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void		sig_handle_C(int sig)
 {
 	int kill_rv;
 
+	sig = 0;
 	if (g_pid != 0)
 		kill_rv = kill(g_pid, SIGKILL);
 	else
@@ -38,6 +39,8 @@ void		sig_handle_C(int sig)
 void		sig_handle_bs(int sig)
 {
 	int kill_rv;
+
+	sig = 0;
 	write(1, "\n",1);
 	if (g_pid != 0)
 	{
@@ -50,26 +53,6 @@ void		sig_handle_bs(int sig)
 	if (kill_rv == -1)
 	ft_putstr_fd("minishell$ ", 1);
 
-}
-/*
- ** 環境変数リストを文字列の配列に変える関数
-*/
-
-char	**change_into_array(t_list *e_val) ///malloc失敗したときに全部freeするようにする。
-{
-	char **ret;
-	int	i;
-
-	ret = malloc(sizeof(char *) * ft_lstsize(e_val) + 1);
-	i = 0;
-	while (e_val)
-	{
-		ret[i] = ft_strdup(e_val->content);
-		i++;
-		e_val = e_val->next;
-	}
-	ret[i] = NULL;
-	return (ret);
 }
 
 /*
@@ -116,22 +99,34 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	char	*num_str;
 	char	*status_str;
 
+	// update_val(d_val, "?=0");
 	envp = change_into_array(e_val);// ここで、一回envp にmalloc ガードをつける必要ある。change_into_array も同様。
+	if (!envp)
+	{
+		return (0);
+	}
 	g_pid = fork();
 	if (g_pid == 0)
 	{
 		if(!child_precess(args, envp, paths))
-		exit (1);
+			exit (1);
 	}
 	else if (g_pid < 0)
 		strerror(errno);
 	else
 	{
 		wait(&status);
-		//ここで終了ステータスを変更する関数を入れる。そのためには引数を変更する必要ある。
+		//ここで終了ステータスを変更する関数を入れる。
+		
 		num_str = ft_itoa(WEXITSTATUS(status));
 		status_str = ft_strjoin("?=", num_str);
+		free(num_str);
 		update_val(d_val, status_str);
+		free(status_str);
 	}
+	if (WEXITSTATUS(status) == 0)
+		return (1);
+	if (WEXITSTATUS(status) == 1)
+		return (0);
 	return (WEXITSTATUS(status));
 }

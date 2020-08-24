@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 08:22:49 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 10:24:35 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ t_list *find_num_list(t_list *lst, int num)
 
 t_list		*search_entry(t_list *val, char *key)
 {
-	t_list	*tmp;
 	int		num;
 	char	*key_equal;//ここで、送られて来たkey は "key="の形に変えて、比較してあげる方がいい。
 					//freeが心配だけど。
@@ -115,7 +114,6 @@ void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
 	t_list *search;
 	t_list *tmp;
 	int num;
-	char	*result;
 
 	num = 0;
 	search = *val;
@@ -126,7 +124,7 @@ void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
 			if (num == 0) //先頭を消さないといけない場合。
 			{
 				tmp = (*val)->next;
-				ft_lstdelone(*val, del_str);
+				ft_lstdelone(*val, del);
 				(*val) = tmp;
 			}
 			else
