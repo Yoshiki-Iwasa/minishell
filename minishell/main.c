@@ -43,9 +43,11 @@ void	shell_start(char **envp)
 		exit(EXIT_FAILURE);
 	}
 	commnad_loop(vals, paths);
+	
 	ft_lstclear(&(vals.d_val), free);//この処理が呼ばれるかはとっても疑問。
 	// でもこれでとりあえず、mainでmalloc した分は解放できる。
 	ft_lstclear(&(vals.e_val), free); //この処理の後、args, e_val をfreeする必要あり。
+	free_all(paths, 0);
 }
 
 int main(int argc, char **argv, char **envp)

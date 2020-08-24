@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 12:44:22 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 15:29:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void		sig_handle_bs(int sig)
 	int kill_rv;
 
 	sig = 0;
-	write(1, "\n",1);
+	// write(1, "\n",1);
 	if (g_pid != 0)
 	{
 		kill_rv = kill(g_pid, SIGQUIT);
+		write(1, "\n",1);
+		// exit(0);
 	}
 	else
 	{
@@ -77,12 +79,16 @@ int	child_precess(char **args, char **envp, char **paths)
 	}
 	if (errno == 2)
 	{
-		printf("bash: %s: commnad not found\n", args[0]);
+		ft_putstr_fd("bash: ",1);
+		ft_putstr_fd(args[0], 1);
+		ft_putstr_fd(": commnad not found\n", 1);
 		exit(127);
 	}
 	else if (errno == 13)
 	{
-		printf("bash: %s: Permission denied\n", args[0]);
+		ft_putstr_fd("bash: ", 1);
+		ft_putstr_fd(args[0], 1);
+		ft_putstr_fd(": Permission denied\n", 1);
 		exit(126);
 	}
 	return (0);

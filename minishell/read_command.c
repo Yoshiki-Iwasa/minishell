@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 07:25:24 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/24 13:49:14 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ int		read_command(char **line)
 	ft_putstr_fd("minishell$ ", 1);
 	gnl_rv = get_next_line(0, line);
 	if (**line == '\0' && gnl_rv == 1)
+	{
+		free(*line);
 		return (0);
+	}
 	if (gnl_rv == 0)
 	{
+		free(*line);
 		write(1, "\n", 1);
 		exit(0);
 		return (0);
