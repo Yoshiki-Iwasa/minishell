@@ -79,3 +79,25 @@ int main()
 	
 }
 #endif
+
+#ifdef T
+#include "minishell.h"
+
+void	do_nothing(int nb)
+{
+	(void)nb;
+	if (write(1, " \b\b \b\b\b\b", 6) < 0)
+		return ;
+	return ;
+}
+
+int main()
+{
+  char buf[100];
+  int r;
+
+  signal(SIGINT, do_nothing);
+  r = read(0, buf, 99);
+  buf[r] = '\0';
+}
+#endif
