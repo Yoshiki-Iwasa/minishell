@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/26 15:57:08 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 07:39:06 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		count_pipe(char **args)
  * pipeが一個だけの時はforkをする必要がないので、別の処理にしている。
 */
 
-int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
+int		no_pipe(char **args, t_edlist *vals, char **paths)
 {
 	// int fd;
 	// int in_out;
@@ -89,28 +89,28 @@ int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 	// ここでリダイレクトの処理を入れるべき。
 	// 複数リダイレクトがきた時の想定 ＋ パイプの有無によって標準入力出力を閉じるか否か判定。
 	int rv;
-	
+
 	// in_out = deal_redirection(args, &fd);
 	if (!ft_strncmp(args[0], "exit", 5))
 		rv = (command_exit());
 	else if (!ft_strncmp(args[0], "pwd", 4))
 		rv = (command_pwd());
 	else if (!ft_strncmp(args[0], "cd", 3))
-		rv = (command_cd(args[1], e_val));
+		rv = (command_cd(args[1], &(vals->e_val)));
 	else if (!ft_strncmp(args[0], "env", 4))
-		rv = (command_env(e_val));
+		rv = (command_env(&(vals->e_val)));
 	else if (!ft_strncmp(args[0], "d_env", 5))
-		rv = (command_env(d_val));
+		rv = (command_env((&vals->d_val)));
 	else if(!ft_strncmp(args[0], "echo", 5))
 		rv = (command_echo(args));
 	else if(!ft_strncmp(args[0], "export", 7))
-		rv = (command_export(args, e_val));
+		rv = (command_export(args, (&vals->e_val)));
 	else if(!ft_strncmp(args[0], "unset", 7))
-		rv = (command_unset(&args[1], *e_val, *d_val));
+		rv = (command_unset(&args[1], vals->e_val, vals->d_val));
 	else if(check_if_key_value(args[0]))
-		rv = (update_val(d_val, args[0]));
+		rv = (update_val((&vals->d_val), args[0]));
 	else
-		rv = (exec_shell_command(args, *e_val, d_val, paths));
+		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));
 	// recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
 	return (rv);
 }
@@ -121,7 +121,7 @@ int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 /**
  * 子プロセス。入り口のpipe_fd[0]を塞ぐ。
  * その上で、標準出力をpipe_fd[1]の入り口に設定する。
- * 
+ *
 */
 
 void	do_child(char **args, t_edlist *vals, char **paths, int *pipe_fd)
@@ -133,7 +133,7 @@ void	do_child(char **args, t_edlist *vals, char **paths, int *pipe_fd)
 	close(1); //標準出力を塞ぐ
 	dup2(pipe_fd[1], 1); //１番を子プロセスの出口に設定。
 	close(pipe_fd[1]);	//元々の出口を塞ぐ。
-	no_pipe(args, &(vals->e_val), &(vals->d_val), paths);
+	no_pipe(args, vals, paths);
 	dup2(stdout_fd, 1);// 標準出力を1 番に復帰
 	exit(0);
 }
@@ -142,7 +142,7 @@ void	do_child(char **args, t_edlist *vals, char **paths, int *pipe_fd)
 /**
  * 親プロセス。出口のpipe_fd[1]を塞ぐ。
  * その上で、標準入力をpipe_fd[0]の出口に設定する。
- * 
+ *
 */
 
 void	do_parent(char **args, t_edlist *vals, char **paths, int *pipe_fd)
@@ -154,9 +154,9 @@ void	do_parent(char **args, t_edlist *vals, char **paths, int *pipe_fd)
 	close(0); //標準入力を塞ぐ
 	dup2(pipe_fd[0], 0); //0番を親プロセスの入口に設定。
 	close(pipe_fd[0]);	//元々の出口を塞ぐ。
-	no_pipe(args, &(vals->e_val), &(vals->d_val), paths);
+	no_pipe(args, vals, paths);
 	dup2(stdin_fd, 0);// 標準入力を0 番に復帰
-	
+
 }
 
 /*args の pipe が入ってるところをnull にしてる。*/
@@ -181,7 +181,7 @@ void	divide_args(char **base, char ***args_1, char ***args_2)
 /*
 	args_array に、args のパイプが入ってるとこの次のコマンドのアドレスを渡す。
 	そうすると、コマンド群の配列ができる。args は、malloc してできた配列で、必ずしもメモリが一列に並んでいるとは限らない？
-*/ 
+*/
 
 void	args_into_array(char **args, char ****args_array, int pipe_num)
 {
@@ -217,7 +217,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 	{
 		// 左端なら単に実行
 		// execvp(cmds[0][0], cmds[0]);
-		no_pipe(args_array[0], &(vals->e_val), &(vals->d_val), paths);
+		no_pipe(args_array[0], vals, paths);
 		exit(0);
 	}
 	else
@@ -244,7 +244,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 				close(pp[1]);
 				dup2(pp[0], 0);
 				close(pp[0]);
-				no_pipe(args_array[com_num -i -1], &(vals->e_val), &(vals->d_val), paths);
+				no_pipe(args_array[com_num -i -1], vals, paths);
 				exit(0);
 		}
 	}
@@ -274,7 +274,7 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	}
 	else
 	{
-		wait(&status);		
+		wait(&status);
 	}
 	return (0);
 }

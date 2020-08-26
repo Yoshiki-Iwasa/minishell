@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/26 15:44:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 07:37:43 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	// args[1] = NULL;
 	if (pipe_count == 0)
 	{
-		rv = no_pipe(args, &(vals->e_val), &(vals->d_val), paths); //ここの返り値を見て、成功したら１、失敗したら０
+		rv = no_pipe(args, vals, paths); //ここの返り値を見て、成功したら１、失敗したら０
 		if (rv == 1)
 		{
 			if (!update_val(&(vals->d_val), "?=0"))

@@ -61,7 +61,7 @@ void	sig_handle_C(int sig);
 void	sig_handle_bs(int sig);
 void	setting_signal(void);
 int		count_pipe(char **args);
-int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths);
+int		no_pipe(char **args, t_edlist *vals, char **paths);
 int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count);
 int		read_command(char **line);
 void	recover_stdinout(int in_out, int *fd, int *stdin_fd, int *stdout_fd);
