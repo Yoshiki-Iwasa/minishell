@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 10:27:47 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/26 14:17:27 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,31 @@ int		count_pipe(char **args)
 
 int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 {
+	// ここでリダイレクトの処理を入れるべき。
+	// 複数リダイレクトがきた時の想定 ＋ パイプの有無によって標準入力出力を閉じるか否か判定。
+	int rv;
+
 	if (!ft_strncmp(args[0], "exit", 5))
-		return(command_exit());
+		rv = (command_exit());
 	else if (!ft_strncmp(args[0], "pwd", 4))
-		return(command_pwd());
+		rv = (command_pwd());
 	else if (!ft_strncmp(args[0], "cd", 3))
-		return(command_cd(args[1], e_val));
+		rv = (command_cd(args[1], e_val));
 	else if (!ft_strncmp(args[0], "env", 4))
-		return (command_env(e_val));
+		rv = (command_env(e_val));
 	else if (!ft_strncmp(args[0], "d_env", 5))
-		return (command_env(d_val));
+		rv = (command_env(d_val));
 	else if(!ft_strncmp(args[0], "echo", 5))
-		return (command_echo(args));
+		rv = (command_echo(args));
 	else if(!ft_strncmp(args[0], "export", 7))
-		return (command_export(args, e_val));
+		rv = (command_export(args, e_val));
 	else if(!ft_strncmp(args[0], "unset", 7))
-		return (command_unset(&args[1], *e_val, *d_val));
+		rv = (command_unset(&args[1], *e_val, *d_val));
 	else if(check_if_key_value(args[0]))
-		return (update_val(d_val, args[0]));
+		rv = (update_val(d_val, args[0]));
 	else
-		return (exec_shell_command(args, *e_val, d_val, paths));
+		rv = (exec_shell_command(args, *e_val, d_val, paths));
+	return (rv);
 }
 
 // forkした後の処理は、子プロセス→親プロセスなので子プロセスの標準出力を

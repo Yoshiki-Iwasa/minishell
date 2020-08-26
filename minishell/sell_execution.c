@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 14:02:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/26 12:33:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	int pipe_count;
 	int	rv;
 
-	pipe_count = count_pipe(args);
+	// リダイレクトの部分がnull になってしまっているのが問題。
+	// args[1] = "2";
+	pipe_count = count_pipe(args); // パイプの中にリダイレクトがあるとカウントされない。これは問題だ。
+	// args[1] = NULL;
 	if (pipe_count == 0)
 	{
 		rv = no_pipe(args, &(vals->e_val), &(vals->d_val), paths); //ここの返り値を見て、成功したら１、失敗したら０
@@ -68,6 +71,8 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
+
+		//このリダイレクトの処理は、パイプで区切られたコマンド毎に行うべき。
 		in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
 		state = shell_execute(args, &(vals), paths); // <- この先でパイプの処理する。
 		if (!state)
@@ -96,7 +101,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 	{
 		if (!read_command(&line))
 			continue ;
-		line = preparation_for_escape(line);
+		line = preparation_for_escape(line);// ’＄’もエスケープに加える必要あり。
 		if (!line)
 			return (0);
 		args = ft_split(line, ' '); // args が死んだ時の処理必要
@@ -106,7 +111,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 			return (0);
 		}
 		fix_args(args);// 非表示文字が入ってる部分をスペースに置き換える。
-		cmd_num = count_commands(args); //ここで何個コマンドがあるか数える。
+		cmd_num = count_commands(args); //ここで何個コマンド列が;で区切られているか数える。
 		state = exec_each_command(vals, paths, args, cmd_num);
 		free_all(args, line);
 	}

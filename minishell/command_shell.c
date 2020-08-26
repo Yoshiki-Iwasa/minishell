@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/26 08:36:12 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/26 14:23:26 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ void		sig_handle_bs(int sig)
 	if (g_pid != 0)
 	{
 		kill_rv = kill(g_pid, SIGQUIT);
-		write(1, "\n",1);
-		// exit(0);
 	}
 	else
 	{
 		kill_rv = -1;
 	}
 	if (kill_rv == -1)
+	{
 		signal(sig, SIG_IGN);
+	}
 
 }
 
