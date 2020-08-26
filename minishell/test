@@ -74,3 +74,7 @@ utils.c
 utils.o
 utils2.c
 utils2.o
+ Code.app/Contents/Frameworks/Code Helper (Renderer).app/Contents/MacOS/Code Helper (Renderer)
+GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
+COLORTERM=truecolor
+_=/usr/bin/env

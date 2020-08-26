@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/26 14:17:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/26 15:57:08 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ int		count_pipe(char **args)
 	count = 0; // コマンドの先頭にセミコロンがきた場合を排除
 	while(args[i])
 	{
+		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || !ft_strcmp(args[i], ">>"))
+		{
+			args[i] = NULL;
+			i++;
+		}
 		if(!ft_strcmp(args[i], "|"))
 			count++;
 		i++;
@@ -77,10 +82,15 @@ int		count_pipe(char **args)
 
 int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 {
+	// int fd;
+	// int in_out;
+	// int stdin_fd = 0;
+	// int stdout_fd = 1;
 	// ここでリダイレクトの処理を入れるべき。
 	// 複数リダイレクトがきた時の想定 ＋ パイプの有無によって標準入力出力を閉じるか否か判定。
 	int rv;
-
+	
+	// in_out = deal_redirection(args, &fd);
 	if (!ft_strncmp(args[0], "exit", 5))
 		rv = (command_exit());
 	else if (!ft_strncmp(args[0], "pwd", 4))
@@ -101,6 +111,7 @@ int		no_pipe(char **args, t_list **e_val, t_list **d_val, char **paths)
 		rv = (update_val(d_val, args[0]));
 	else
 		rv = (exec_shell_command(args, *e_val, d_val, paths));
+	// recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
 	return (rv);
 }
 
