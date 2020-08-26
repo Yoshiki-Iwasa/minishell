@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/26 15:57:25 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 07:48:59 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		deal_redirection(char **args, int *fd)
 	{
 		if(!ft_strcmp(args[i], "<"))
 		{
-			// args[i] = NULL; //リダイレクト以降が出力されないようにするため
+			args[i] = NULL; //リダイレクト以降が出力されないようにするため
 			i++;
 			change_stdin_fd(args[i], fd);
 			flag_in = 1;
@@ -69,7 +69,7 @@ int		deal_redirection(char **args, int *fd)
 		}
 		else if(!ft_strcmp(args[i], ">"))
 		{
-			// args[i] = NULL; //リダイレクト以降が出力されないようにするため
+			args[i] = NULL; //リダイレクト以降が出力されないようにするため
 			i++;
 			change_stdout_fd(args[i], fd);
 			flag_out = 1;
@@ -77,7 +77,7 @@ int		deal_redirection(char **args, int *fd)
 		}
 		else if (!ft_strcmp(args[i], ">>"))
 		{
-			// args[i] = NULL;
+			args[i] = NULL;
 			i++;
 			change_stdout_fd_for_append(args[i], fd);
 			flag_out = 1;

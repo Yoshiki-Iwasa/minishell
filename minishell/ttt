@@ -54,6 +54,7 @@ pipe.dSYM
 pipe.o
 read_command.c
 read_command.o
+redirect
 redirect.c
 redirect.dSYM
 redirect.o

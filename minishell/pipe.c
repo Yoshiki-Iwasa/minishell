@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 07:39:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 07:52:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		count_pipe(char **args)
 	{
 		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || !ft_strcmp(args[i], ">>"))
 		{
-			args[i] = NULL;
+			// args[i] = NULL;
 			i++;
 		}
 		if(!ft_strcmp(args[i], "|"))
@@ -82,15 +82,16 @@ int		count_pipe(char **args)
 
 int		no_pipe(char **args, t_edlist *vals, char **paths)
 {
-	// int fd;
-	// int in_out;
-	// int stdin_fd = 0;
-	// int stdout_fd = 1;
+	int fd;
+	int in_out;
+	int stdin_fd;
+	int stdout_fd;
 	// ここでリダイレクトの処理を入れるべき。
 	// 複数リダイレクトがきた時の想定 ＋ パイプの有無によって標準入力出力を閉じるか否か判定。
 	int rv;
 
-	// in_out = deal_redirection(args, &fd);
+	escape_fds(&stdin_fd, &stdout_fd);
+	in_out = deal_redirection(args, &fd);
 	if (!ft_strncmp(args[0], "exit", 5))
 		rv = (command_exit());
 	else if (!ft_strncmp(args[0], "pwd", 4))
@@ -111,7 +112,7 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 		rv = (update_val((&vals->d_val), args[0]));
 	else
 		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));
-	// recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
+	recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
 	return (rv);
 }
 

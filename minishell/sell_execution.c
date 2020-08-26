@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 07:37:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 07:47:09 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 {
 	int		state;
 	int		semi_co_place;
-	int		fd;
-	int		stdin_fd;
-	int		stdout_fd;
-	int		in_out;
+	// int		fd;
+	// int		stdin_fd;
+	// int		stdout_fd;
+	// int		in_out;
 
 	while(cmd_num)
 	{
 		change_semicon_null(args, &semi_co_place);
-		escape_fds(&stdin_fd, &stdout_fd);
+		// escape_fds(&stdin_fd, &stdout_fd);
 		// ここ以降でメモリリークが発生する可能性あり。
 		if(!trans_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで$ 変数の格納を行なっている
 		{
@@ -73,14 +73,14 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 		}
 
 		//このリダイレクトの処理は、パイプで区切られたコマンド毎に行うべき。
-		in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
+		// in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
 		state = shell_execute(args, &(vals), paths); // <- この先でパイプの処理する。
 		if (!state)
 			break;
 		cmd_num--;
 		if (cmd_num)
 			args = &args[semi_co_place + 1];
-		recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
+		// recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
 	}
 	return (state);
 }
