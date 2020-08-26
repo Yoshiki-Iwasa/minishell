@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 07:48:59 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 08:28:25 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,25 @@
 
 void	change_stdout_fd(char *arg, int *fd)
 {
-	int close_rv;
-	int dup2_rv;
-
-	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);
-	close_rv = close(1);
-	dup2_rv = dup2(*fd, 1);
-	close(*fd);
+	// int close_rv;
+	// int dup2_rv;
+	close(*fd); // 元のfd を閉じる。
+	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);//とりあえず、０埋めして開く。
+	close(1);//標準出力を閉じる。
+	dup2(*fd, 1);//fd のコピーを　１　として作成。
+	close(*fd);// もともとのfd はいらないので閉じる。
+	// ２つ以上リダイレクトが合った場合、やりたいのは、元のfd を閉じて、新しいfd を　のコピーを1 として作成し、新しいfd はいらないので閉じること。
 }
 
 /*標準入力のリダイレクトの実装*/
 
 void	change_stdin_fd(char *arg, int *fd)
 {
-	*fd = open(arg, O_RDWR | O_CREAT , S_IRWXU);//これおかしい。入力先が存在しなかったらエラーですお
-	close(0);
-	dup2(*fd, 0);
 	close(*fd);
+	*fd = open(arg, O_RDWR);//これおかしい。入力先が存在しなかったらエラーですお
+	close(0); //標準出力を閉じる。
+	dup2(*fd, 0);//fd のコピーを　１　として作成。
+	close(*fd);// もともとのfd はいらないので閉じる。
 }
 /*
 	標準出力の追記用fd 作成
@@ -65,7 +67,6 @@ int		deal_redirection(char **args, int *fd)
 			i++;
 			change_stdin_fd(args[i], fd);
 			flag_in = 1;
-			return (0);
 		}
 		else if(!ft_strcmp(args[i], ">"))
 		{
@@ -73,7 +74,6 @@ int		deal_redirection(char **args, int *fd)
 			i++;
 			change_stdout_fd(args[i], fd);
 			flag_out = 1;
-			return (1);
 		}
 		else if (!ft_strcmp(args[i], ">>"))
 		{
@@ -81,9 +81,14 @@ int		deal_redirection(char **args, int *fd)
 			i++;
 			change_stdout_fd_for_append(args[i], fd);
 			flag_out = 1;
-			return (1);
 		}
 		i++;
 	}
-	return (3);
+	if (flag_in)
+		return (0);
+	else if (flag_out)
+		return (1);
+	else
+		return (3);
+
 }
