@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 07:52:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 10:32:09 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	else if(!ft_strncmp(args[0], "echo", 5))
 		rv = (command_echo(args));
 	else if(!ft_strncmp(args[0], "export", 7))
-		rv = (command_export(args, (&vals->e_val)));
+		rv = (command_export(args, vals));
 	else if(!ft_strncmp(args[0], "unset", 7))
 		rv = (command_unset(&args[1], vals->e_val, vals->d_val));
 	else if(check_if_key_value(args[0]))
