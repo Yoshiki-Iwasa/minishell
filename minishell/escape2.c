@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   escape2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:07:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/08 09:08:03 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 14:40:15 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	pattern_single(char *line, int *i)
 	{
 		if(line[*i] == ' ')
 			line[*i] = 1;
+		if(line[*i] == '$')
+			line[*i] = 2;
 		else if (line[*i] == '\0')
 			break;
 		(*i)++;
@@ -62,13 +64,11 @@ void	insert_unprintable(char *line)
 		{
 			if (line[i] == '"')
 			{
-				i++;
 				pattern_double(line, &i);
 
 			}
 			else if (line[i] == 39)
 			{
-				i++;
 				pattern_single(line, &i);
 			}
 		}

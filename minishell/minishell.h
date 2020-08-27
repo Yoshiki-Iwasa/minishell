@@ -49,7 +49,7 @@ int		find_semi_co(char	**args);
 void	escape_double(char *line, char *new_line, int *i, int *j);
 void	escape_single(char *line, char *new_line, int *i, int *j);
 char	*preparation_for_escape(char *line);
-void	fix_args(char **args);
+void	fix_args(char **args, char ascii, char c);
 void	pattern_double(char *line, int *i);
 void	pattern_single(char *line, int *i);
 void	insert_unprintable(char *line);

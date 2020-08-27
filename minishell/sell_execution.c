@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 07:47:09 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 14:26:41 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
-
+		fix_args(args, 2, '$');
 		//このリダイレクトの処理は、パイプで区切られたコマンド毎に行うべき。
 		// in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
 		state = shell_execute(args, &(vals), paths); // <- この先でパイプの処理する。
@@ -102,6 +102,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 		if (!read_command(&line))
 			continue ;
 		line = preparation_for_escape(line);// ’＄’もエスケープに加える必要あり。
+		// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
 			return (0);
 		args = ft_split(line, ' '); // args が死んだ時の処理必要
@@ -110,7 +111,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 			free(line);
 			return (0);
 		}
-		fix_args(args);// 非表示文字が入ってる部分をスペースに置き換える。
+		fix_args(args, 1, ' ');// 非表示文字が入ってる部分をスペースに置き換える。
 		cmd_num = count_commands(args); //ここで何個コマンド列が;で区切られているか数える。
 		state = exec_each_command(vals, paths, args, cmd_num);
 		free_all(args, line);
