@@ -25,7 +25,7 @@ void dopipes(i) {
       close(pp[0]);
       dup2(pp[1], 1);
       close(pp[1]);
-      
+
       dopipes(i+1);
     }
     else {
@@ -34,15 +34,15 @@ void dopipes(i) {
       close(pp[1]);
       dup2(pp[0], 0);
       close(pp[0]);
-    
+
       execvp(cmds[cmd_n-i-1][0], cmds[cmd_n-i-1]);
     }
-  }  
+  }
 }
 
 int main(void) {
   pid_t ret;
-  
+
   ret = fork();
   if (ret == 0)
     dopipes(0);
@@ -76,28 +76,55 @@ int main()
 {
 	int fd = open("tttt", O_RDONLY);
 	while (1);
-	
+
 }
 #endif
 
 #ifdef T
-#include "minishell.h"
-
-void	do_nothing(int nb)
+#include <unistd.h>
+#include <string.h>
+#include <sys/wait.h>
+void  dopipes(char **envp)
 {
-	(void)nb;
-	if (write(1, " \b\b \b\b\b\b", 6) < 0)
-		return ;
-	return ;
+  char	*cmd_ptr;
+  char *path[9];
+  char	command[1001];
+  char *args[2];
+
+  args[0] = "ls";
+  args[1] = NULL;
+  path[0] = "/Users/iwasayoshiki/.rbenv/shims";
+  path[1] = "/Users/iwasayoshiki/.rbenv/shims";
+  path[2] = "/usr/local/bin";
+  path[3] = "/usr/bin";
+  path[4] = "/bin";
+  path[5] = "/usr/sbin";
+  path[6] = "/sbin";
+  path[7] = "/Users/iwasayoshiki/.rbenv/shims";
+  path[8] = NULL;
+  int i = 0;
+	while(path[i])
+	{
+    write(1, "2\n", 1);
+		cmd_ptr = strcat(command, path[i]);
+		cmd_ptr = strcat(command, "/");
+		cmd_ptr = strcat(command, "wc");
+		execve(cmd_ptr, args, envp);
+		cmd_ptr[0] = '\0';
+		i++;
+	}
 }
 
-int main()
-{
-  char buf[100];
-  int r;
+int main(int argc, char **argv, char **envp) {
+  pid_t ret;
 
-  signal(SIGINT, do_nothing);
-  r = read(0, buf, 99);
-  buf[r] = '\0';
+  ret = fork();
+  if (ret == 0)
+    dopipes(envp);
+  else
+    wait(NULL);
+
+  return 0;
 }
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 08:28:25 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 09:26:40 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		deal_redirection(char **args, int *fd)
 			change_stdin_fd(args[i], fd);
 			flag_in = 1;
 		}
-		else if(!ft_strcmp(args[i], ">"))
+		else if(!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|"))
 		{
 			args[i] = NULL; //リダイレクト以降が出力されないようにするため
 			i++;
