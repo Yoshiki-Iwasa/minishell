@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 09:26:40 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 13:34:14 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	change_stdout_fd(char *arg, int *fd)
 {
 	// int close_rv;
 	// int dup2_rv;
-	close(*fd); // 元のfd を閉じる。
+	// close(*fd); // 元のfd を閉じる。
 	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);//とりあえず、０埋めして開く。
 	close(1);//標準出力を閉じる。
 	dup2(*fd, 1);//fd のコピーを　１　として作成。
@@ -30,10 +30,10 @@ void	change_stdout_fd(char *arg, int *fd)
 
 void	change_stdin_fd(char *arg, int *fd)
 {
-	close(*fd);
+	// close(*fd);
 	*fd = open(arg, O_RDWR);//これおかしい。入力先が存在しなかったらエラーですお
 	close(0); //標準出力を閉じる。
-	dup2(*fd, 0);//fd のコピーを　１　として作成。
+	dup2(*fd, 0);//fd のコピーを　0　として作成。
 	close(*fd);// もともとのfd はいらないので閉じる。
 }
 /*
