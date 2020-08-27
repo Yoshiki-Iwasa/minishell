@@ -84,6 +84,12 @@ int main()
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <signal.h>
+
+int pipe_fd[2];
+
 void  dopipes(char **envp)
 {
   char	*cmd_ptr;
@@ -91,7 +97,7 @@ void  dopipes(char **envp)
   char	command[1001];
   char *args[2];
 
-  args[0] = "ls";
+  args[0] = "wc";
   args[1] = NULL;
   path[0] = "/Users/iwasayoshiki/.rbenv/shims";
   path[1] = "/Users/iwasayoshiki/.rbenv/shims";
@@ -105,7 +111,6 @@ void  dopipes(char **envp)
   int i = 0;
 	while(path[i])
 	{
-    write(1, "2\n", 1);
 		cmd_ptr = strcat(command, path[i]);
 		cmd_ptr = strcat(command, "/");
 		cmd_ptr = strcat(command, "wc");
@@ -118,9 +123,14 @@ void  dopipes(char **envp)
 int main(int argc, char **argv, char **envp) {
   pid_t ret;
 
+  pipe(pipe_fd);
   ret = fork();
   if (ret == 0)
+  {
+    close(0);
+    dup2(pipe_fd[0], 0);
     dopipes(envp);
+  }
   else
     wait(NULL);
 
