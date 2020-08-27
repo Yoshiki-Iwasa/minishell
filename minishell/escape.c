@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 14:25:58 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/27 14:45:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*preparation_for_escape(char *line)
 }
 
 /*
-	argsに含まれているascii文字をcに変える関数
+ ** argsに含まれているascii文字をcに変える関数
 */
 
 void	fix_args(char **args, char ascii, char c)
