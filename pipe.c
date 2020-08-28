@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 10:32:09 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 17:03:12 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,6 @@ int		count_execs(char **args)
 }
 
 
-/*
-	"｜"が文字列配列の何番目に入っているかを数えるための関数。
-*/
-
-int		find_pipe(char	**args)
-{
-	int num;
-
-	num = 0;
-	while(ft_strcmp(args[num], "|") && args[num] != NULL)
-	{
-		num++;
-	}
-	return (num);
-}
-
 /**
  * "|" が何個入っているか数える関数
  * */
@@ -76,8 +60,8 @@ int		count_pipe(char **args)
 }
 
 
-/**
- * pipeが一個だけの時はforkをする必要がないので、別の処理にしている。
+/*
+ ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
 
 int		no_pipe(char **args, t_edlist *vals, char **paths)
@@ -86,12 +70,10 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	int in_out;
 	int stdin_fd;
 	int stdout_fd;
-	// ここでリダイレクトの処理を入れるべき。
-	// 複数リダイレクトがきた時の想定 ＋ パイプの有無によって標準入力出力を閉じるか否か判定。
 	int rv;
 
-	escape_fds(&stdin_fd, &stdout_fd);
-	in_out = deal_redirection(args, &fd);
+	escape_fds(&stdin_fd, &stdout_fd); //リダイレクトのあとに標準入出力を復帰させるためにエスケープさせる。
+	in_out = deal_redirection(args, &fd);//リダイレクトの処理を入れている。
 	if (!ft_strncmp(args[0], "exit", 5))
 		rv = (command_exit());
 	else if (!ft_strncmp(args[0], "pwd", 4))
@@ -107,76 +89,13 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	else if(!ft_strncmp(args[0], "export", 7))
 		rv = (command_export(args, vals));
 	else if(!ft_strncmp(args[0], "unset", 7))
-		rv = (command_unset(&args[1], vals->e_val, vals->d_val));
+		rv = (command_unset(&args[1], vals->e_val, vals->d_val));// shell変数更新のための関数。
 	else if(check_if_key_value(args[0]))
 		rv = (update_val((&vals->d_val), args[0]));
 	else
-		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));
-	recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);
+		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));//build inではないコマンドが呼ばれるときに使われる。
+	recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd);//標準入出力のfd を復帰させる。
 	return (rv);
-}
-
-// forkした後の処理は、子プロセス→親プロセスなので子プロセスの標準出力を
-// pipe_fd[1]に、親プロセスの標準入力をpipe_fd[0]にすればとりあえず1本目のぴぷは対応できる。
-
-/**
- * 子プロセス。入り口のpipe_fd[0]を塞ぐ。
- * その上で、標準出力をpipe_fd[1]の入り口に設定する。
- *
-*/
-
-void	do_child(char **args, t_edlist *vals, char **paths, int *pipe_fd)
-{
-	int stdout_fd;
-
-	stdout_fd = dup(1); //標準出力のfdを一旦退避
-	close(pipe_fd[0]); //子プロセスの入り口を塞ぐ
-	close(1); //標準出力を塞ぐ
-	dup2(pipe_fd[1], 1); //１番を子プロセスの出口に設定。
-	close(pipe_fd[1]);	//元々の出口を塞ぐ。
-	no_pipe(args, vals, paths);
-	dup2(stdout_fd, 1);// 標準出力を1 番に復帰
-	exit(0);
-}
-
-
-/**
- * 親プロセス。出口のpipe_fd[1]を塞ぐ。
- * その上で、標準入力をpipe_fd[0]の出口に設定する。
- *
-*/
-
-void	do_parent(char **args, t_edlist *vals, char **paths, int *pipe_fd)
-{
-	int stdin_fd;
-
-	stdin_fd = dup(0); //標準入力のfdを一旦退避
-	close(pipe_fd[1]); // 親プロセスの出口を塞ぐ。
-	close(0); //標準入力を塞ぐ
-	dup2(pipe_fd[0], 0); //0番を親プロセスの入口に設定。
-	close(pipe_fd[0]);	//元々の出口を塞ぐ。
-	no_pipe(args, vals, paths);
-	dup2(stdin_fd, 0);// 標準入力を0 番に復帰
-
-}
-
-/*args の pipe が入ってるところをnull にしてる。*/
-
-void	divide_args(char **base, char ***args_1, char ***args_2)
-{
-	int i;
-
-	i = 0;
-	*args_1 = &base[0];
-	while (base[i])
-	{
-		if (!ft_strcmp(base[i], "|"))
-		{
-			base[i] = NULL;
-			*args_2 = &base[i + 1];
-		}
-		i++;
-	}
 }
 
 /*
@@ -217,7 +136,6 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 	if (i == com_num - 1)
 	{
 		// 左端なら単に実行
-		// execvp(cmds[0][0], cmds[0]);
 		no_pipe(args_array[0], vals, paths);
 		exit(0);
 	}
@@ -252,7 +170,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 }
 
 /*
-	コマンドにパイプが含まれていた場合の関数。fork して子プロセスを作り上げる。
+	コマンドにパイプが一個以上含まれていた場合の関数。fork して子プロセスを作り上げる。
 	ここから、再帰関数を使って、コマンドの右から順に実行させる。
 */
 
@@ -263,15 +181,14 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	int		status;
 	char	***args_array; // こいつ最終的にfreeする必要あり。
 
-	envp = change_into_array(vals->e_val);
-	args_into_array(args, &args_array, pipe_count);// ここまでで、args_array でコマンドを分割できた
-	// divide_args(args, &args_1, &args_2);
+	envp = change_into_array(vals->e_val); //環境変数リストを文字列に変換。
+	args_into_array(args, &args_array, pipe_count);// ここまでで、args_array でコマンドをパイプごとに分割できた
 	pid_t ret;
 
 	ret = fork();
 	if (ret == 0)
 	{
-		exec_pipes(0, args_array, pipe_count + 1, vals, paths);
+		exec_pipes(0, args_array, pipe_count + 1, vals, paths); //一番右のコマンドを親として、右から左にコマンドを順次実行させる。
 	}
 	else
 	{

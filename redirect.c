@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 13:34:14 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 16:49:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 
 void	change_stdout_fd(char *arg, int *fd)
 {
-	// int close_rv;
-	// int dup2_rv;
-	// close(*fd); // 元のfd を閉じる。
 	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);//とりあえず、０埋めして開く。
 	close(1);//標準出力を閉じる。
 	dup2(*fd, 1);//fd のコピーを　１　として作成。
@@ -31,7 +28,7 @@ void	change_stdout_fd(char *arg, int *fd)
 void	change_stdin_fd(char *arg, int *fd)
 {
 	// close(*fd);
-	*fd = open(arg, O_RDWR);//これおかしい。入力先が存在しなかったらエラーですお
+	*fd = open(arg, O_RDWR);
 	close(0); //標準出力を閉じる。
 	dup2(*fd, 0);//fd のコピーを　0　として作成。
 	close(*fd);// もともとのfd はいらないので閉じる。
@@ -63,14 +60,14 @@ int		deal_redirection(char **args, int *fd)
 	{
 		if(!ft_strcmp(args[i], "<"))
 		{
-			args[i] = NULL; //リダイレクト以降が出力されないようにするため
+			args[i] = NULL; //リダイレクトの記号が引数にならないようNULL にする。
 			i++;
 			change_stdin_fd(args[i], fd);
 			flag_in = 1;
 		}
 		else if(!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|"))
 		{
-			args[i] = NULL; //リダイレクト以降が出力されないようにするため
+			args[i] = NULL; //リダイレクトの記号が引数にならないようNULL にする。
 			i++;
 			change_stdout_fd(args[i], fd);
 			flag_out = 1;

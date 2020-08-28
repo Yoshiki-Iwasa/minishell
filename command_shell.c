@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 10:59:35 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 16:57:39 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void		sig_handle_bs(int sig)
 }
 
 /*
-	子供プロセスの実行を司る関数。
+	子供プロセスの実行を司る関数。与えられたコマンドと、PATHをexecve に逐一与えていく。
 */
 
-int	child_precess(char **args, char **envp, char **paths)
+int	child_precess(char **args, char **envp, char **paths)// args には "ls" "-la" みたいなふうにコマンドが文字列配列化して入っている。
 {
 	int		i;
 	char	command[PATH_MAX + 1];
@@ -70,10 +70,10 @@ int	child_precess(char **args, char **envp, char **paths)
 	i = 0;
 	while(paths[i])
 	{
-		cmd_ptr = ft_strcat(command, paths[i]);
+		cmd_ptr = ft_strcat(command, paths[i]); //環境変数PATH を一個ずつ試す。
 		cmd_ptr = ft_strcat(command, "/");
-		cmd_ptr = ft_strcat(command, args[0]);
-		execve(cmd_ptr, args, envp);
+		cmd_ptr = ft_strcat(command, args[0]); //これで /user/bin/ls みたいにパスを完成させる。
+		execve(cmd_ptr, args, envp); //実行がうまく行けば子プロセスはここで終了。
 		cmd_ptr[0] = '\0';
 		i++;
 	}
@@ -105,8 +105,7 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	char	*num_str;
 	char	*status_str;
 
-	// update_val(d_val, "?=0");
-	envp = change_into_array(e_val);// ここで、一回envp にmalloc ガードをつける必要ある。change_into_array も同様。
+	envp = change_into_array(e_val);// execve にわたす環境変数は文字列配列でなくてはならないので、ここで一回リストを文字列配列に直してる。
 	if (!envp)
 	{
 		return (0);
@@ -123,11 +122,10 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	{
 		wait(&status);
 		//ここで終了ステータスを変更する関数を入れる。
-
-		num_str = ft_itoa(WEXITSTATUS(status));
-		status_str = ft_strjoin("?=", num_str);
+		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
+		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形
 		free(num_str);
-		update_val(d_val, status_str);
+		update_val(d_val, status_str);//終了ステータス更新。
 		free(status_str);
 	}
 	if (WEXITSTATUS(status) == 0)

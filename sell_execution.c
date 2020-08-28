@@ -6,14 +6,14 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 12:24:13 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 16:36:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- ** パイプの有無を判断して条件わけをしている。
+ ** 各コマンドを実行する前にパイプの有無を見て処理を変える関数。
 */
 
 int		shell_execute(char **args, t_edlist *vals, char **paths)
@@ -21,10 +21,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	int pipe_count;
 	int	rv;
 
-	// リダイレクトの部分がnull になってしまっているのが問題。
-	// args[1] = "2";
-	pipe_count = count_pipe(args); // パイプの中にリダイレクトがあるとカウントされない。これは問題だ。
-	// args[1] = NULL;
+	pipe_count = count_pipe(args);
 	if (pipe_count == 0)
 	{
 		rv = no_pipe(args, vals, paths); //ここの返り値を見て、成功したら１、失敗したら０
@@ -38,7 +35,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 			if (!update_val(&(vals->d_val), "?=1"))
 				return (1);
 		}
-		else if (rv == 100)//exit の場合。
+		else if (rv == 100)//exit の場合100が帰るようになっている。
 			return (0);
 	}
 	if (pipe_count > 0)
@@ -67,7 +64,7 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 			continue ;
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
-		state = shell_execute(args, &(vals), paths); // <- この先でパイプの処理する。
+		state = shell_execute(args, &(vals), paths); // ”;”　で区切られた各コマンドを実行する関数。
 		if (!state)
 			break;
 		cmd_num--;

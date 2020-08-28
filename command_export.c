@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 11:08:51 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 16:51:37 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ int		command_export(char **args, t_edlist *vals)
 		}
 		if (check_if_key_value(args[i])) //DDD=1234 みたいな形になっていたら
 		{
-			update_val((&vals->e_val), args[i]);
+			update_val((&vals->e_val), args[i]);//リストの更新。
 		}
 		else
 		{
-			if (!(find = search_entry(vals->d_val ,args[i])))
+			if (!(find = search_entry(vals->d_val ,args[i])))//KEYに該当するリストのアドレスを返す。
 			{
 				i++;
 				continue ;
 			}
 			else
 			{
-				update_val((&vals->e_val), find->content);//あたらしい要素をd_val からついか。
+				update_val((&vals->e_val), find->content);//あたらしい要素をd_valから追加。。
 			}
 		}
 		i++;
