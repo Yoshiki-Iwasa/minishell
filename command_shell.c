@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/26 14:23:26 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 10:59:35 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		sig_handle_C(int sig)
 void		sig_handle_bs(int sig)
 {
 	int kill_rv;
-	
+
 	sig = 0;
 	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
@@ -123,7 +123,7 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	{
 		wait(&status);
 		//ここで終了ステータスを変更する関数を入れる。
-		
+
 		num_str = ft_itoa(WEXITSTATUS(status));
 		status_str = ft_strjoin("?=", num_str);
 		free(num_str);

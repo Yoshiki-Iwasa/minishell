@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 08:10:42 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 11:18:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int		add_val(t_list **val, char *arg) //ただ加えるだけじゃなくて、�
 
 /*
  ** すでにあるkey=valueのvalue を変更する。
+ ** もしarg に対応するエントリーが存在しなければarg をリストに追加。
+ ** arg は key=value 型で送られてくる。
 */
 
 int		update_val(t_list **val, char *arg)
@@ -87,7 +89,7 @@ int		update_val(t_list **val, char *arg)
 	char *key;
 	char *tmp;
 
-	key = get_key(arg); // malloc ガード入れる必要あり。 //ここで、'=' を含めたkeyを取得
+	key = get_key(arg);
 	if (!key)
 		return (0);
 	find = search_entry(*val, key);

@@ -14,39 +14,39 @@ void	change_semicon_null(char **args, int *semi_co_place)
 }
 
 /*
- ** シグナルの設定、環境変数をリスト構造に格納、
+ ** シグナルの設定、環境変数をリスト構造に格納、環境変数から$PATH を回収
+ ** d_val はシェル変数のリスト
+ ** e_val は環境変数のリスト
 */
 
 void	shell_start(char **envp)
 {
 	t_edlist vals;
 	char	**paths;
-	
+
 	vals.d_val = NULL;
 	vals.e_val = NULL;
 	setting_signal(); // シグナルハンドルが入っている。
-	if (!update_val(&(vals.d_val), "?=1"))
+	if (!update_val(&(vals.d_val), "?=1")) //終了ステータスを表すシェル変数を?=1で初期化
 	{
 		exit(EXIT_FAILURE);
 	}
-	// ここ以降にメモリリリークが発生する可能性あり。
 	if (!init_e_val_list(&(vals.e_val), envp)) //envp に入っている環境変数達をリスト構造にしてリストe_valを作る。
 	{
 		ft_lstclear(&(vals.d_val), free);
 		exit(EXIT_FAILURE);
 	}
-	paths = get_PATH(vals.e_val); // 環境変数の中からPATH を回収することで、buil in 出ない関数が呼ばれた時も対応できるように。
+	paths = get_PATH(vals.e_val); // 環境変数の中からPATH を回収することで、buil in ではない関数が呼ばれた時も対応できるように。
 	if (!paths)
 	{
 		ft_lstclear(&(vals.d_val), free);
 		ft_lstclear(&(vals.e_val), free);
 		exit(EXIT_FAILURE);
 	}
-	commnad_loop(vals, paths);
-	
-	ft_lstclear(&(vals.d_val), free);//この処理が呼ばれるかはとっても疑問。
-	// でもこれでとりあえず、mainでmalloc した分は解放できる。
-	ft_lstclear(&(vals.e_val), free); //この処理の後、args, e_val をfreeする必要あり。
+	commnad_loop(vals, paths); // ここからがメインの処理。この関数以降で入力が行われる。
+
+	ft_lstclear(&(vals.d_val), free);
+	ft_lstclear(&(vals.e_val), free);
 	free_all(paths, 0);
 }
 

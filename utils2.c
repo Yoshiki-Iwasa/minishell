@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 10:30:40 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 12:42:50 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,9 +219,22 @@ void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
 	while (args[i])
 	{
 		arg = args[i];
-		if (arg[0] == '{')
+		if (arg[0] == '$' && arg[1] == '{')
 		{
-			splited = ft_split(arg, '}'); // これで　{TTT / ddd  みたいになった。
+			splited = ft_split(arg, '}'); // これで　${TTT / ddd  みたいになった。
+			substr = ft_substr(&splited[0][2], 0, ft_strlen(&splited[0][2]));//TTT だけとってくる。　
+			free(splited[0]);
+			splited[0] = ft_strjoin("$", substr); //これで、$TTT みたいにする。
+			trans_each_dollor(splited, d_val, e_val);//これで$TTT の変換完了。
+			chage_dollor_val_space(splited);//trans_each_dollorを超えてなお生き残っておるのは変数リストに存在しないやつ。だから消す。
+			free(arg);
+			arg = joint_strs(splited);
+			free_all(splited, 0);
+			args[i] = arg;//これで、いけたかな。
+		}
+		else if (arg[0] == '{')
+		{
+			splited = ft_split(arg, '}'); // これで　${TTT / ddd  みたいになった。
 			substr = ft_substr(&splited[0][1], 0, ft_strlen(&splited[0][1]));//TTT だけとってくる。　
 			free(splited[0]);
 			splited[0] = ft_strjoin("$", substr); //これで、$TTT みたいにする。
@@ -237,14 +250,14 @@ void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
 }
 
 /*
- ** 各文字列中の$を見つけたら、そこでsplit して、変数変換した後につなぎ合わせて返す関数。
+ ** 各文字列中の$変数をリストを参照して変換する関数。リストになければ、$変数のまま。
 */
 
 int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 {
 	int i = 0;
 	char *arg;
-	int flag;
+	int flag; //
 	char *dollor_place;
 	char **splited;
 
@@ -255,12 +268,11 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 		if ((dollor_place = ft_strchr(arg, '$')) != 0)
 		{
 			if (arg[0] == '$')
-				flag = 0;
+				flag = 1;
 			splited = ft_split(arg, '$'); //これで、'$'以前と以後に別れた
-			//ここで、{}を変換する関数をいれればいいのではないだろうか？
-			change_bracket_val(splited,  d_val, e_val);
 			if (flag)
 				add_dollor(splited);//これで、分割された変数にふたたび$ がついた。
+			change_bracket_val(splited,  d_val, e_val);
 			free(arg);
 			// erase_bracket(splited); // ここで、${}変数を$変数に変える。
 			if (!trans_each_dollor(splited, d_val, e_val))
