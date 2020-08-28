@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 09:35:42 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 10:30:40 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,15 +170,20 @@ int	add_dollor(char **args)
 	while (args[i])
 	{
 		tmp = args[i];
-		args[i] = ft_strjoin("$", args[i]);
-		free(tmp);
+		if (args[i][0] != '$')
+		{
+			args[i] = ft_strjoin("$", args[i]);
+			free(tmp);
+		}
 		i++;
 	}
 	return (1);
 }
 
+
+
 /*
- **
+ ** 存在しない$変数を、空文字列に変えるための関数。
 */
 
 void	chage_dollor_val_space(char **args)
@@ -200,6 +205,38 @@ void	chage_dollor_val_space(char **args)
 }
 
 /*
+ ** {}で囲まれた変数を変換する関数。{}で必ず囲まれてる前提。
+*/
+
+void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
+{
+	int i;
+	char *arg;
+	char **splited;
+	char *substr;
+
+	i = 0;
+	while (args[i])
+	{
+		arg = args[i];
+		if (arg[0] == '{')
+		{
+			splited = ft_split(arg, '}'); // これで　{TTT / ddd  みたいになった。
+			substr = ft_substr(&splited[0][1], 0, ft_strlen(&splited[0][1]));//TTT だけとってくる。　
+			free(splited[0]);
+			splited[0] = ft_strjoin("$", substr); //これで、$TTT みたいにする。
+			trans_each_dollor(splited, d_val, e_val);//これで$TTT の変換完了。
+			chage_dollor_val_space(splited);//trans_each_dollorを超えてなお生き残っておるのは変数リストに存在しないやつ。だから消す。
+			free(arg);
+			arg = joint_strs(splited);
+			free_all(splited, 0);
+			args[i] = arg;//これで、いけたかな。
+		}
+		i++;
+	}
+}
+
+/*
  ** 各文字列中の$を見つけたら、そこでsplit して、変数変換した後につなぎ合わせて返す関数。
 */
 
@@ -207,21 +244,28 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 {
 	int i = 0;
 	char *arg;
+	int flag;
 	char *dollor_place;
 	char **splited;
 
 	while (args[i])
 	{
 		arg = args[i];
+		flag = 0;
 		if ((dollor_place = ft_strchr(arg, '$')) != 0)
 		{
+			if (arg[0] == '$')
+				flag = 0;
 			splited = ft_split(arg, '$'); //これで、'$'以前と以後に別れた
-			add_dollor(splited);//これで、分割された変数にふたたび$ がついた。
+			//ここで、{}を変換する関数をいれればいいのではないだろうか？
+			change_bracket_val(splited,  d_val, e_val);
+			if (flag)
+				add_dollor(splited);//これで、分割された変数にふたたび$ がついた。
 			free(arg);
 			// erase_bracket(splited); // ここで、${}変数を$変数に変える。
-			if (!trans_dollor_valiable(splited, d_val, e_val))
+			if (!trans_each_dollor(splited, d_val, e_val))
 				return (0); //ここで、splited のなかの$変数は変換完了。
-			chage_dollor_val_space(splited);
+			chage_dollor_val_space(splited);//trans_each_dollorを超えてなお生き残っておるのは変数リストに存在しないやつ。だから消す。
 			arg = joint_strs(splited);
 			free_all(splited, 0);
 			args[i] = arg;
@@ -236,7 +280,7 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 	この中で、${}の変換も行う。
 */
 
-int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の時に、ちゃんとno such variableを出せるように。
+int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型の時に、ちゃんとno such variableを出せるように。
 {
 	int		i;
 	char	*arg;
@@ -280,13 +324,6 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 				args[i] = find_value(&d_val, get_key(find->content));
 				free(key);
 			}
-			// else
-			// {
-			// 	flag = 1;
-			// 	free(args[i]);
-			// 	args[i] = ft_strdup("");
-			// 	free(key);
-			// }
 		}
 		i++;
 	}

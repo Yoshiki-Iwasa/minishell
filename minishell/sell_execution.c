@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 09:36:33 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 09:42:18 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,15 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 	{
 		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。
 		// ここ以降でメモリリークが発生する可能性あり。
-		// translate_dollor_valiable(args, (vals.d_val), vals.e_val);
-		// erase_bracket_for_dollor__variable(args);
-		if(!translate_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで$ 変数の格納を行なっている
+		//ここで先に、${} タイプの変数変換を行う必要がある。
+
+		if(!translate_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで　$変数　の変換を行なっている
 		{
 			cmd_num--;
 			if (cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
-		// chage_dollor_val_space(args);//translate_dollor_valiable を抜けてなお$がついてるやつは潰す。
-
 		fix_args(args, 2, '$');
 		//このリダイレクトの処理は、パイプで区切られたコマンド毎に行うべき。
 		// in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
