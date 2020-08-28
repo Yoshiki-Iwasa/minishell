@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:37:54 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 07:42:21 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 17:54:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_all(char **args, char *line)
 
 	i = 0;
 	free(line);
-	while (!args[i])
+	while (args[i])
 	{
 		free(args[i]);
 		i++;

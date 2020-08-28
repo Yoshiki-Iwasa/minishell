@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 16:33:47 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 18:39:28 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,10 +176,11 @@ void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
 		arg = args[i];
 		if (arg[0] == '$' && arg[1] == '{')
 		{
-			splited = ft_split(arg, '}'); // これで　${TTT / ddd  みたいになった。
-			substr = ft_substr(&splited[0][2], 0, ft_strlen(&splited[0][2]));//TTT だけとってくる。　
+			splited = ft_split(arg, '}'); // これで${TTT / ddd  みたいになった。
+			substr = ft_substr(&splited[0][2], 0, ft_strlen(&splited[0][2]));//TTT だけとってくる。
 			free(splited[0]);
 			splited[0] = ft_strjoin("$", substr); //これで、$TTT みたいにする。
+			free(substr);
 			trans_each_dollor(splited, d_val, e_val);//これで$TTT の変換完了。
 			chage_dollor_val_space(splited);//trans_each_dollorを超えてなお生き残っておるのは変数リストに存在しないやつ。だから消す。
 			free(arg);
@@ -193,6 +194,7 @@ void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
 			substr = ft_substr(&splited[0][1], 0, ft_strlen(&splited[0][1]));//TTT だけとってくる。　
 			free(splited[0]);
 			splited[0] = ft_strjoin("$", substr); //これで、$TTT みたいにする。
+			free(substr);
 			trans_each_dollor(splited, d_val, e_val);//これで$TTT の変換完了。
 			chage_dollor_val_space(splited);//trans_each_dollorを超えてなお生き残っておるのは変数リストに存在しないやつ。だから消す。
 			free(arg);
@@ -286,10 +288,14 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 			if((find = search_entry(d_val, key)))
 			{
 				flag = 1;
+				tmp = get_key(find->content);
 				free(args[i]);
-				args[i] = find_value(&d_val, get_key(find->content));
+				args[i] = find_value(&d_val, tmp);
+				free(tmp);
 				free(key);
 			}
+			else
+				free(key);
 		}
 		i++;
 	}
@@ -325,9 +331,13 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 			{
 				flag = 1;
 				free(args[i]);
-				args[i] = find_value(&e_val, get_key(find->content));
+				tmp = get_key(find->content);
+				args[i] = find_value(&e_val, tmp);
+				free(tmp);
 				free(key);
 			}
+			else
+				free(key);
 		}
 		i++;
 	}

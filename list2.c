@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 11:18:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 18:05:05 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,13 @@ int		update_val(t_list **val, char *arg)
 	find = search_entry(*val, key);
 	if (find != NULL)
 	{
+		tmp = find->content;
 		if (!(find->content = ft_strdup(arg)))
 		{
 			free(key);
 			return (0);
 		}
+		free(tmp);
 	}
 	else
 	{

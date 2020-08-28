@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 16:57:39 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 18:10:28 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	else
 	{
 		wait(&status);
+		free_all(envp, 0);
 		//ここで終了ステータスを変更する関数を入れる。
 		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
 		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形

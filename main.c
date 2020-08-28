@@ -23,6 +23,7 @@ void	shell_start(char **envp)
 {
 	t_edlist vals;
 	char	**paths;
+	// int i;
 
 	vals.d_val = NULL;
 	vals.e_val = NULL;
@@ -44,7 +45,6 @@ void	shell_start(char **envp)
 		exit(EXIT_FAILURE);
 	}
 	commnad_loop(vals, paths); // ここからがメインの処理。この関数以降で入力が行われる。
-
 	ft_lstclear(&(vals.d_val), free);
 	ft_lstclear(&(vals.e_val), free);
 	free_all(paths, 0);
@@ -55,5 +55,6 @@ int main(int argc, char **argv, char **envp)
 	argc = 0;
 	argv = 0;
 	shell_start(envp);
+	while(1);
 	return EXIT_SUCCESS;
 }
