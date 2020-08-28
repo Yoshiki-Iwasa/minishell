@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 14:26:41 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 09:36:33 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,48 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 }
 
 /*
+ ** ${KEY} -> $KEY と変換する関数。
+*/
+
+// int	erase_bracket_for_doller_variable(char **args)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (args[i])
+// 	{
+// 		if (args[i][0] == '$' && args[i][1] == '{')
+// 		{
+// 			if (args[i][ft_strlen(args[i]) - 1] != '}')
+// 				return (0);
+// 		}
+// 		i++;
+// 	}
+// }
+
+// /*
+//  **
+// */
+
+// void	chage_dollor_val_space(char **args)
+// {
+// 	int i;
+// 	char *tmp;
+
+// 	i = 0;
+// 	while (args[i])
+// 	{
+// 		if (args[i][0] == '$')
+// 		{
+// 			tmp = args[i];
+// 			args[i] = ft_strdup("");
+// 			free(tmp);
+// 		}
+// 		i++;
+// 	}
+// }
+
+/*
  ** 一個以上のコマンドを順に実行するコマンド。
 */
 
@@ -54,23 +96,22 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 {
 	int		state;
 	int		semi_co_place;
-	// int		fd;
-	// int		stdin_fd;
-	// int		stdout_fd;
-	// int		in_out;
 
 	while(cmd_num)
 	{
-		change_semicon_null(args, &semi_co_place);
-		// escape_fds(&stdin_fd, &stdout_fd);
+		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。
 		// ここ以降でメモリリークが発生する可能性あり。
-		if(!trans_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで$ 変数の格納を行なっている
+		// translate_dollor_valiable(args, (vals.d_val), vals.e_val);
+		// erase_bracket_for_dollor__variable(args);
+		if(!translate_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで$ 変数の格納を行なっている
 		{
 			cmd_num--;
 			if (cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
+		// chage_dollor_val_space(args);//translate_dollor_valiable を抜けてなお$がついてるやつは潰す。
+
 		fix_args(args, 2, '$');
 		//このリダイレクトの処理は、パイプで区切られたコマンド毎に行うべき。
 		// in_out = deal_redirection(args, &fd); //ここでファイルディスクリプターを書き換えて、処理が終わったらクローズして、正しい奴に戻してあげる。
@@ -104,7 +145,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 		line = preparation_for_escape(line);// ’＄’もエスケープに加える必要あり。
 		// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
-			return (0);
+			continue ;
 		args = ft_split(line, ' '); // args が死んだ時の処理必要
 		if (!args)
 		{

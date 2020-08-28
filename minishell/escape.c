@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 14:45:42 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 07:40:41 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,36 @@
 	ダブルクオートをline から排除するための関数。
 */
 
-void	escape_double_q(char *line, char *new_line, int *i, int *j)
+int	escape_double_q(char *line, char *new_line, int *i, int *j)
 {
-	while(line[*i] != '"')
+	while(line[*i] != '"' && line[*i] != '\0')
 	{
 		new_line[*j] = line[*i];
 		(*i)++;
 		(*j)++;
 	}
+	if (line[*i] == '\0')
+		return (0);
 	(*i)++;
+	return (1);
 }
 
 /*
 	シングルクオートをline から排除するための関数。
 */
 
-void	escape_single_q(char *line, char *new_line, int *i, int *j)
+int	escape_single_q(char *line, char *new_line, int *i, int *j)
 {
-	while(line[*i] != 39)
+	while(line[*i] != 39 && line[*i] != '\0')
 	{
 		new_line[*j] = line[*i];
 		(*i)++;
 		(*j)++;
 	}
+	if (line[*i] == '\0')
+		return (0);
 	(*i)++;
+	return (1);
 }
 
 /*
@@ -66,12 +72,23 @@ char	*preparation_for_escape(char *line)
 		if (line[i] == '"')
 		{
 			i++;
-			escape_double_q(line, new_line, &i, &j);
+			if(!escape_double_q(line, new_line, &i, &j))
+			{
+				free(new_line);
+				ft_putendl("bash : Bad quotation");
+				return (0);
+			}
 		}
 		else if (line[i] == 39)
 		{
+
 			i++;
-			escape_single_q(line, new_line, &i, &j);
+			if(!escape_single_q(line, new_line, &i, &j))
+			{
+				ft_putendl("bash : Bad quotation");
+				free(new_line);
+				return (0);
+			}
 		}
 		new_line[j] = line[i];
 		i++;

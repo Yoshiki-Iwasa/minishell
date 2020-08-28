@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 08:40:00 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 09:35:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,151 @@ char	*convert_key_value(char **args, int index, t_list *d_val) // まず、split
 
 
 }
+
+/*
+ ** ${KEY} を検知して、splite させる。${KEY}の変換を行った後に結合させてreturn;
+*/
+
+// char **erase_bracket(char **args)
+// {
+// 	int i = 0;
+// 	char *arg;
+// 	char **splited;
+
+// 	while (args[i])
+// 	{
+// 		arg = args[i];
+// 		if (arg[0] == '$')
+// 		{
+// 			if (arg[1] == '{')
+// 			{
+// 				if (!ft_strchr(arg, '}')) //ちゃんと'}'があるかどうかチェック。
+// 				{
+// 					ft_putendl("bash : Bad bracket");
+// 					return (0);
+// 				}
+// 				else
+// 				{
+// 					splited = ft_split(arg, '}');// ここで${}で文字列分けたので次で結合。
+// 					free(arg);
+
+// 				}
+
+// 			}
+// 			else
+// 			{
+// 				i++;
+// 				continue ;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			i++;
+// 			continue ;
+// 		}
+
+// 	}
+// }
+
+/*
+ ** 文字列を結合させる関数。
+*/
+
+char *joint_strs(char **args)
+{
+	char *ret;
+	char *tmp;
+	int i;
+
+	i = 0;
+	ret = ft_strdup("");
+	while (args[i])
+	{
+		tmp = ret;
+		ret = ft_strjoin(ret, args[i]);
+		free(tmp);
+		i++;
+	}
+	return (ret);
+}
+
+/*
+ ** 先頭に無理やり、'=' をつける関数。
+*/
+
+int	add_dollor(char **args)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	while (args[i])
+	{
+		tmp = args[i];
+		args[i] = ft_strjoin("$", args[i]);
+		free(tmp);
+		i++;
+	}
+	return (1);
+}
+
+/*
+ **
+*/
+
+void	chage_dollor_val_space(char **args)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	while (args[i])
+	{
+		if (args[i][0] == '$')
+		{
+			tmp = args[i];
+			args[i] = ft_strdup("");
+			free(tmp);
+		}
+		i++;
+	}
+}
+
+/*
+ ** 各文字列中の$を見つけたら、そこでsplit して、変数変換した後につなぎ合わせて返す関数。
+*/
+
+int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
+{
+	int i = 0;
+	char *arg;
+	char *dollor_place;
+	char **splited;
+
+	while (args[i])
+	{
+		arg = args[i];
+		if ((dollor_place = ft_strchr(arg, '$')) != 0)
+		{
+			splited = ft_split(arg, '$'); //これで、'$'以前と以後に別れた
+			add_dollor(splited);//これで、分割された変数にふたたび$ がついた。
+			free(arg);
+			// erase_bracket(splited); // ここで、${}変数を$変数に変える。
+			if (!trans_dollor_valiable(splited, d_val, e_val))
+				return (0); //ここで、splited のなかの$変数は変換完了。
+			chage_dollor_val_space(splited);
+			arg = joint_strs(splited);
+			free_all(splited, 0);
+			args[i] = arg;
+		}
+		i++;
+	}
+	return (1);
+}
+
 /*
 	入力の中に＄があるかどうか探す。そして変数リストから検索して値を変換して返す
+	この中で、${}の変換も行う。
 */
 
 int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value 型の時に、ちゃんとno such variableを出せるように。
@@ -125,7 +268,7 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 			}
 
 		}
-		if (arg[0] == '$')
+		if (arg[0] == '$')// $KEY の　パターン。
 		{
 			key = ft_strjoin(&arg[1], "=");
 			if (!key)
@@ -139,9 +282,10 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 			}
 			// else
 			// {
-			// 	ft_putstr_fd(args[i], 1);
-			// 	ft_putendl(" : No such valiable :)");
-			// 	return (0);
+			// 	flag = 1;
+			// 	free(args[i]);
+			// 	args[i] = ft_strdup("");
+			// 	free(key);
 			// }
 		}
 		i++;
@@ -183,7 +327,10 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 			}
 			// else
 			// {
-			
+			// 	flag = 1;
+			// 	free(args[i]);
+			// 	args[i] = ft_strdup("");
+			// 	free(key);
 			// }
 		}
 		i++;
@@ -193,6 +340,6 @@ int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val)//key=value
 	// 	ft_putendl("No such valiable :)");
 	// 	return (0);
 	// }
-	
+
 	return (1);
 }
