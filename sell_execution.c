@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 16:36:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/28 17:08:45 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 int		shell_execute(char **args, t_edlist *vals, char **paths)
 {
-	int pipe_count;
-	int	rv;
+	int pipe_count; //パイプの個数。
+	int	rv; //コマンド実行時の返り値を取得。
 
 	pipe_count = count_pipe(args);
 	if (pipe_count == 0)
@@ -55,7 +55,6 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 	while(cmd_num)
 	{
 		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。同時に、セミコロンが合った場所はNULLにしてある。
-		// ここ以降でメモリリークが発生する可能性あり。
 		if(!translate_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで、$変数を変換している。
 		{
 			cmd_num--;
@@ -91,7 +90,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 		if (!read_command(&line)) //get_next_lineでコマンドラインの入力取得。
 			continue ;
 		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable を挿入
-											// スペースは 1, $ は 2 にしてある。
+											// ' 'は 1, '$' は 2 にしてある。
 									// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
 			continue ;
