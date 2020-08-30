@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 07:40:41 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/30 10:48:11 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,25 @@
 	ダブルクオートをline から排除するための関数。
 */
 
+// ダブルクオートの数を数えて、奇数だったらerror
 int	escape_double_q(char *line, char *new_line, int *i, int *j)
 {
-	while(line[*i] != '"' && line[*i] != '\0')
+	int quote_count;
+
+	quote_count = 0;
+	while(line[*i] != '\0')
 	{
+		if (line[*i] == '"')
+		{
+			(*i)++;
+			quote_count++;
+			continue ;
+		}
 		new_line[*j] = line[*i];
 		(*i)++;
 		(*j)++;
 	}
-	if (line[*i] == '\0')
+	if (quote_count % 2 != 0)
 		return (0);
 	(*i)++;
 	return (1);
@@ -33,16 +43,25 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 /*
 	シングルクオートをline から排除するための関数。
 */
-
+// シングルクオートの数を数えて、奇数だったらerror
 int	escape_single_q(char *line, char *new_line, int *i, int *j)
 {
-	while(line[*i] != 39 && line[*i] != '\0')
+	int quote_count;
+
+	quote_count = 0;
+	while(line[*i] != '\0')
 	{
+		if (line[*i] == 39)
+		{
+			(*i)++;
+			quote_count++;
+			continue ;
+		}
 		new_line[*j] = line[*i];
 		(*i)++;
 		(*j)++;
 	}
-	if (line[*i] == '\0')
+	if (quote_count % 2 != 0)
 		return (0);
 	(*i)++;
 	return (1);
@@ -71,7 +90,6 @@ char	*preparation_for_escape(char *line)
 	{
 		if (line[i] == '"')
 		{
-			i++;
 			if(!escape_double_q(line, new_line, &i, &j))
 			{
 				free(new_line);
@@ -81,8 +99,6 @@ char	*preparation_for_escape(char *line)
 		}
 		else if (line[i] == 39)
 		{
-
-			i++;
 			if(!escape_single_q(line, new_line, &i, &j))
 			{
 				ft_putendl("bash : Bad quotation");
