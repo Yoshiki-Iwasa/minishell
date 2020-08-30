@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 10:48:11 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/30 11:44:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 		(*i)++;
 		(*j)++;
 	}
+	new_line[*j] = '\0';
 	if (quote_count % 2 != 0)
 		return (0);
-	(*i)++;
+	// (*i)++;
 	return (1);
 }
 
@@ -61,15 +62,18 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 		(*i)++;
 		(*j)++;
 	}
+		new_line[*j] = '\0';
+
 	if (quote_count % 2 != 0)
 		return (0);
-	(*i)++;
+	// (*i)++;
 	return (1);
 }
 
 /*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にしてクオートを削除
 */
+
 char	*preparation_for_escape(char *line)
 {
 	int		i;

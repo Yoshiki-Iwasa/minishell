@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 10:06:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/30 11:34:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,15 @@ char	**add_new_path(char *new_path, char **paths)
 	while(paths[i])
 		i++;
 	str_num = i;
-	new_paths = malloc(sizeof(char *) * i + 2);// 新しいpath と NULL分。
+	new_paths = malloc(sizeof(char *) * (i + 2));// 新しいpath と NULL分。
 	i = 0;
 	while (paths[i])
 	{
 		new_paths[i] = ft_strdup(paths[i]);
 		i++;
 	}
-	new_paths[i++] = ft_strdup(new_path);
+	new_paths[i] = ft_strdup(new_path);
+	i++;
 	new_paths[i] = NULL;
 	return (new_paths);
 }
@@ -151,7 +152,7 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 			continue ;
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
-		paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。
+		paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)
 		state = shell_execute(args, &(vals), paths); // ”;”　で区切られた各コマンドを実行する関数。
 		free_all(paths, 0);
 		paths = tmp;
