@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 17:57:41 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/30 10:06:04 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,92 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 }
 
 /*
+ ** paths に新しいパスを追加する関数。
+*/
+
+char	**add_new_path(char *new_path, char **paths)
+{
+	int str_num;
+	char **new_paths;
+	int i;
+
+	i = 0;
+	while(paths[i])
+		i++;
+	str_num = i;
+	new_paths = malloc(sizeof(char *) * i + 2);// 新しいpath と NULL分。
+	i = 0;
+	while (paths[i])
+	{
+		new_paths[i] = ft_strdup(paths[i]);
+		i++;
+	}
+	new_paths[i++] = ft_strdup(new_path);
+	new_paths[i] = NULL;
+	return (new_paths);
+}
+
+/*
+ ** 文字列配列を複製する関数。
+*/
+
+char	**ft_strsdup(char **args)
+{
+	int i;
+	char **new_args;
+
+	i = 0;
+	while (args[i])
+		i++;
+	new_args = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (args[i])
+	{
+		new_args[i] = ft_strdup(args[i]);
+		i++;
+	}
+	new_args[i] = NULL;
+	return (new_args);
+}
+
+/*
+ ** arg[0]が "." または、 "/" で始まっていたら、paths に相対or 絶対パスを追加。そして、arg[0] をパスなしの実行ファイル名に変える。
+*/
+
+char	**add_paths_and_change_arg0(char **argZero, char **paths)
+{
+	int i;
+	char *execFile_ptr;
+	char *new_path;
+
+	i = 0;
+	if (((*argZero)[0] == '.' || (*argZero)[0] == '/' ) && (*argZero)[1] != '\0')
+	{
+		i = ft_strlen(*argZero);
+		while (i >= 0)
+		{
+			if ((*argZero)[i] == '/') //パスとして最後のスラッシュを探している。
+			{
+				execFile_ptr = ft_strdup(&(*argZero)[i + 1]);
+				new_path = ft_substr(*argZero, 0, i);// スラッシュの一個手前まで取ってくる。
+				free(*argZero);
+				paths = add_new_path(new_path, paths);
+				*argZero = execFile_ptr;// arg0 を実行ファイル名のみに。
+				free(new_path);
+				break ;
+			}
+			i--;
+		}
+		return (paths);
+	}
+	else
+	{
+		return (ft_strsdup(paths));
+	}
+
+}
+
+/*
  ** 一個以上のコマンドを順に実行するコマンド。
 */
 
@@ -51,10 +137,12 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 {
 	int		state;
 	int		semi_co_place;
+	char	**tmp;
 
+	tmp = paths;
 	while(cmd_num)
 	{
-		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。同時に、セミコロンが合った場所はNULLにしてある。
+		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。同時に、セミコロンがあった場所はNULLにしてある。
 		if(!translate_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで、$変数を変換している。
 		{
 			cmd_num--;
@@ -63,7 +151,10 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 			continue ;
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
+		paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。
 		state = shell_execute(args, &(vals), paths); // ”;”　で区切られた各コマンドを実行する関数。
+		free_all(paths, 0);
+		paths = tmp;
 		if (!state)
 			break;
 		cmd_num--;

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 18:10:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/30 09:52:09 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	child_precess(char **args, char **envp, char **paths)// args には "ls" "-l
 		cmd_ptr = ft_strcat(command, paths[i]); //環境変数PATH を一個ずつ試す。
 		cmd_ptr = ft_strcat(command, "/");
 		cmd_ptr = ft_strcat(command, args[0]); //これで /user/bin/ls みたいにパスを完成させる。
+		//相対パスと、絶対パスによる実行のために、コマンドの入力が スラッシュか、ピリオ土ではじまったときは、パスをpaths に追加した後、args[0]を編集する。
 		execve(cmd_ptr, args, envp); //実行がうまく行けば子プロセスはここで終了。
 		cmd_ptr[0] = '\0';
 		i++;
