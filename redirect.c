@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 10:12:47 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 10:42:04 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,23 @@ void	change_stdin_fd(char *arg, int *fd)
 */
 void	change_stdout_fd_for_append(char *arg, int *fd)
 {
-	*fd = open(arg, O_RDWR | O_APPEND | O_CREAT , S_IRWXU);
+	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);
 	close(1);
 	dup2(*fd, 1);
 	close(*fd);
 
 }
+
+/*標準error出力のリダイレクトの実装*/
+
+void	change_stderror_fd(char *arg, int *fd)
+{
+	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);
+	close(2); //標準出力を閉じる。
+	dup2(*fd, 2);//fd のコピーを　0　として作成。
+	close(*fd);// もともとのfd はいらないので閉じる。
+}
+
 /*
 	リダイレクトの処理をする。具体的には、fd の値を書き換えて標準入出力先を変更する。
 */
@@ -52,10 +63,12 @@ int		deal_redirection(char **args, int *fd)
 	int i;
 	int flag_in;
 	int flag_out;
+	int flag_error;
 
 	i = 0;
 	flag_in = 0;
 	flag_out = 0;
+	flag_error = 0;
 	while (args[i])
 	{
 		if(!ft_strcmp(args[i], "<"))
@@ -65,7 +78,7 @@ int		deal_redirection(char **args, int *fd)
 			change_stdin_fd(args[i], fd);
 			flag_in = 1;
 		}
-		else if(!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|"))
+		else if(!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|") || !ft_strcmp(args[i], "1>"))
 		{
 			args[i] = NULL; //リダイレクトの記号が引数にならないようNULL にする。
 			i++;
@@ -79,13 +92,21 @@ int		deal_redirection(char **args, int *fd)
 			change_stdout_fd_for_append(args[i], fd);
 			flag_out = 1;
 		}
+		else if (!ft_strcmp(args[i], "2>"))
+		{
+			args[i] = NULL;
+			i++;
+			change_stderror_fd(args[i], fd);
+		}
 		i++;
 	}
 	if (flag_in && !flag_out)
 		return (0);
 	else if (flag_out && !flag_in)
 		return (1);
-	else
+	else if (flag_error)
 		return (2);
+	else
+		return (3);
 
 }

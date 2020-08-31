@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 16:51:37 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 10:43:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int		command_export(char **args, t_edlist *vals)
 	{
 		if (!ft_isalpha(args[i][0]))//先頭がアルファベットじゃなかったらerror
 		{
-			ft_putstr_fd("bash: export: ", 1);
-			ft_putstr_fd(args[i], 1);
-			ft_putstr_fd(": not a valid identifier\n", 1);
+			ft_putstr_fd("bash: export: ", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
 			return (0);
 		}
 		if (check_if_key_value(args[i])) //DDD=1234 みたいな形になっていたら
