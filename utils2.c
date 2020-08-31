@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 18:39:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 09:55:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,31 @@ int		check_doller_exit(char *arg)
 	return (0);
 }
 
+// /*
+//  ** シェル変数に使ない文字が来た段階で文字列を分割し、必要なぶんだけ格納する。
+// */
+
+// char	**devide_arg(char *arg)//まず、
+// {
+// 	int i;
+// 	char **ret;
+// 	char *tmp;
+// 	char charset[2];
+
+// 	i = 0;
+// 	while (arg[i])
+// 	{
+// 		if (arg[i] != '_' && !ft_isalnum(arg[i])) //shell 変数に使えない文字が来た。
+// 		{
+// 			charset[0] = arg[i];
+// 			charset[1] = '\0'; //後で結合するための文字列作成。
+// 			ret = ft_split(arg, charset[0]); // c で分割。これではこまるか。。。。
+// 			// *tmp = 　　　　　　
+// 		}
+// 		i++;
+// 	}
+// }
+
 /*
 	$key=$value の様になっている文字列を key=value の形に治す
 */
@@ -54,6 +79,7 @@ char	*convert_key_value(char **args, int index, t_list *d_val) // まず、split
 	char **tmp_args; //key , value の文字列を格納する関数。
 	char *join_1;
 	char *join_2;
+	// char **tmp_strs;
 	t_list *find;
 	int	i;
 
@@ -63,7 +89,9 @@ char	*convert_key_value(char **args, int index, t_list *d_val) // まず、split
 	{
 		if (tmp_args[i][0] == '$')
 		{
-			if((find = search_entry(d_val, &tmp_args[i][1])))
+			//serch_entry で探す前にシェル変数を分割して、search したあとjoin。
+			// tmp_strs = devide_arg(&tmp_args[i][1]);
+			if ((find = search_entry(d_val, &tmp_args[i][1])))
 			{
 				free(tmp_args[i]);
 				tmp_args[i] = find_value(&d_val, get_key(find->content));
@@ -207,6 +235,38 @@ void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
 }
 
 /*
+ ** 文字列中の、'$'の数を数える関数
+*/
+
+int		count_dollor(char *str)
+{
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int		count_strs(char **args)
+{
+	int i;
+
+	i = 0;
+	while (args[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+/*
  ** 各文字列中の$変数をリストを参照して変換する関数。リストになければ、$変数のまま。
 */
 
@@ -216,6 +276,9 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 	char *arg;
 	int flag; //
 	char **splited;
+	int count;
+	int strs_num;
+	char *tmp;
 
 	while (args[i])
 	{
@@ -223,11 +286,23 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 		flag = 0;
 		if (ft_strchr(arg, '$') != 0)
 		{
-			if (arg[0] == '$')//先頭に$ があるときだけ場合分け。111111111${USER}111111とかに対応するため。
-				flag = 1;
-			splited = ft_split(arg, '$'); //これで、'$'以前と以後に別れた
-			if (flag)
-				add_dollor(splited);//これで、分割された変数にふたたび$がついた。
+			count = count_dollor(arg); //何個$ があるかを確認。
+			// if (arg[0] == '$')//先頭に$ があるときだけ場合分け。111111111${USER}111111とかに対応するため。
+			// 	flag = 1;
+			splited = ft_split(arg, '$'); //これで、'$'以前と以後に別れた <-ここまでは悪くない気がする。
+			//この後にうしろから順次$ を結合させていく。
+			strs_num = count_strs(splited);
+			while (count)
+			{
+				tmp = splited[strs_num - 1];
+				splited[strs_num - 1] = ft_strjoin("$", splited[strs_num - 1]);
+				free(tmp);
+				strs_num--;
+				count--;
+			} // これで、$を含んだ形でsplit をすることができた。
+			//次は、各splited に対して、変換を行いたいところ。
+			// if (flag)
+			// 	add_dollor(splited);//これで、分割された変数にふたたび$がついた。
 			change_bracket_val(splited,  d_val, e_val);// ${変数}タイプの変数に対応するためのもの。
 			free(arg);
 			if (!trans_each_dollor(splited, d_val, e_val))// $変数タイプの変換を担当する関数。
@@ -255,89 +330,97 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 	char	*key;
 	int		flag;
 	t_list	*find;
-
+	char *strs[3];
+	int index;
+	//　この中で、$KKK:555555 みたいなのがあったら、 分割して、探索する必要がある。
+	// そうすれば、key=value 型かどうかなんて気にする必要ない
 	flag = 0;
 	i = 0; //d_val を確認しに行く
 	while (args[i])
 	{
-		arg = args[i];
-		if (check_if_key_value(arg)) // ここで、key_value なのか確認する。そしたら別処理。export KEY=VALUE のための対策。
-		{
-			if (check_doller_exit(arg)) //先頭に'$'が入っている、または'=$'の形になっていないか確認。
-			{
-				//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
-				// "$変数=value" -> "key=value" 、"key=$変数" -> "key=value", $変数=$変数 -> "key=value"
-				tmp = convert_key_value(args, i, d_val);
-				free(args[i]);
-				args[i] = tmp;
-				i++;
-				continue;
-			}
-			else
-			{
-				i++;
-				continue; // 次の文字列へ。
-			}
-
-		}
+		arg = args[i]; //この各arg に対してft_substr でシェル変数部分だけ回収してくる。
 		if (arg[0] == '$')//echo $KEY のパターン。
 		{
-			key = ft_strjoin(&arg[1], "=");
+			//そしたら、どこまでをshell変数として見なくては行けないかをかぞえてくる。
+			//そして分割。
+			index = 1;
+			while (arg[index] == '_' || ft_isalnum(arg[index])) //'_' か '英数字'のときのみ数える。
+			{
+				index++;
+			}
+			strs[0] = ft_substr(arg, 0, index);
+			strs[1] = ft_substr(arg, index, ft_strlen(arg));
+			strs[2] = NULL; //これ以降、探索はstrs[0] について行う。
+			key = ft_strjoin(&strs[0][1], "=");
 			if (!key)
 				return (0);
-			if((find = search_entry(d_val, key)))
+			if((find = search_entry(d_val, key))) //エントリーを回収してくる。
 			{
 				flag = 1;
-				tmp = get_key(find->content);
-				free(args[i]);
-				args[i] = find_value(&d_val, tmp);
+				tmp = get_key(find->content); //エントリーの中からkey だけを回収。
+				free(strs[0]);
+				strs[0] = find_value(&d_val, tmp);//key に該当するvalue を回収。
 				free(tmp);
 				free(key);
+				free(arg);
+				args[i] = ft_strjoin(strs[0], strs[1]);
+				free(strs[0]);
+				free(strs[1]);
 			}
 			else
+			{
+				free(strs[0]);
+				// strs[0] = ft_strdup("");
+				// args[i] = ft_strjoin(strs[0], strs[1]);
+				// free(strs[0]);
+				free(strs[1]);
 				free(key);
+			}
 		}
 		i++;
 	}
 	// e_val を確認しにいく。
-	i = 0;
+	i = 0; //d_val を確認しに行く
 	while (args[i])
 	{
-		arg = args[i];
-		if (check_if_key_value(arg)) // ここで、key_value なのか確認する。そしたら別処理。
+		arg = args[i]; //この各arg に対してft_substr でシェル変数部分だけ回収してくる。
+		if (arg[0] == '$')//echo $KEY のパターン。
 		{
-			if (check_doller_exit(arg)) //先頭か、= の直後に "$" が入ってないか確認する。
+			//そしたら、どこまでをshell変数として見なくては行けないかをかぞえてくる。
+			//そして分割。
+			index = 1;
+			while (arg[index] == '_' || ft_isalnum(arg[index])) //'_' か '英数字'のときのみ数える。
 			{
-				//入ってきたら、その文字列をコンバートして、文字列作って、その先頭アドレスを返す。
-				tmp = convert_key_value(args, i, e_val);
-				free(args[i]);
-				args[i] = tmp;
-				i++;
-				continue;
+				index++;
 			}
-			else
-			{
-				i++;
-				continue; // 次の文字列へ。
-			}
-
-		}
-		if (arg[0] == '$')
-		{
-			key = ft_strjoin(&arg[1], "=");
+			strs[0] = ft_substr(arg, 0, index);
+			strs[1] = ft_substr(arg, index, ft_strlen(arg));
+			strs[2] = NULL; //これ以降、探索はstrs[0] について行う。
+			key = ft_strjoin(&strs[0][1], "=");
 			if (!key)
 				return (0);
-			if((find = search_entry(e_val, key)))
+			if((find = search_entry(e_val, key))) //エントリーを回収してくる。
 			{
 				flag = 1;
-				free(args[i]);
-				tmp = get_key(find->content);
-				args[i] = find_value(&e_val, tmp);
+				tmp = get_key(find->content); //エントリーの中からkey だけを回収。
+				free(strs[0]);
+				strs[0] = find_value(&e_val, tmp);//key に該当するvalue を回収。
 				free(tmp);
 				free(key);
+				free(arg);
+				args[i] = ft_strjoin(strs[0], strs[1]);
+				free(strs[0]);
+				free(strs[1]);
 			}
 			else
+			{
+				free(strs[0]);
+				strs[0] = ft_strdup("");
+				args[i] = ft_strjoin(strs[0], strs[1]);
+				free(strs[0]);
+				free(strs[1]);
 				free(key);
+			}
 		}
 		i++;
 	}
