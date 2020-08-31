@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 11:34:55 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 11:28:12 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	if (pipe_count == 0)
 	{
 		rv = no_pipe(args, vals, paths); //ここの返り値を見て、成功したら１、失敗したら０
-		if (rv == 1)
+		if (rv == 0)
 		{
 			if (!update_val(&(vals->d_val), "?=0"))
 				return (1);
 		}
-		else if (rv == 0)
+		else if (rv == 1)
 		{
 			if (!update_val(&(vals->d_val), "?=1"))
 				return (1);
@@ -38,8 +38,22 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 		else if (rv == 100)//exit の場合100が帰るようになっている。
 			return (0);
 	}
-	if (pipe_count > 0)
-		yes_pipe(args, vals, paths, pipe_count);
+	else
+	{
+		rv = yes_pipe(args, vals, paths, pipe_count);
+		if (rv == 0)
+		{
+			if (!update_val(&(vals->d_val), "?=0"))
+				return (1);
+		}
+		else if (rv == 1)
+		{
+			if (!update_val(&(vals->d_val), "?=1"))
+				return (1);
+		}
+		else if (rv == 100)//exit の場合100が帰るようになっている。
+			return (0);
+	}
 	return (1);
 }
 

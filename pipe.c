@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 10:40:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 11:31:08 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,13 @@ void	args_into_array(char **args, char ****args_array, int pipe_num)
 void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **paths)
 {
 	pid_t ret;
+	int rv;
 	int pp[2] = {};
 	if (i == com_num - 1)
 	{
 		// 左端なら単に実行
-		no_pipe(args_array[0], vals, paths);
-		exit(0);
+		rv = no_pipe(args_array[0], vals, paths);
+		exit(rv);
 	}
 	else
 	{
@@ -181,6 +182,8 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	char	**envp;
 	int		status;
 	char	***args_array; // こいつ最終的にfreeする必要あり。
+	char	*num_str;
+	char	*status_str;
 
 	envp = change_into_array(vals->e_val); //環境変数リストを文字列に変換。
 	args_into_array(args, &args_array, pipe_count);// ここまでで、args_array でコマンドをパイプごとに分割できた
@@ -194,6 +197,17 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	else
 	{
 		wait(&status);
+		free_all(envp, 0);
+		//ここで終了ステータスを変更する関数を入れる。
+		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
+		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形
+		free(num_str);
+		update_val(&(vals->d_val), status_str);//終了ステータス更新。
+		free(status_str);
 	}
-	return (0);
+	if (WEXITSTATUS(status) == 0)
+		return (1);
+	if (WEXITSTATUS(status) == 1)
+		return (0);
+	return (WEXITSTATUS(status));
 }

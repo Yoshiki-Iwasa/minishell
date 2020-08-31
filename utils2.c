@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 09:55:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 10:58:00 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,7 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 			//そしたら、どこまでをshell変数として見なくては行けないかをかぞえてくる。
 			//そして分割。
 			index = 1;
-			while (arg[index] == '_' || ft_isalnum(arg[index])) //'_' か '英数字'のときのみ数える。
+			while (arg[index] == '_' || ft_isalnum(arg[index]) || arg[index] == '?') //'_' か '英数字'のときのみ数える。
 			{
 				index++;
 			}

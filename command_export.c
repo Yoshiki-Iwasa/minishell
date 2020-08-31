@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 10:43:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 11:24:28 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		command_export(char **args, t_edlist *vals)
 			ft_putstr_fd("bash: export: ", 2);
 			ft_putstr_fd(args[i], 2);
 			ft_putstr_fd(": not a valid identifier\n", 2);
-			return (0);
+			return (1);
 		}
 		if (check_if_key_value(args[i])) //DDD=1234 みたいな形になっていたら
 		{
@@ -49,5 +49,5 @@ int		command_export(char **args, t_edlist *vals)
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }

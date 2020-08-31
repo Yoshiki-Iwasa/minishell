@@ -21,6 +21,9 @@ int	command_cd(char *arg, t_list **e_val)
 	}
 	chdir_rv = chdir(arg);
 	if (chdir_rv == -1)
+	{
 		ft_putendl_fd(strerror(errno), 1);
-	return (1);
+		return (1);
+	}
+	return (0);
 }

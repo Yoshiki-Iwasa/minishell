@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 09:52:09 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/08/31 11:20:07 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		sig_handle_C(int sig)
 	write(1, "\b\b  ", 4);
 	sig = 0;
 	if (g_pid != 0)
-		kill_rv = kill(g_pid, SIGKILL);
+		kill_rv = kill(g_pid, SIGINT);
 	else
 		kill_rv = -1;
 	write(1, "\n",1);
@@ -125,14 +125,15 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 		free_all(envp, 0);
 		//ここで終了ステータスを変更する関数を入れる。
 		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
+		// printf("status = %s\n", num_str);
 		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形
 		free(num_str);
 		update_val(d_val, status_str);//終了ステータス更新。
 		free(status_str);
 	}
 	if (WEXITSTATUS(status) == 0)
-		return (1);
-	if (WEXITSTATUS(status) == 1)
 		return (0);
+	if (WEXITSTATUS(status) == 1)
+		return (1);
 	return (WEXITSTATUS(status));
 }

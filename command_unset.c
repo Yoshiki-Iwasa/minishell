@@ -32,5 +32,5 @@ int	command_unset(char **args, t_list *e_val, t_list *d_val)
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
