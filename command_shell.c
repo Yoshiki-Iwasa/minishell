@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/01 21:04:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/01 21:09:16 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		sig_handle_bs(int sig)
 	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
-
+		ft_putstr_fd("^\\Quit: 3\n", 1);
 		kill_rv = kill(g_pid, SIGQUIT);
 	}
 	else
