@@ -73,5 +73,6 @@ int		commnad_loop(t_edlist vals, char **paths);
 void	change_semicon_null(char **args, int *semi_co_place);
 int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val);
 int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val);//key=value 型の時に、ちゃんとno such variableを出せるように。
+char	**add_paths_and_change_arg0(char **argZero, char **paths);
 
 #endif

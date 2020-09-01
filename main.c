@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+#ifdef LEAKS
+
+__attribute__((destructor))
+void  end()
+{
+  while(1);
+}
+
+#endif
 /*
  ** コマンドを分割するために  セミコロンの部分をnull にしている
  ** args をあとでまとめてfree するためにNULL で　；　を埋めてる

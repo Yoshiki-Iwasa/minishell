@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 11:28:12 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/01 07:53:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 {
 	int		state;
 	int		semi_co_place;
-	char	**tmp;
+	// char	**tmp;
 
-	tmp = paths;
+	// tmp = paths;
 	while(cmd_num)
 	{
 		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。同時に、セミコロンがあった場所はNULLにしてある。
@@ -166,10 +166,10 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 			continue ;
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
-		paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)
+		// paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)
 		state = shell_execute(args, &(vals), paths); // ”;”　で区切られた各コマンドを実行する関数。
-		free_all(paths, 0);
-		paths = tmp;
+		// free_all(paths, 0);
+		// paths = tmp;
 		if (!state)
 			break;
 		cmd_num--;

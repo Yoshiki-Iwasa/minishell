@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 11:31:08 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/01 08:03:15 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	int rv;
 
 	escape_fds(&stdin_fd, &stdout_fd, &stderror_fd); //リダイレクトのあとに標準入出力を復帰させるためにエスケープさせる。
+	paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)
 	in_out = deal_redirection(args, &fd);//リダイレクトの処理を入れている。
 	if (!ft_strncmp(args[0], "exit", 5))
 		rv = (command_exit());
@@ -96,6 +97,7 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	else
 		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));//build inではないコマンドが呼ばれるときに使われる。
 	recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd, &stderror_fd);//標準入出力のfd を復帰させる。
+	free_all(paths, 0);
 	return (rv);
 }
 
