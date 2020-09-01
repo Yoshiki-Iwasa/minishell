@@ -6,13 +6,14 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 11:20:07 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/01 21:04:43 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 pid_t	g_pid;
+int		g_count;
 
 /*
  ** シグナルハンドラー(ctrl-C 用)
@@ -24,12 +25,16 @@ void		sig_handle_C(int sig)
 	write(1, "\b\b  ", 4);
 	sig = 0;
 	if (g_pid != 0)
+	{
+		write(1, "\b\b^C", 4);
 		kill_rv = kill(g_pid, SIGINT);
+		write(1, "\n",1);
+	}
 	else
-		kill_rv = -1;
-	write(1, "\n",1);
-	if (kill_rv == -1)
-	ft_putstr_fd("minishell$ ", 1);
+	{
+		write(1, "\n",1);
+		ft_putstr_fd("minishell$ ", 1);
+	}
 }
 
 /*
@@ -44,6 +49,7 @@ void		sig_handle_bs(int sig)
 	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
+
 		kill_rv = kill(g_pid, SIGQUIT);
 	}
 	else
