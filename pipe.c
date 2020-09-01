@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/01 08:03:15 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/01 15:15:17 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,11 +163,11 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 				// 子プロセスの実行を待った後に
 				// 親プロセスならパイプをstdinにdup2して、
 				// 右からi番目のコマンドを実行
-				wait(NULL);
 				close(pp[1]);
 				dup2(pp[0], 0);
 				close(pp[0]);
 				no_pipe(args_array[com_num -i -1], vals, paths);
+				wait(NULL);
 				exit(0);
 		}
 	}

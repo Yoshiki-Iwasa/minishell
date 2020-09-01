@@ -1,0 +1,1 @@
+echo "stderr" >&2
