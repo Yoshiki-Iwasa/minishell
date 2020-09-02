@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/01 15:15:17 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 10:42:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,29 @@ int		count_pipe(char **args)
 	return (count);
 }
 
+/*
+ ** シェル変数に使える文字列かどうかをチェック key に アンダーバー以外の特殊文字が入ってたらOUT
+*/
+
+int		check_key_str(char *arg)
+{
+	int i;
+
+	i = 0;
+	if (ft_isdigit(arg[0]))
+	{
+		return (0);
+	}
+	while (arg[i] != '\0' && arg[i] != '=')
+	{
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
+		{
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 /*
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
@@ -92,7 +115,7 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 		rv = (command_export(args, vals));
 	else if(!ft_strncmp(args[0], "unset", 7))
 		rv = (command_unset(&args[1], vals->e_val, vals->d_val));// shell変数更新のための関数。
-	else if(check_if_key_value(args[0]))
+	else if(check_if_key_value(args[0]) && check_key_str(args[0]))
 		rv = (update_val((&vals->d_val), args[0]));
 	else
 		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));//build inではないコマンドが呼ばれるときに使われる。
