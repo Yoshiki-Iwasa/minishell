@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/01 07:53:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 08:55:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 	state = 1;
 	while (state)
 	{
-		if (!read_command(&line)) //get_next_lineでコマンドラインの入力取得。
+		if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
 			continue ;
 		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable を挿入
 											// ' 'は 1, '$' は 2 にしてある。

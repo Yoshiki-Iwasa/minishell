@@ -62,7 +62,7 @@ void	setting_signal(void);
 int		count_pipe(char **args);
 int		no_pipe(char **args, t_edlist *vals, char **paths);
 int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count);
-int		read_command(char **line);
+int		read_command(char **line, int *state);
 void	recover_stdinout(int in_out, int *fd, int *stdin_fd, int *stdout_fd, int *stderror_fd);
 void	escape_fds(int *stdin_fd, int *stdout_fd, int *stderror_fd);
 void	free_all(char **args, char *line);
