@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 09:36:18 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 10:07:58 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,11 +200,11 @@ int		commnad_loop(t_edlist vals, char **paths)
 									// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
 			continue ;
-		args = ft_split(line, ' '); //スペースごとにコマンドを分割。
-		if (!args)
+		args = ft_split(line, ' '); //スペースごとにコマンドを分割
+		if (args == NULL || args[0] == NULL)
 		{
 			free(line);
-			return (0);
+			continue ;
 		}
 		fix_args(args, 1, ' ');// 非表示文字 1 が入ってる部分をスペースに置き換える。
 		cmd_num = count_commands(args); //ここで何個コマンド列が ';' で区切られているか数える。

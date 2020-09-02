@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 09:52:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 10:22:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*preparation_for_escape(char *line)
 
 	insert_unprintable(line);
 
-	new_line = malloc(ft_strlen(line) + 1);
+	new_line = malloc(PATH_MAX + 1);
 	if (!new_line)
 	{
 		free(line);
@@ -104,6 +104,15 @@ char	*preparation_for_escape(char *line)
 	j = 0;
 	while(line[i] != '\0')
 	{
+		if (i > 0 && line[i] == ';')
+		{
+			new_line[j] = ' ';
+			new_line[j + 1] = ';';
+			new_line[j + 2] = ' ';
+			j+=3;
+			i++;
+			continue;
+		}
 		if (line[i] == '\\')
 		{
 			i++;
