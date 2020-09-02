@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:07:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/27 14:49:15 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 09:47:02 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	pattern_double(char *line, int *i)
 	{
 		if(line[*i] == ' ')
 			line[*i] = 1;
+		if(line[*i] == '$')
+			line[*i] = 2;
 		else if (line[*i] == '\0')
 			break;
 		(*i)++;

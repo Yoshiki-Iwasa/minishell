@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 11:44:19 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 09:52:04 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 			(*i)++;
 			quote_count++;
 			continue ;
+		}
+		if (line[*i] == '\\') //エスケープさせる。
+		{
+			(*i)++;
+			if (line[*i] == '$')
+				line[*i] = 2;
 		}
 		new_line[*j] = line[*i];
 		(*i)++;
@@ -57,6 +63,12 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 			(*i)++;
 			quote_count++;
 			continue ;
+		}
+		if (line[*i] == '\\') //エスケープさせる。
+		{
+			(*i)++;
+			if (line[*i] == '$')
+				line[*i] = 2;
 		}
 		new_line[*j] = line[*i];
 		(*i)++;
@@ -92,6 +104,16 @@ char	*preparation_for_escape(char *line)
 	j = 0;
 	while(line[i] != '\0')
 	{
+		if (line[i] == '\\')
+		{
+			i++;
+			if (line[i] == '$')
+				line[i] = 2;
+			new_line[j] = line[i];
+			i++;
+			j++;
+			continue ;
+		}
 		if (line[i] == '"')
 		{
 			if(!escape_double_q(line, new_line, &i, &j))
