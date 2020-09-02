@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 10:58:00 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 10:57:25 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,7 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 {
 	int i = 0;
 	char *arg;
-	int flag; //
+	int flag;
 	char **splited;
 	int count;
 	int strs_num;
