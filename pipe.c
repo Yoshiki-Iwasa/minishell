@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 10:42:29 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 10:50:54 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	else if(!ft_strncmp(args[0], "unset", 7))
 		rv = (command_unset(&args[1], vals->e_val, vals->d_val));// shell変数更新のための関数。
 	else if(check_if_key_value(args[0]) && check_key_str(args[0]))
+	{
 		rv = (update_val((&vals->d_val), args[0]));
+		rv *= (update_val((&vals->e_val), args[0]));
+	}
 	else
 		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths));//build inではないコマンドが呼ばれるときに使われる。
 	recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd, &stderror_fd);//標準入出力のfd を復帰させる。

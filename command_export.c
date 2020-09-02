@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 11:24:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 10:48:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		command_export(char **args, t_edlist *vals)
 		if (check_if_key_value(args[i])) //DDD=1234 みたいな形になっていたら
 		{
 			update_val((&vals->e_val), args[i]);//リストの更新。
+			update_val((&vals->d_val), args[i]);
 		}
 		else
 		{
