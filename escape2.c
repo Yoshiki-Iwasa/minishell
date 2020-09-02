@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:07:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 09:47:02 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/02 11:09:28 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,29 @@ void	insert_unprintable(char *line)
 		if (line[i] == '"' || line[i] == 39)
 		{
 			if (line[i] == '"')
-				pattern_double(line, &i);
+			{
+				if (line[i + 1] == '"')
+				{
+					line[i] = ' ';
+					line[i + 1] = 4;
+					i += 2;
+					continue ;
+				}
+				else
+					pattern_double(line, &i);
+			}
 			else if (line[i] == 39)
-				pattern_single(line, &i);
+			{
+				if (line[i + 1] == 39)
+				{
+					line[i] = ' ';
+					line[i + 1] = 4;
+					i += 2;
+					continue ;
+				}
+				else
+					pattern_single(line, &i);
+			}
 		}
 		if (line[i] == '"' || line[i] == 39)
 			i++;
