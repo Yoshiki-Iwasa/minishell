@@ -31,7 +31,6 @@ void	change_semicon_null(char **args, int *semi_co_place)
 void	shell_start(char **envp)
 {
 	t_edlist vals;
-	char	**paths;
 	// int i;
 
 	vals.d_val = NULL;
@@ -46,17 +45,17 @@ void	shell_start(char **envp)
 		ft_lstclear(&(vals.d_val), free);
 		exit(EXIT_FAILURE);
 	}
-	paths = get_PATH(vals.e_val); // 環境変数の中からPATH を回収することで、buil in ではない関数が呼ばれた時も対応できるように。
-	if (!paths)
-	{
-		ft_lstclear(&(vals.d_val), free);
-		ft_lstclear(&(vals.e_val), free);
-		exit(EXIT_FAILURE);
-	}
-	commnad_loop(vals, paths); // ここからがメインの処理。この関数以降で入力が行われる。
+	// paths = get_PATH(vals.e_val); // 環境変数の中からPATH を回収することで、buil in ではない関数が呼ばれた時も対応できるように。
+	// if (!paths)
+	// {
+	// 	ft_lstclear(&(vals.d_val), free);
+	// 	ft_lstclear(&(vals.e_val), free);
+	// 	exit(EXIT_FAILURE);
+	// }
+	commnad_loop(vals); // ここからがメインの処理。この関数以降で入力が行われる。
 	ft_lstclear(&(vals.d_val), free);
 	ft_lstclear(&(vals.e_val), free);
-	free_all(paths, 0);
+	// free_all(paths, 0);
 }
 
 int main(int argc, char **argv, char **envp)

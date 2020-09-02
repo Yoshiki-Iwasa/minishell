@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 14:02:37 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 08:51:57 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		sig_handle_bs(int sig)
 	子供プロセスの実行を司る関数。与えられたコマンドと、PATHをexecve に逐一与えていく。
 */
 
-int	child_precess(char **args, char **envp, char **paths)// args には "ls" "-la" みたいなふうにコマンドが文字列配列化して入っている。
+int	child_precess(char **args, char **envp, char **paths, char *origin_arg)// args には "ls" "-la" みたいなふうにコマンドが文字列配列化して入っている。
 {
 	int		i;
 	char	command[PATH_MAX + 1];
@@ -89,9 +89,29 @@ int	child_precess(char **args, char **envp, char **paths)// args には "ls" "-l
 	}
 	if (errno == 2)
 	{
-		ft_putstr_fd("bash: ",1);
-		ft_putstr_fd(args[0], 1);
-		ft_putstr_fd(": commnad not found\n", 1);
+		if (paths[0][0]  == '\0') //PATH がunset された時
+		{
+			ft_putstr_fd("bash: ",1);
+			ft_putstr_fd(origin_arg, 1);
+			ft_putstr_fd(": No such file or directory\n", 1);
+		}
+		else
+		{
+			if (origin_arg[0] == '/' || !ft_strncmp(origin_arg, "./", 2))
+			{
+				ft_putstr_fd("bash: ",1);
+				ft_putstr_fd(origin_arg, 1);
+				ft_putstr_fd(": No such file or directory\n", 1);
+			}
+			else
+			{
+				ft_putstr_fd("bash: ",1);
+				ft_putstr_fd(origin_arg, 1);
+				ft_putstr_fd(": commnad not found\n", 1);
+			}
+
+		}
+
 		exit(127);
 	}
 	else if (errno == 13)
@@ -108,7 +128,7 @@ int	child_precess(char **args, char **envp, char **paths)// args には "ls" "-l
  ** build in 以外の関数が呼ばれたときに使う関数
 */
 
-int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
+int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths, char *origin_arg)
 {
 	char	**envp;
 	int		status;
@@ -123,7 +143,7 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths)
 	g_pid = fork();
 	if (g_pid == 0)
 	{
-		if(!child_precess(args, envp, paths))
+		if(!child_precess(args, envp, paths, origin_arg))
 			exit (1);
 	}
 	else if (g_pid < 0)

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 14:31:22 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 08:57:02 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,16 +183,18 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
  ** コマンドの実行の前に、入力取得ー＞ エスケープの処理 -> セミコロンによるコマンド分割を行う。
 */
 
-int		commnad_loop(t_edlist vals, char **paths)
+int		commnad_loop(t_edlist vals)
 {
 	int		state;
 	char	*line;
 	char	**args;
 	int		cmd_num;
+	char	**paths;
 
 	state = 1;
 	while (state)
 	{
+		paths = get_PATH(vals.e_val);//PATHがない場合は空文字列配列になる。
 		ft_putstr_fd("minishell$ ", 1);
 		if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
 			continue ;
@@ -211,6 +213,7 @@ int		commnad_loop(t_edlist vals, char **paths)
 		fix_args(args, 4, '\0');
 		cmd_num = count_commands(args); //ここで何個コマンド列が ';' で区切られているか数える。
 		state = exec_each_command(vals, paths, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
+		// free_all(paths, 0);
 		free_all(args, line);
 	}
 	return (1);

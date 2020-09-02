@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 10:57:25 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 08:25:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ char		**get_PATH(t_list *e_val)
 	char **tmp;
 
 	cmd_path = find_value(&e_val, "PATH"); // find が失敗したら、0 が帰ってくるので、そのエラー処理をする必要あり。
+	if (!ft_strcmp(cmd_path, "not_found"))
+	{
+		tmp = malloc(sizeof(char*) * 2);
+		tmp[0] = ft_strdup("");
+		tmp[1] = NULL;
+		return (tmp);
+	}
 	tmp = ft_split(cmd_path, ':');
 	free(cmd_path);
 	return (tmp);
