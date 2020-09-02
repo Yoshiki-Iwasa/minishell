@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:11:34 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/03 16:11:50 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 06:22:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int		decide_return_value(char **s, int rv, int fd, char **line)
 	len = 0;
 	if (rv == 0 && s[fd] == NULL)
 	{
+		write(1, "  \b\b ", 4);
 		free(s[fd]);
 		s[fd] = NULL;
 		*line = ft_strdup("");
@@ -78,6 +79,8 @@ int				get_next_line(int fd, char **line)
 		return (-1);
 	while ((rv = read(fd, buf, 20)) > 0)
 	{
+		if (buf[1] == -1)
+			continue ;
 		buf[rv] = '\0';
 		if (s[fd] == NULL)
 			tmp = ft_strdup(buf);

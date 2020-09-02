@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/31 10:42:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 06:41:24 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	change_stdin_fd(char *arg, int *fd)
 */
 void	change_stdout_fd_for_append(char *arg, int *fd)
 {
-	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);
+	*fd = open(arg, O_RDWR | O_APPEND | O_CREAT , S_IRWXU);
 	close(1);
 	dup2(*fd, 1);
 	close(*fd);
