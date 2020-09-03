@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/02 10:22:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 14:51:48 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 		if (line[*i] == '\\') //エスケープさせる。
 		{
 			(*i)++;
-			if (line[*i] == '$')
+			if (line[*i] == '$' && line[*i + 1] != '{')
 				line[*i] = 2;
 		}
 		new_line[*j] = line[*i];
@@ -116,7 +116,7 @@ char	*preparation_for_escape(char *line)
 		if (line[i] == '\\')
 		{
 			i++;
-			if (line[i] == '$')
+			if (line[i] == '$' && line[i + 1] != '{')
 				line[i] = 2;
 			new_line[j] = line[i];
 			i++;
