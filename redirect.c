@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 06:50:39 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 08:19:16 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int		deal_redirection(char **args, int *fd)
 			change_stderror_fd(args[i], fd);
 			flag_error = 1;
 		}
-		i++;
+		if(args[i])
+			i++;
 	}
 	if (flag_in && !flag_out)
 		return (0);

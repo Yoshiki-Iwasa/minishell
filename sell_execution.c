@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 16:00:53 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 08:40:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,24 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 	return (state);
 }
 
+int		check_syntax(char **args)
+{
+	int i;
+
+	i = 0;
+	while (args[i])
+	{
+		if (!ft_strcmp(">", args[i]) || !ft_strcmp("<", args[i]) || !ft_strcmp(">>", args[i]) || !ft_strcmp("2>", args[i]))
+		{
+			if (!ft_strcmp(args[i + 1], ";") || !args[i + 1] || !ft_strcmp(args[i + 1], ">") || !ft_strcmp(args[i + 1], "<") || !ft_strcmp(args[i + 1], ">>") || !ft_strcmp(args[i + 1], "2>"))
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+
+}
+
 /*
  ** コマンドの実行の前に、入力取得ー＞ エスケープの処理 -> セミコロンによるコマンド分割を行う。
 */
@@ -218,6 +236,12 @@ int		commnad_loop(t_edlist vals)
 		fix_args(args, 6, '2');
 		fix_args(args, 7, '>');
 		cmd_num = count_commands(args); //ここで何個コマンド列が ';' で区切られているか数える。
+		if (!(check_syntax(args)))
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 1);
+			free_args(args, line, arglen);
+			continue ;
+		}
 		state = exec_each_command(vals, paths, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
 		free_all(paths, 0);
 		free_args(args, line, arglen);
