@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 06:41:24 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 06:50:39 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	change_stdout_fd_for_append(char *arg, int *fd)
 void	change_stderror_fd(char *arg, int *fd)
 {
 	*fd = open(arg, O_RDWR | O_TRUNC | O_CREAT , S_IRWXU);
-	close(2); //標準出力を閉じる。
-	dup2(*fd, 2);//fd のコピーを　0　として作成。
+	close(2); //標準error出力を閉じる。
+	dup2(*fd, 2);//fd のコピーを　2　として作成。
 	close(*fd);// もともとのfd はいらないので閉じる。
 }
 
@@ -97,6 +97,7 @@ int		deal_redirection(char **args, int *fd)
 			args[i] = NULL;
 			i++;
 			change_stderror_fd(args[i], fd);
+			flag_error = 1;
 		}
 		i++;
 	}
