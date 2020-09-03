@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 14:56:30 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 16:05:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,56 @@ char	*preparation_for_escape(char *line)
 			i++;
 			continue;
 		}
+		if (i > 0 && line[i] == '>' && line[i + 1] == '>' )
+		{
+			new_line[j] = ' ';
+			new_line[j + 1] = '>';
+			new_line[j + 2] = '>';
+			new_line[j + 3] = ' ';
+			j+=4;
+			i++;
+			continue;
+		}
+		if (i > 0 && (line[i] == '>' || line[i + 1] == '<' ))
+		{
+			new_line[j] = ' ';
+			new_line[j + 1] = line[i];
+			new_line[j + 2] = ' ';
+			j+=3;
+			i++;
+			continue;
+		}
+		if (i > 0 && line[i] == '2' && line[i + 1] == '>' )
+		{
+			new_line[j] = ' ';
+			new_line[j + 1] = '2';
+			new_line[j + 2] = '>';
+			new_line[j + 3] = ' ';
+			j+=4;
+			i++;
+			continue;
+		}
 		if (line[i] == '\\')
 		{
 			i++;
-			if (line[i] == '$' && line[i + 1] != '{')
+			if(line[i] == '2' && line[i + 1] == '>')
+			{
+				line[i] = 6;
+				line[i + 1] = 7;
+				new_line[j] = line[i];
+				i++;
+				j++;
+				new_line[j] = line[i];
+				i++;
+				j++;
+				continue ;
+			}
+			if (line[i] == '$')
 				line[i] = 2;
+			if(line[i] == '>')
+				line[i] = 3;
+			if(line[i] == '<')
+				line[i] = 5;
 			new_line[j] = line[i];
 			i++;
 			j++;

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 14:18:35 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 15:41:18 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	}
 	else
 		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths, origin_arg));//build inではないコマンドが呼ばれるときに使われる。
-	recover_stdinout(in_out, &fd, &stdin_fd, &stdout_fd, &stderror_fd);//標準入出力のfd を復帰させる。
+	recover_stdinout(in_out, &stdin_fd, &stdout_fd, &stderror_fd);//標準入出力のfd を復帰させる。
 	free_all(paths, origin_arg);
 	return (rv);
 }

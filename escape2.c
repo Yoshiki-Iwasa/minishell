@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:07:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 14:56:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 15:50:34 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ void	pattern_double(char *line, int *i)
 			line[*i] = 1;
 		if(line[*i] == '$' && line[*i + 1] != '{')
 			line[*i] = 2;
+		if(line[*i] == '>')
+			line[*i] = 3;
+		if(line[*i] == '<')
+			line[*i] = 5;
+		if(line[*i] == '2' && line[*i + 1] == '>')
+		{
+			line[*i] = 6;
+			line[*i + 1] = 7;
+		}
 		else if (line[*i] == '\0')
 			break;
 		(*i)++;
@@ -45,6 +54,15 @@ void	pattern_single(char *line, int *i)
 			line[*i] = 1;
 		if(line[*i] == '$')
 			line[*i] = 2;
+		if(line[*i] == '>')
+			line[*i] = 3;
+		if(line[*i] == '<')
+			line[*i] = 5;
+		if(line[*i] == '2' && line[*i + 1] == '>')
+		{
+			line[*i] = 6;
+			line[*i + 1] = 7;
+		}
 		else if (line[*i] == '\0')
 			break;
 		(*i)++;

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 14:41:36 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 16:00:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ int		commnad_loop(t_edlist vals)
 			continue ;
 		args = ft_split(line, ' '); //スペースごとにコマンドを分割
 		arglen = count_strs(args);
+
 		if (args == NULL || args[0] == NULL)
 		{
 			free(line);
@@ -212,6 +213,10 @@ int		commnad_loop(t_edlist vals)
 		}
 		fix_args(args, 1, ' ');// 非表示文字 1 が入ってる部分をスペースに置き換える。
 		fix_args(args, 4, '\0');
+		fix_args(args, 3, '>');
+		fix_args(args, 5, '<');
+		fix_args(args, 6, '2');
+		fix_args(args, 7, '>');
 		cmd_num = count_commands(args); //ここで何個コマンド列が ';' で区切られているか数える。
 		state = exec_each_command(vals, paths, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
 		free_all(paths, 0);
