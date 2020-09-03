@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 12:36:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 12:56:50 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		read_command(char **line, int *state)
 		write(1, "  \b\b ", 4);
 		if((*line)[0] != '\0') // "$ ls Ctrl + D のとき" fork させる必要あるかな...
 		{
-			// write(1, "\n", 1);
 			signal(SIGINT, sig_free_line);// もともとのコマンドが入ってるtmp1 をぶっ殺せばおｋ？
 			g_tmp = ft_strdup(*line); // "ls"　とかが入ってる。
 			while ((get_next_line(0, line)) == 0)//この最中にCtrl + C を入力しても入力はとまらない。
@@ -58,31 +57,8 @@ int		read_command(char **line, int *state)
 			}// 無視したいのは、Ctrl + C が押された時。Ctrl + C が押されたら、line を freeして空文字列にする。
 			g_tmp2 = *line;
 			*line = ft_strjoin(g_tmp, g_tmp2);
-			// free(g_tmp2);
 			setting_signal();
 			return (1);
-			// printf("%d\n", rv);
-			// ft_putstr_fd(*line, 1);
-			// write(1, "\n", 1);
-			// if (rv == INT32_MAX || rv == 0)
-			// {
-			// 	free(*line);
-			// 	write(1, "KITERU\n", 7);
-			// 	*line = "";
-			// 	ft_putstr_fd("minishell$ ", 1);
-			// 	return (1);
-			// }
-			// else
-			// {
-			// 	ft_putnbr_fd(1, rv);
-			// 	write(1, "\n", 1);
-			// 	tmp2 = *line;
-			// 	write(1, "kiteru\n", 7);
-			// 	*line = ft_strjoin(tmp1, *line);
-			// 	free(tmp2);
-			// 	return (1);
-			// }
-		write(1, "llllllllll\n", 7);
 		}
 		free(*line);
 		write(1, "exit\n", 5);
