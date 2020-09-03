@@ -45,16 +45,10 @@ void	shell_start(char **envp)
 		ft_lstclear(&(vals.d_val), free);
 		exit(EXIT_FAILURE);
 	}
-	// paths = get_PATH(vals.e_val); // 環境変数の中からPATH を回収することで、buil in ではない関数が呼ばれた時も対応できるように。
-	// if (!paths)
-	// {
-	// 	ft_lstclear(&(vals.d_val), free);
-	// 	ft_lstclear(&(vals.e_val), free);
-	// 	exit(EXIT_FAILURE);
-	// }
 	commnad_loop(vals); // ここからがメインの処理。この関数以降で入力が行われる。
 	ft_lstclear(&(vals.d_val), free);
 	ft_lstclear(&(vals.e_val), free);
+	// while(1);
 	// free_all(paths, 0);
 }
 
@@ -63,5 +57,6 @@ int main(int argc, char **argv, char **envp)
 	argc = 0;
 	argv = 0;
 	shell_start(envp);
+	while(1);
 	return EXIT_SUCCESS;
 }

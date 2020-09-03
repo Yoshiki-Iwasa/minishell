@@ -21,6 +21,7 @@ typedef	struct	s_edlist
 }				t_edlist;
 
 int		ft_strcmp(const char *s1, const char *s2);
+char	**ft_strsdup(char **args);
 char*	find_value(t_list **val, char *key);
 char	*ft_strcat(char *dest, char *src);
 int		command_pwd(void);
@@ -74,5 +75,7 @@ void	change_semicon_null(char **args, int *semi_co_place);
 int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val);
 int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val);//key=value 型の時に、ちゃんとno such variableを出せるように。
 char	**add_paths_and_change_arg0(char **argZero, char **paths);
+void	free_args(char **args, char *line, int arglen);
+int		count_strs(char **args);
 
 #endif

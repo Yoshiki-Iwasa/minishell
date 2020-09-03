@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:37:54 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/30 11:36:53 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 14:38:52 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,25 @@ void	free_all(char **args, char *line)
 	i = 0;
 	free(line);
 	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
+
+
+/*
+ ** 毎回のコマンドの実行後に各要素をfreeするために使う。
+*/
+
+void	free_args(char **args, char *line, int arglen)
+{
+	int i;
+
+	i = 0;
+	free(line);
+	while (i < arglen)
 	{
 		free(args[i]);
 		i++;

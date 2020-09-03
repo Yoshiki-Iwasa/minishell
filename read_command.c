@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 12:56:50 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 13:52:54 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ char *g_tmp2;
 void	sig_free_line(int sig)
 {
 	sig = 0;
-	// free(g_tmp);
-	// free(g_tmp2);
+	free(g_tmp);
 	g_tmp = ft_strdup("");
 	g_tmp2 = ft_strdup("");
 	write(1, "\n",1);
@@ -48,15 +47,20 @@ int		read_command(char **line, int *state)
 		{
 			signal(SIGINT, sig_free_line);// もともとのコマンドが入ってるtmp1 をぶっ殺せばおｋ？
 			g_tmp = ft_strdup(*line); // "ls"　とかが入ってる。
+			free(*line);
 			while ((get_next_line(0, line)) == 0)//この最中にCtrl + C を入力しても入力はとまらない。
 			{
 				g_tmp2 = *line;
 				write(1, "  \b\b ", 4);
 				*line = ft_strjoin(g_tmp, *line);
 				free(g_tmp2);
+				free(*line);
 			}// 無視したいのは、Ctrl + C が押された時。Ctrl + C が押されたら、line を freeして空文字列にする。
+			free(g_tmp2);
 			g_tmp2 = *line;
 			*line = ft_strjoin(g_tmp, g_tmp2);
+			free(g_tmp);
+			free(g_tmp2);
 			setting_signal();
 			return (1);
 		}

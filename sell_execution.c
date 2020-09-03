@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 09:09:54 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/03 14:41:36 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,7 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 {
 	int		state;
 	int		semi_co_place;
-	// char	**tmp;
 
-	// tmp = paths;
 	while(cmd_num)
 	{
 		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。同時に、セミコロンがあった場所はNULLにしてある。
@@ -166,10 +164,8 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 			continue ;
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
-		// paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)
+
 		state = shell_execute(args, &(vals), paths); // ”;”　で区切られた各コマンドを実行する関数。
-		// free_all(paths, 0);
-		// paths = tmp;
 		if (!state)
 			break;
 		cmd_num--;
@@ -190,6 +186,7 @@ int		commnad_loop(t_edlist vals)
 	char	**args;
 	int		cmd_num;
 	char	**paths;
+	int		arglen;
 
 	state = 1;
 	while (state)
@@ -197,13 +194,17 @@ int		commnad_loop(t_edlist vals)
 		paths = get_PATH(vals.e_val);//PATHがない場合は空文字列配列になる。
 		ft_putstr_fd("minishell$ ", 1);
 		if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
+		{
+			free_all(paths, 0);
 			continue ;
+		}
 		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable を挿入
 											// ' 'は 1, '$' は 2 にしてある。
 									// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
 			continue ;
 		args = ft_split(line, ' '); //スペースごとにコマンドを分割
+		arglen = count_strs(args);
 		if (args == NULL || args[0] == NULL)
 		{
 			free(line);
@@ -213,8 +214,8 @@ int		commnad_loop(t_edlist vals)
 		fix_args(args, 4, '\0');
 		cmd_num = count_commands(args); //ここで何個コマンド列が ';' で区切られているか数える。
 		state = exec_each_command(vals, paths, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
-		// free_all(paths, 0);
-		free_all(args, line);
+		free_all(paths, 0);
+		free_args(args, line, arglen);
 	}
 	return (1);
 }
