@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 08:25:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 07:50:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,26 @@ int		count_strs(char **args)
 	return (i);
 }
 
+int		is_only_or_many_dollor(char *arg)
+{
+	int i;
+	int count;
+
+	count = 0;
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '$')
+		{
+			count++;
+		}
+		i++;
+	}
+	if ((count == 1 && i == 1) || count > 1)
+		return (1);
+	return (0);
+}
+
 /*
  ** 各文字列中の$変数をリストを参照して変換する関数。リストになければ、$変数のまま。
 */
@@ -290,6 +310,11 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 	while (args[i])
 	{
 		arg = args[i];
+		if (is_only_or_many_dollor(arg))
+		{
+			i++;
+			continue ;
+		}
 		flag = 0;
 		if (ft_strchr(arg, '$') != 0)
 		{
