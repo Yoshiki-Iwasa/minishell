@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 09:42:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 12:52:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,12 @@ int		commnad_loop(t_edlist vals)
 		fix_args(args, 5, '<');
 		fix_args(args, 6, '2');
 		fix_args(args, 7, '>');
-		cmd_num = count_commands(args); //ここで何個コマンド列が ';' で区切られているか数える。
+		if(!(cmd_num = count_commands(args))) //ここで何個コマンド列が ';' で区切られているか数える。
+		{
+			update_val(&vals.d_val, "?=258");
+			free_args(args, line, arglen);
+			continue ;
+		}
 		if (!(check_syntax(args)))
 		{
 			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 1);
