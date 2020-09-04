@@ -57,5 +57,8 @@ int main(int argc, char **argv, char **envp)
 	argc = 0;
 	argv = 0;
 	shell_start(envp);
-	return EXIT_SUCCESS;
+	if (argc == 0 && argv == 0)
+		return EXIT_SUCCESS;
+	if (argc != 0 && argv != 0)
+		return (100);
 }

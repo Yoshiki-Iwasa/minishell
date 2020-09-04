@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+         #
+#    By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/24 15:06:45 by yiwasa            #+#    #+#              #
-#    Updated: 2020/08/05 15:43:07 by yiwasa           ###   ########.fr        #
+#    Updated: 2020/09/04 14:12:20 by yiwasa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,14 +26,14 @@ BONUS			=	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 					ft_lstmap.c ft_lstnew.c ft_lstsize.c
 OBJS = ${SRCS:.c=.o}
 BONUS_OBJS = ${BONUS:.c=.o}
-NAME = libft.a								
+NAME = libft.a
 
 .c.o:
-	${GCCL} -c $<  -o $@ -I libft.h
+	${GCCL} -c $<  -o $@
 
 all: ${NAME}
 
-clean: 
+clean:
 	rm -f ${OBJS} ${BONUS_OBJS}
 
 fclean: clean

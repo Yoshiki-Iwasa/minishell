@@ -17,7 +17,7 @@ int	command_unset(char **args, t_list *e_val, t_list *d_val)
 		find = search_entry(e_val ,key);
 		if (find != NULL)
 		{
-			lst_del_connect(&e_val, key, del_str);
+			lst_del_connect(&e_val, key, free);
 		}
 		i++;
 	}
@@ -28,7 +28,7 @@ int	command_unset(char **args, t_list *e_val, t_list *d_val)
 		find = search_entry(d_val ,key);
 		if (find != NULL)
 		{
-			lst_del_connect(&d_val, key, del_str);
+			lst_del_connect(&d_val, key, free);
 		}
 		i++;
 	}

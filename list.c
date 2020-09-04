@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/24 10:24:35 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:08:06 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,11 @@ t_list *find_num_list(t_list *lst, int num)
 
 t_list		*search_entry(t_list *val, char *key)
 {
-	int		num;
 	char	*key_equal;//ここで、送られて来たkey は "key="の形に変えて、比較してあげる方がいい。
 					//freeが心配だけど。
 	key_equal = ft_strdup(key); //ここでどうも
 	if (!key_equal)
 		return (NULL);
-	num = 0;
 	while (val)
 	{
 		if (!ft_strncmp(val->content, key_equal, ft_strlen(key_equal)))
@@ -137,5 +135,5 @@ void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
 		}
 		search = search->next;
 		num++;
-	}	
+	}
 }

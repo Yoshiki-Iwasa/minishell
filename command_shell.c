@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 13:08:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:06:22 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ int		g_count;
 
 void		sig_handle_C(int sig)
 {
-	int kill_rv;
-	sig = 0;
 	if (g_pid != 0)
 	{
 		write(1, "\b\b^C", 4);
-		kill_rv = kill(g_pid, SIGINT);
+		sig = kill(g_pid, SIGINT);
 		write(1, "\n",1);
-		if(kill_rv == -1)
+		if(sig == -1)
 			ft_putstr_fd("minishell$ ", 1);
 
 	}
@@ -66,22 +64,22 @@ void		sig_handle_C(int sig)
 
 void		sig_handle_bs(int sig)
 {
-	int kill_rv;
+	int tmp;
 
-	sig = 0;
+	tmp = sig;
 	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
 		ft_putstr_fd("^\\Quit\n", 2);
-		kill_rv = kill(g_pid, SIGQUIT);
+		sig = kill(g_pid, SIGQUIT);
 	}
 	else
 	{
-		kill_rv = -1;
+		sig = -1;
 	}
-	if (kill_rv == -1)
+	if (sig == -1)
 	{
-		signal(sig, SIG_IGN);
+		signal(tmp, SIG_IGN);
 	}
 }
 

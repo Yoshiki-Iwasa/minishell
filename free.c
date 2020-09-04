@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:37:54 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 14:38:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:06:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,4 @@ void	free_args(char **args, char *line, int arglen)
 		i++;
 	}
 	free(args);
-}
-
-/*
- ** lstdelone に渡すために仮置きしてる
- ** 本来こいつはfreeであるべきなんだ！！！！
-*/
-
-void	del_str(void *str)
-{
-	str = 0;
 }
