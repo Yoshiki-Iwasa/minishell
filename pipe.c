@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 12:16:36 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 13:52:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char		**check_and_change_equal(char **args)
 
 	i = 0;
 	j = 0;
-	new_args = malloc(sizeof(char*) * count_strs(args) + 1);
+	new_args = malloc(sizeof(char*) * (count_strs(args) + 1));
 	while (args[i])
 	{
 		arg = args[i];
