@@ -25,7 +25,8 @@ SRCS = change_into_array.c \
 		sell_execution.c \
 		signal_handle.c \
 		utils.c \
-		utils2.c
+		utils2.c \
+		dollor_value.c
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 LIBFT = ./libft/libft.a
