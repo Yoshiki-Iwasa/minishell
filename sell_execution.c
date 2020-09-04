@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 13:03:18 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:31:28 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,12 @@ int		shell_execute(char **args, t_edlist *vals)
 
 char	**add_new_path(char *new_path, char **paths)
 {
-	int str_num;
 	char **new_paths;
 	int i;
 
 	i = 0;
 	while(paths[i])
 		i++;
-	str_num = i;
 	new_paths = malloc(sizeof(char *) * (i + 2));// 新しいpath と NULL分。
 	i = 0;
 	while (paths[i])

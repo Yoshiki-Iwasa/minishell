@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 10:28:26 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:33:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,13 +356,11 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 	char	*arg;
 	char	*tmp;
 	char	*key;
-	int		flag;
 	t_list	*find;
 	char *strs[3];
 	int index;
 	//　この中で、$KKK:555555 みたいなのがあったら、 分割して、探索する必要がある。
 	// そうすれば、key=value 型かどうかなんて気にする必要ない
-	flag = 0;
 	i = 0; //d_val を確認しに行く
 	while (args[i])
 	{
@@ -384,7 +382,6 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 				return (0);
 			if((find = search_entry(d_val, key))) //エントリーを回収してくる。
 			{
-				flag = 1;
 				tmp = get_key(find->content); //エントリーの中からkey だけを回収。
 				free(strs[0]);
 				strs[0] = find_value(&d_val, tmp);//key に該当するvalue を回収。
@@ -431,7 +428,6 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 				return (0);
 			if((find = search_entry(e_val, key))) //エントリーを回収してくる。
 			{
-				flag = 1;
 				tmp = get_key(find->content); //エントリーの中からkey だけを回収。
 				free(strs[0]);
 				strs[0] = find_value(&e_val, tmp);//key に該当するvalue を回収。
