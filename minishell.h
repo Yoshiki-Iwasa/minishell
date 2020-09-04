@@ -55,7 +55,7 @@ void	pattern_double(char *line, int *i);
 void	pattern_single(char *line, int *i);
 void	insert_unprintable(char *line);
 int		deal_redirection(char **args, int *fd);
-void	change_stdin_fd(char *arg, int *fd);
+int		change_stdin_fd(char *arg, int *fd);
 void	change_stdout_fd(char *arg, int *fd);
 void	sig_handle_C(int sig);
 void	sig_handle_bs(int sig);

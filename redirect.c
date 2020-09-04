@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 08:19:16 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 09:59:14 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@ void	change_stdout_fd(char *arg, int *fd)
 
 /*標準入力のリダイレクトの実装*/
 
-void	change_stdin_fd(char *arg, int *fd)
+int		change_stdin_fd(char *arg, int *fd)
 {
 	// close(*fd);
 	*fd = open(arg, O_RDWR);
+	if (*fd == -1)
+		return (0);
 	close(0); //標準出力を閉じる。
 	dup2(*fd, 0);//fd のコピーを　0　として作成。
 	close(*fd);// もともとのfd はいらないので閉じる。
+	return (1);
 }
 /*
 	標準出力の追記用fd 作成
@@ -75,8 +78,15 @@ int		deal_redirection(char **args, int *fd)
 		{
 			args[i] = NULL; //リダイレクトの記号が引数にならないようNULL にする。
 			i++;
-			change_stdin_fd(args[i], fd);
-			flag_in = 1;
+			if(change_stdin_fd(args[i], fd))
+				flag_in = 1;
+			else
+			{
+				ft_putstr_fd("bash: ", 2);
+				ft_putstr_fd(args[i], 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
+				return (-1);
+			}
 		}
 		else if(!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|") || !ft_strcmp(args[i], "1>"))
 		{

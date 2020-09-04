@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 09:40:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 09:59:27 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int		no_pipe(char **args, t_edlist *vals)
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
 	paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)。/
 	in_out = deal_redirection(args, &fd);//リダイレクトの処理を入れている。
+	if (in_out == -1)
+	{
+		free_all(paths, origin_arg);
+		return (1);
+	}
 	if (!ft_strncmp(args[0], "exit", 5))
 		rv = (command_exit());
 	else if (!ft_strncmp(args[0], "pwd", 4))
