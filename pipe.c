@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 09:59:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 12:16:36 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,37 @@ int		check_key_str(char *arg)
 }
 
 /*
+ ** TEST= pwd とか TEST = pwd みたいなのに対応
+ ** TEST= pwd とか TEST =pwd ならイコールついてるやつを消す。
+ ** TEST = pwd なら、"TEST: =: unexpected operator" 吐いて終了。<- これはむしするか、、、
+ **
+*/
+char		**check_and_change_equal(char **args)
+{
+	int i;
+	int j;
+	char *arg;
+	char **new_args;
+
+	i = 0;
+	j = 0;
+	new_args = malloc(sizeof(char*) * count_strs(args) + 1);
+	while (args[i])
+	{
+		arg = args[i];
+		if (ft_strlen(arg) != 1 && (arg[ft_strlen(arg) - 1] == '=' || arg[0] == '='))
+		{
+			i++;
+			continue;
+		}
+		new_args[j] = ft_strdup(args[i]);
+		i++;
+		j++;
+	}
+	new_args[j] = NULL;
+	return (new_args);
+}
+/*
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
 
@@ -98,6 +129,8 @@ int		no_pipe(char **args, t_edlist *vals)
 	char *origin_arg;
 	char **paths;
 
+	args = check_and_change_equal(args);//ここでargs を新しくしている。もともとのargs は free_args で開放している。
+	fix_args(args, 8, '=');
 	paths = get_PATH(vals->e_val);
 	escape_fds(&stdin_fd, &stdout_fd, &stderror_fd); //リダイレクトのあとに標準入出力を復帰させるためにエスケープさせる。
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
@@ -128,10 +161,15 @@ int		no_pipe(char **args, t_edlist *vals)
 	{
 		rv = (update_val((&vals->d_val), args[0]));
 		rv *= (update_val((&vals->e_val), args[0]));
+		if (rv == 1)
+			rv = 0;
+		if (rv == 0)
+			rv = 1;
 	}
 	else
 		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths, origin_arg));//build inではないコマンドが呼ばれるときに使われる。
 	recover_stdinout(in_out, &stdin_fd, &stdout_fd, &stderror_fd);//標準入出力のfd を復帰させる。
+	free_all(args, 0);
 	free_all(paths, origin_arg);
 	return (rv);
 }

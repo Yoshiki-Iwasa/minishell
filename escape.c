@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 06:39:15 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 10:57:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ char	*preparation_for_escape(char *line)
 				line[i] = 3;
 			if(line[i] == '<')
 				line[i] = 5;
+			if(line[i] == '=')
+				line[i] = 8;
 			new_line[j] = line[i];
 			i++;
 			j++;
