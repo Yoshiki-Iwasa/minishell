@@ -26,5 +26,5 @@ int	command_echo(char **args)
 		}
 		write(1, "\n", 1);
 	}
-	return (1);
+	return (0);
 }
