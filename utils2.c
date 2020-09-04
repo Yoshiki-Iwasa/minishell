@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:40:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 22:09:08 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char		**get_PATH(t_list *e_val)
 	char *cmd_path;
 	char **tmp;
 
-	cmd_path = find_value(&e_val, "PATH"); // find が失敗したら、0 が帰ってくるので、そのエラー処理をする必要あり。
+	cmd_path = find_value(&e_val, "PATH="); // find が失敗したら、0 が帰ってくるので、そのエラー処理をする必要あり。
 	if (!ft_strcmp(cmd_path, "not_found"))
 	{
 		tmp = malloc(sizeof(char*) * 2);
@@ -309,7 +309,7 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 	while (args[i])
 	{
 		arg = args[i];
-		if (is_only_or_many_dollor(arg))
+		if (is_only_or_many_dollor(arg)) // "$" 一個だけまたは複数あったときの処理。
 		{
 			i++;
 			continue ;

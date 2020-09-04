@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:30:10 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 15:15:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ void	sig_free_line(int sig)
 int		read_command(char **line, int *state)
 {
 	int gnl_rv;
-	// ft_putstr_fd("minishell$ ", 1);
-	gnl_rv = get_next_line(0, line);
 
+	gnl_rv = get_next_line(0, line);
 	if (**line == '\0' && gnl_rv == 1)
 	{
 		free(*line);
@@ -43,10 +42,10 @@ int		read_command(char **line, int *state)
 	if (gnl_rv == 0)
 	{
 		write(1, "  \b\b ", 4);
-		if((*line)[0] != '\0') // "$ ls Ctrl + D のとき" fork させる必要あるかな...
+		if((*line)[0] != '\0') //ここに入ってくるのはコマンド入力中に、Ctrl + Dが押された時。
 		{
-			signal(SIGINT, sig_free_line);// もともとのコマンドが入ってるtmp1 をぶっ殺せばおｋ？
-			g_tmp = ft_strdup(*line); // "ls"　とかが入ってる。
+			signal(SIGINT, sig_free_line);// Ctrl + C の挙動はここだけ変えないといけない。
+			g_tmp = ft_strdup(*line); // "ls"　とかが入ってる。line をコピー。
 			free(*line);
 			while ((get_next_line(0, line)) == 0)//この最中にCtrl + C を入力しても入力はとまらない。
 			{
@@ -55,12 +54,13 @@ int		read_command(char **line, int *state)
 				*line = ft_strjoin(g_tmp, *line);
 				free(g_tmp2);
 				free(*line);
-			}// 無視したいのは、Ctrl + C が押された時。Ctrl + C が押されたら、line を freeして空文字列にする。
+			}
+			//Ctrl + C が押されたら、line を freeして空文字列にする。
 			g_tmp2 = *line;
 			*line = ft_strjoin(g_tmp, g_tmp2);
 			free(g_tmp);
 			free(g_tmp2);
-			setting_signal();
+			setting_signal(); //Ctrl + C による挙動を通常のものに戻す。
 			return (1);
 		}
 		free(*line);

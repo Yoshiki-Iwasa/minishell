@@ -35,8 +35,8 @@ void	shell_start(char **envp)
 
 	vals.d_val = NULL;
 	vals.e_val = NULL;
-	setting_signal(); // シグナルハンドルが入っている。
-	if (!update_val(&(vals.d_val), "?=0")) //終了ステータスを表すシェル変数を?=1で初期化
+	setting_signal(); // シグナルハンドルが入っている。この関数以降、Ctrl + C, Ctrl + \ の挙動が変わる。
+	if (!update_val(&(vals.d_val), "?=0")) //終了ステータスを表すシェル変数を?=0で初期化
 	{
 		exit(EXIT_FAILURE);
 	}
@@ -48,8 +48,6 @@ void	shell_start(char **envp)
 	commnad_loop(vals); // ここからがメインの処理。この関数以降で入力が行われる。
 	ft_lstclear(&(vals.d_val), free);
 	ft_lstclear(&(vals.e_val), free);
-	// while(1);
-	// free_all(paths, 0);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -57,6 +55,9 @@ int main(int argc, char **argv, char **envp)
 	argc = 0;
 	argv = 0;
 	shell_start(envp);
+/*
+ ** ここ以降の条件分岐は、argc と argv がunused で起こられないため。
+*/
 	if (argc == 0 && argv == 0)
 		return EXIT_SUCCESS;
 	if (argc != 0 && argv != 0)

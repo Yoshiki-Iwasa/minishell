@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:31:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 15:12:15 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,16 +166,20 @@ int		exec_each_command(t_edlist vals, char **args, int cmd_num)
 			continue ;
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
-
+								//復帰させるのはここでないと、上の＄変換関数で変換されちゃうから。
 		state = shell_execute(args, &(vals)); // ”;”　で区切られた各コマンドを実行する関数。
-		if (!state)
+		if (!state) //state = 0でminishell 終了。
 			break;
-		cmd_num--;
-		if (cmd_num)
+		cmd_num--; //$ pwd ; ls のような時、 cmd_num = 2 -> cmd_num = 1 -> cmd_num = 0 となる。
+		if (cmd_num) // コマンドがまだ残ってるときは、args の先頭を pwd -> ls へと変更。
 			args = &args[semi_co_place + 1];
 	}
 	return (state);
 }
+
+/*
+ ** リダイレクトの文法をチェックする関数。
+*/
 
 int		check_syntax(char **args)
 {
@@ -213,19 +217,22 @@ int		commnad_loop(t_edlist vals)
 		ft_putstr_fd("minishell$ ", 1);
 		if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
 			continue ;
-		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable を挿入
+		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable 文字を挿入
 											// ' 'は 1, '$' は 2 にしてある。
+									//加えて、バックスラッシュの
 									// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
 			continue ;
 		args = ft_split(line, ' '); //スペースごとにコマンドを分割
-		arglen = count_strs(args);
+		arglen = count_strs(args); //後にargs をfree するために必要。
+									//なぜなら、あとで";" をNULLに置換するので事前に文字列配列の長さを確保しておく。
 
 		if (args == NULL || args[0] == NULL)
 		{
 			free(line);
 			continue ;
 		}
+		// ここ以降は、エスケープさせてた文字の一部を復帰させる。
 		fix_args(args, 1, ' ');// 非表示文字 1 が入ってる部分をスペースに置き換える。
 		fix_args(args, 4, '\0');
 		fix_args(args, 3, '>');
@@ -235,13 +242,15 @@ int		commnad_loop(t_edlist vals)
 		fix_args(args, 9, ' ');
 		if(!(cmd_num = count_commands(args))) //ここで何個コマンド列が ';' で区切られているか数える。
 		{
+			// ここに入ってくるのは、 $ pwd ;; pwd とか $ ; のとき。
 			update_val(&vals.d_val, "?=258");
 			free_args(args, line, arglen);
 			continue ;
 		}
-		if (!(check_syntax(args)))
+		if (!(check_syntax(args)))// リダイレクトのsyntax をチェックしてる。
 		{
-			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 1);
+			//ここに入るのは $ pwd > みたいな時。
+			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 2);
 			free_args(args, line, arglen);
 			continue ;
 		}

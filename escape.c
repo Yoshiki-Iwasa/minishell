@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 13:02:38 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 15:17:10 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ char	*preparation_for_escape(char *line)
 	int		j;
 	char	*new_line;
 
-	insert_unprintable(line);
+	insert_unprintable(line);//バックスラッシュ以外のエスケープ担当。
+							// エスケープさせたい文字にだけunprintable を挿入。
 
 	new_line = malloc(PATH_MAX + 1);
 	if (!new_line)
@@ -142,7 +143,7 @@ char	*preparation_for_escape(char *line)
 			i+=2;
 			continue;
 		}
-		if (line[i] == '\\')
+		if (line[i] == '\\') //バックスラッシュによるエスケープ。
 		{
 			i++;
 			if(line[i] == '2' && line[i + 1] == '>')
