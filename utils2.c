@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 07:56:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 10:28:26 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,8 +319,6 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 		if (ft_strchr(arg, '$') != 0)
 		{
 			count = count_dollor(arg); //何個$ があるかを確認。
-			// if (arg[0] == '$')//先頭に$ があるときだけ場合分け。111111111${USER}111111とかに対応するため。
-			// 	flag = 1;
 			splited = ft_split(arg, '$'); //これで、'$'以前と以後に別れた <-ここまでは悪くない気がする。
 			//この後にうしろから順次$ を結合させていく。
 			strs_num = count_strs(splited);
@@ -333,8 +331,6 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 				count--;
 			} // これで、$を含んだ形でsplit をすることができた。
 			//次は、各splited に対して、変換を行いたいところ。
-			// if (flag)
-			// 	add_dollor(splited);//これで、分割された変数にふたたび$がついた。
 			change_bracket_val(splited,  d_val, e_val);// ${変数}タイプの変数に対応するためのもの。
 			free(arg);
 			if (!trans_each_dollor(splited, d_val, e_val))// $変数タイプの変換を担当する関数。
@@ -396,6 +392,8 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 				free(key);
 				free(arg);
 				args[i] = ft_strjoin(strs[0], strs[1]);
+				if (args[i][0] == '$')
+					args[i][0] = 2;
 				free(strs[0]);
 				free(strs[1]);
 			}
@@ -441,6 +439,8 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val)//key=value 型
 				free(key);
 				free(arg);
 				args[i] = ft_strjoin(strs[0], strs[1]);
+				if (args[i][0] == '$')
+					args[i][0] = 2;
 				free(strs[0]);
 				free(strs[1]);
 			}
