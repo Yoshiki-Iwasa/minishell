@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 14:09:45 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/06/25 14:17:42 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:41:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 char	*ft_strrchr(const char *cp, int ch)
 {
 	char *save;
-	char c;
 
-	c = ch;
 	save = (char*)0;
 	while (1)
 	{

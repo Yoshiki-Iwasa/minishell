@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:33:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:40:43 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,6 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 {
 	int i = 0;
 	char *arg;
-	int flag;
 	char **splited;
 	int count;
 	int strs_num;
@@ -315,7 +314,6 @@ int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val)
 			i++;
 			continue ;
 		}
-		flag = 0;
 		if (ft_strchr(arg, '$') != 0)
 		{
 			count = count_dollor(arg); //何個$ があるかを確認。
