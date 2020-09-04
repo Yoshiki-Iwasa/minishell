@@ -171,7 +171,7 @@ int main(int argc, char **argv, char **envp)
 // ft_putstr_fd("@@ggg@#NMM#H@@@HI~``` __.`-zWWUXuuzzzvI<++zwZZyyyyVfpbbkqgmkkHMMMHHWXrlllllltttrrrrrrrrrrrvvzzzzuuuuZZZZZZyyyyyyVyVVVVVVVyyyyZZZZZZZZZZZuZuZuuuuuuZyWHggHfVyXXwOz<:<+?1++_~(zXWkbppfWWyyZXWHHMM##N#NNNMN\n",1);
 // ft_putstr_fd("H@@gg@MMNN#H@ggKI_  `.~~___juZuuuzuuwI<:+wXyZZyyyyyVfpbkqqkpbqg@qkbVXttllttttttttrrrrrttttttttrrrrvzuuuuuZZZZZZyyyyyyyyyyyyZZZZZZZZZZZZZZZZuuuuuuZZVpqgHW0z1zOXwI<<~:;><<?<(+wWqkbbbppfVyyyyyWWHHMMMM##N\n",1);
 // ft_putstr_fd("@@@gg@H#NNN#M@gWI_`  .~~:~_juZuuzuZXO<<+wwZyyyZyyVVVfppkkkbfWHgmkbpfXOlltlllttttttttttrtttrttttttrrrvvzuuuuZZZZZZZyZyyyyyyZyZZZZuZuZZZZZZZZuZuuuZZyfWmH0>_   _~<<::(<1=<<:<>?zWkkkkkkbbpfffVVVyyZXWWHMMH\n",1);
-// 	shell_start(envp);
+ 	shell_start(envp);
 /*
  ** ここ以降の条件分岐は、argc と argv がunused で起こられないため。
 */
