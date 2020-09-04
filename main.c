@@ -36,7 +36,7 @@ void	shell_start(char **envp)
 	vals.d_val = NULL;
 	vals.e_val = NULL;
 	setting_signal(); // シグナルハンドルが入っている。
-	if (!update_val(&(vals.d_val), "?=1")) //終了ステータスを表すシェル変数を?=1で初期化
+	if (!update_val(&(vals.d_val), "?=0")) //終了ステータスを表すシェル変数を?=1で初期化
 	{
 		exit(EXIT_FAILURE);
 	}
