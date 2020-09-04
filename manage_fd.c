@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:26:19 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 06:49:30 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:26:57 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 
 void	recover_stdinout(int in_out, int *stdin_fd, int *stdout_fd, int *stderror_fd)
 {
-	int dup2_rv;
-
 	if (in_out == 0)
 	{
 		close(0);
@@ -30,7 +28,7 @@ void	recover_stdinout(int in_out, int *stdin_fd, int *stdout_fd, int *stderror_f
 	{
 		close(1);
 		// close(*fd);
-		dup2_rv = dup2(*stdout_fd, 1);
+		dup2(*stdout_fd, 1);
 	}
 	if(in_out == 2)
 	{

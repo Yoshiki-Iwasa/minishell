@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:08:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:23:30 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char*	find_value(t_list **val, char *key)
 	char *value;
 	int key_len;
 	t_list *search;
+	char *ptr;
 
 	errno = 0;
 	key_len = ft_strlen(key);
@@ -50,7 +51,8 @@ char*	find_value(t_list **val, char *key)
 	{
 		if (!ft_strncmp(search->content, key, key_len))
 		{
-			value = ft_strdup(&(search->content[key_len]));
+			ptr = search->content;
+			value = ft_strdup(&((ptr[key_len])));
 			if (!value)
 				return (0);
 			return (value);
