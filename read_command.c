@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 13:08:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:30:10 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char *g_tmp2;
 
 void	sig_free_line(int sig)
 {
-	sig = 0;
+	sig = 1;
 	free(g_tmp);
 	g_tmp = ft_strdup("");
 	g_tmp2 = ft_strdup("");
-	write(1, "\n",1);
+	write(1, "\n",sig);
 	ft_putstr_fd("minishell$ ", 1);
 }
 
