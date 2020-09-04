@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 15:41:18 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 09:40:04 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		check_key_str(char *arg)
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
 
-int		no_pipe(char **args, t_edlist *vals, char **paths)
+int		no_pipe(char **args, t_edlist *vals)
 {
 	int fd;
 	int in_out;
@@ -96,7 +96,9 @@ int		no_pipe(char **args, t_edlist *vals, char **paths)
 	int stderror_fd;
 	int rv;
 	char *origin_arg;
+	char **paths;
 
+	paths = get_PATH(vals->e_val);
 	escape_fds(&stdin_fd, &stdout_fd, &stderror_fd); //リダイレクトのあとに標準入出力を復帰させるためにエスケープさせる。
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
 	paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)。/
@@ -160,7 +162,7 @@ void	args_into_array(char **args, char ****args_array, int pipe_num)
 /*
 	パイプでつながれたコマンドの実行を再帰的に行う関数
 */
-void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **paths)
+void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals)
 {
 	pid_t ret;
 	int rv;
@@ -168,7 +170,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 	if (i == com_num - 1)
 	{
 		// 左端なら単に実行
-		rv = no_pipe(args_array[0], vals, paths);
+		rv = no_pipe(args_array[0], vals);
 		exit(rv);
 	}
 	else
@@ -183,7 +185,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 			close(pp[0]);
 			dup2(pp[1], 1);
 			close(pp[1]);
-			exec_pipes(i + 1, args_array, com_num, vals, paths);
+			exec_pipes(i + 1, args_array, com_num, vals);
 			exit(0);
 		}
 		else
@@ -194,7 +196,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 				close(pp[1]);
 				dup2(pp[0], 0);
 				close(pp[0]);
-				no_pipe(args_array[com_num -i -1], vals, paths);
+				no_pipe(args_array[com_num -i -1], vals);
 				wait(NULL);
 				exit(0);
 		}
@@ -207,7 +209,7 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals, char **p
 */
 
 
-int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
+int		yes_pipe(char **args, t_edlist *vals, int pipe_count)
 {
 	char	**envp;
 	int		status;
@@ -222,7 +224,7 @@ int		yes_pipe(char **args, t_edlist *vals, char **paths, int pipe_count)
 	ret = fork();
 	if (ret == 0)
 	{
-		exec_pipes(0, args_array, pipe_count + 1, vals, paths); //一番右のコマンドを親として、右から左にコマンドを順次実行させる。
+		exec_pipes(0, args_array, pipe_count + 1, vals); //一番右のコマンドを親として、右から左にコマンドを順次実行させる。
 	}
 	else
 	{

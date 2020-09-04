@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 12:55:40 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 09:29:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		sig_handle_bs(int sig)
 	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
-		ft_putstr_fd("^\\Quit\n", 1);
+		ft_putstr_fd("^\\Quit\n", 2);
 		kill_rv = kill(g_pid, SIGQUIT);
 	}
 	else
@@ -103,6 +103,7 @@ int	child_precess(char **args, char **envp, char **paths, char *origin_arg)// ar
 			errno = 2;
 			break ;
 		}
+		command[0] = '\0';
 		cmd_ptr = ft_strcat(command, paths[i]); //環境変数PATH を一個ずつ試す。
 		cmd_ptr = ft_strcat(command, "/");
 		cmd_ptr = ft_strcat(command, args[0]); //これで /user/bin/ls みたいにパスを完成させる。
@@ -115,23 +116,23 @@ int	child_precess(char **args, char **envp, char **paths, char *origin_arg)// ar
 	{
 		if (paths[0][0]  == '\0') //PATH がunset された時
 		{
-			ft_putstr_fd("bash: ",1);
-			ft_putstr_fd(origin_arg, 1);
-			ft_putstr_fd(": No such file or directory\n", 1);
+			ft_putstr_fd("bash: ",2);
+			ft_putstr_fd(origin_arg, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 		}
 		else
 		{
 			if (origin_arg[0] == '/' || !ft_strncmp(origin_arg, "./", 2))
 			{
-				ft_putstr_fd("bash: ",1);
-				ft_putstr_fd(origin_arg, 1);
-				ft_putstr_fd(": No such file or directory\n", 1);
+				ft_putstr_fd("bash: ",2);
+				ft_putstr_fd(origin_arg, 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
 			}
 			else
 			{
-				ft_putstr_fd("bash: ",1);
-				ft_putstr_fd(origin_arg, 1);
-				ft_putstr_fd(": commnad not found\n", 1);
+				ft_putstr_fd("bash: ",2);
+				ft_putstr_fd(origin_arg, 2);
+				ft_putstr_fd(": commnad not found\n", 2);
 			}
 
 		}

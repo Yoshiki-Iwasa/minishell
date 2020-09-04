@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 08:40:21 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 09:42:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  ** 各コマンドを実行する前にパイプの有無を見て処理を変える関数。
 */
 
-int		shell_execute(char **args, t_edlist *vals, char **paths)
+int		shell_execute(char **args, t_edlist *vals)
 {
 	int pipe_count; //パイプの個数。
 	int	rv; //コマンド実行時の返り値を取得。
@@ -24,7 +24,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	pipe_count = count_pipe(args);
 	if (pipe_count == 0)
 	{
-		rv = no_pipe(args, vals, paths); //ここの返り値を見て、成功したら１、失敗したら０
+		rv = no_pipe(args, vals); //ここの返り値を見て、成功したら１、失敗したら０
 		if (rv == 0)
 		{
 			if (!update_val(&(vals->d_val), "?=0"))
@@ -40,7 +40,7 @@ int		shell_execute(char **args, t_edlist *vals, char **paths)
 	}
 	else
 	{
-		rv = yes_pipe(args, vals, paths, pipe_count);
+		rv = yes_pipe(args, vals, pipe_count);
 		if (rv == 0)
 		{
 			if (!update_val(&(vals->d_val), "?=0"))
@@ -125,10 +125,12 @@ char	**add_paths_and_change_arg0(char **argZero, char **paths)
 		{
 			if ((*argZero)[i] == '/') //パスとして最後のスラッシュを探している。
 			{
-				execFile_ptr = ft_strdup(&(*argZero)[i + 1]);
+				execFile_ptr = ft_strdup(&(*argZero)[i + 1]);//	実行ファイル名前の部分。
 				new_path = ft_substr(*argZero, 0, i);// スラッシュの一個手前まで取ってくる。
 				free(*argZero);
-				paths = add_new_path(new_path, paths);
+				paths = malloc(sizeof(char*) * 2);
+				paths[0] = ft_strdup(new_path);
+				paths[1] = NULL;
 				*argZero = execFile_ptr;// arg0 を実行ファイル名のみに。
 				free(new_path);
 				break ;
@@ -148,7 +150,7 @@ char	**add_paths_and_change_arg0(char **argZero, char **paths)
  ** 一個以上のコマンドを順に実行するコマンド。
 */
 
-int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
+int		exec_each_command(t_edlist vals, char **args, int cmd_num)
 {
 	int		state;
 	int		semi_co_place;
@@ -165,7 +167,7 @@ int		exec_each_command(t_edlist vals, char **paths, char **args, int cmd_num)
 		}
 		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
 
-		state = shell_execute(args, &(vals), paths); // ”;”　で区切られた各コマンドを実行する関数。
+		state = shell_execute(args, &(vals)); // ”;”　で区切られた各コマンドを実行する関数。
 		if (!state)
 			break;
 		cmd_num--;
@@ -203,19 +205,14 @@ int		commnad_loop(t_edlist vals)
 	char	*line;
 	char	**args;
 	int		cmd_num;
-	char	**paths;
 	int		arglen;
 
 	state = 1;
 	while (state)
 	{
-		paths = get_PATH(vals.e_val);//PATHがない場合は空文字列配列になる。
 		ft_putstr_fd("minishell$ ", 1);
 		if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
-		{
-			free_all(paths, 0);
 			continue ;
-		}
 		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable を挿入
 											// ' 'は 1, '$' は 2 にしてある。
 									// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
@@ -242,8 +239,7 @@ int		commnad_loop(t_edlist vals)
 			free_args(args, line, arglen);
 			continue ;
 		}
-		state = exec_each_command(vals, paths, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
-		free_all(paths, 0);
+		state = exec_each_command(vals, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
 		free_args(args, line, arglen);
 	}
 	return (1);

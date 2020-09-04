@@ -3,9 +3,7 @@
 #include <unistd.h>
 int main()
 {
-	char buf[10];
-	printf("%zd\n",read(0, buf, 9));
-	printf("%c\n", buf[0]);
+	printf("ls OK\n");
 }
 
 #endif
