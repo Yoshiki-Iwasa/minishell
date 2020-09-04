@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 12:52:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 13:03:18 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char	**add_new_path(char *new_path, char **paths)
 	new_paths[i] = ft_strdup(new_path);
 	i++;
 	new_paths[i] = NULL;
+	free_all(paths, 0);
 	return (new_paths);
 }
 
@@ -120,6 +121,7 @@ char	**add_paths_and_change_arg0(char **argZero, char **paths)
 	i = 0;
 	if (((*argZero)[0] == '.' || (*argZero)[0] == '/' ) && (*argZero)[1] != '\0')
 	{
+		free_all(paths, 0);
 		i = ft_strlen(*argZero);
 		while (i >= 0)
 		{
@@ -232,6 +234,7 @@ int		commnad_loop(t_edlist vals)
 		fix_args(args, 5, '<');
 		fix_args(args, 6, '2');
 		fix_args(args, 7, '>');
+		fix_args(args, 9, ' ');
 		if(!(cmd_num = count_commands(args))) //ここで何個コマンド列が ';' で区切られているか数える。
 		{
 			update_val(&vals.d_val, "?=258");

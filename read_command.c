@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/03 15:20:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/04 13:08:43 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int		read_command(char **line, int *state)
 				free(g_tmp2);
 				free(*line);
 			}// 無視したいのは、Ctrl + C が押された時。Ctrl + C が押されたら、line を freeして空文字列にする。
-			free(g_tmp2);
 			g_tmp2 = *line;
 			*line = ft_strjoin(g_tmp, g_tmp2);
 			free(g_tmp);
