@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:07:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 11:19:37 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 09:48:38 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ void	insert_unprintable(char *line)
 				}
 				if (line[i + 1] == '"' && (line[i + 2] == '\0' || line[i + 2] == ' '))
 				{
+					if (i > 0 && line[i - 1] == '\\')
+					{
+						i += 2;
+						continue ;
+					}
 					line[i] = ' ';
 					line[i + 1] = 4;
 					i += 2;
@@ -110,6 +115,18 @@ void	insert_unprintable(char *line)
 					line[i] = ' ';
 					line[i + 1] = 4;
 					i += 2;
+					continue ;
+				}
+				if (line[i + 1] == 39 && (line[i + 2] == '\0' || line[i + 2] == ' '))
+				{
+					line[i] = ' ';
+					line[i + 1] = 4;
+					i += 2;
+					continue ;
+				}
+				if (line[i + 1] == '\\')
+				{
+					i+=2;
 					continue ;
 				}
 				else

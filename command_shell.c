@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:53:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 08:29:08 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,6 @@
 
 pid_t	g_pid;
 int		g_count;
-
-// /*
-//  ** シグナルハンドラー(ctrl-C 用)
-// */
-
-// void		sig_handle_C(int sig)
-// {
-// 	int kill_rv;
-// 	sig = 0;
-// 	if (g_pid != 0)
-// 	{
-// 		write(1, "\b\b^C", 4);
-// 		kill_rv = kill(g_pid, SIGINT);
-// 		write(1, "\n",1);
-// 	}
-// 	else
-// 	{
-// 		write(1, "\n",1);
-// 		ft_putstr_fd("minishell$ ", 1);
-// 	}
-// }
 
 /*
  ** シグナルハンドラー(ctrl-C 用)
@@ -106,7 +85,9 @@ int	child_precess(char **args, char **envp, char **paths, char *origin_arg)// ar
 		cmd_ptr = ft_strcat(command, "/");
 		cmd_ptr = ft_strcat(command, args[0]); //これで /user/bin/ls みたいにパスを完成させる。
 		//相対パスと、絶対パスによる実行のために、コマンドの入力が スラッシュか、ピリオ土ではじまったときは、パスをpaths に追加した後、args[0]を編集する。
-		execve(cmd_ptr, args, envp); //実行がうまく行けば子プロセスはここで終了。
+		// ft_putendl(args[0]);
+		int rv;
+		rv = execve(cmd_ptr, args, envp); //実行がうまく行けば子プロセスはここで終了。
 		cmd_ptr[0] = '\0';
 		i++;
 	}
@@ -144,6 +125,10 @@ int	child_precess(char **args, char **envp, char **paths, char *origin_arg)// ar
 		ft_putstr_fd(": Permission denied\n", 1);
 		exit(126);
 	}
+	// else if (errno = 8)
+	// {
+
+	// }
 	return (0);
 }
 
