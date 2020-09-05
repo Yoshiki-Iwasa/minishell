@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 13:30:26 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 17:40:03 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,10 @@ int		check_doller_exit(char *arg)
 		i++;
 	}
 	return (0);
+}
+
+int		free_return(char *arg, int rv)
+{
+	free(arg);
+	return(rv);
 }

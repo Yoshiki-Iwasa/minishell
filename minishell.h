@@ -93,5 +93,7 @@ void	change_stderror_fd(char *arg, int *fd);
 void change_stdout_fd_set_null(char **arg, int *flag_out, int *fd, int *i);
 void change_stdout_fd_set_null_append(char **args, int *flag_out, int *fd, int *i);
 void change_stderror_fd_set_null(char **args, int *flag_error, int *fd, int *i);
+int		free_return(char *arg, int rv);
+
 
 #endif

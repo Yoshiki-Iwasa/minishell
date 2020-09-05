@@ -6,15 +6,15 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 11:49:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 17:35:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- ** コマンドを分割するために  セミコロンの部分をnull にしている
- ** args をあとでまとめてfree するためにNULL で ； を埋めてる
+** コマンドを分割するために  セミコロンの部分をnull にしている
+** args をあとでまとめてfree するためにNULL で ； を埋めてる
 */
 
 void	change_semicon_null(char **args, int *semi_co_place)
@@ -25,9 +25,9 @@ void	change_semicon_null(char **args, int *semi_co_place)
 }
 
 /*
- ** シグナルの変換。
- ** リストの初期化。
- ** 環境変数はe_val に、シェル変数はd_val に。
+** シグナルの変換。
+** リストの初期化。
+** 環境変数はe_valにシェル変数はd_val に。
 */
 
 void	shell_start(char **envp)

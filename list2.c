@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 12:01:00 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 17:43:05 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ char	*get_key(char *arg)
 
 int		check_if_key_value(char *arg)
 {
-	while(ft_isspace(*arg))
+	while (ft_isspace(*arg))
 		arg++;
-	while(*arg != '=' && *arg != '\0')
+	while (*arg != '=' && *arg != '\0')
 		arg++;
 	if(*arg == '\0')
 		return (0);
@@ -64,7 +64,7 @@ int		check_if_key_value(char *arg)
  ** 新しい要素をリストの一番後ろに追加する関数
 */
 
-int		add_val(t_list **val, char *arg) //ただ加えるだけじゃなくて、更新もしないといけないか。
+int		add_val(t_list **val, char *arg)
 {
 	t_list *new;
 
@@ -78,16 +78,16 @@ int		add_val(t_list **val, char *arg) //ただ加えるだけじゃなくて、�
 }
 
 /*
- ** すでにあるkey=valueのvalue を変更する。
- ** もしarg に対応するエントリーが存在しなければarg をリストに追加。
- ** arg は key=value 型で送られてくる。
+** すでにあるkey=valueのvalue を変更する。
+** もしarg に対応するエントリーが存在しなければarg をリストに追加。
+** arg は key=value 型で送られてくる。
 */
 
 int		update_val(t_list **val, char *arg)
 {
-	t_list *find;
-	char *key;
-	char *tmp;
+	t_list	*find;
+	char	*key;
+	char	*tmp;
 
 	key = get_key(arg);
 	if (!key)
@@ -97,24 +97,15 @@ int		update_val(t_list **val, char *arg)
 	{
 		tmp = find->content;
 		if (!(find->content = ft_strdup(arg)))
-		{
-			free(key);
-			return (0);
-		}
+			return (free_return(key, 0));
 		free(tmp);
 	}
 	else
 	{
 		if (!(tmp = ft_strdup(arg)))
-		{
-			free(key);
-			return (0);
-		}
-		if (!add_val(val, tmp)) //lst_newで全てmallcする仕様に変えて、delにfreeを渡すように実装する必要あり。
-		{
-			free(tmp);
-			return (0);
-		}
+			return (free_return(key, 0));
+		if (!add_val(val, tmp))
+			return (free_return(tmp, 0));
 		free(tmp);
 	}
 	free(key);

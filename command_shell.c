@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 11:37:05 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 07:52:26 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 pid_t	g_pid;
 int		g_count;
+int		g_core_flag;
 
 /*
  ** シグナルハンドラー(ctrl-C 用)
@@ -49,7 +50,6 @@ void		sig_handle_bs(int sig)
 	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
-		ft_putstr_fd("^\\Quit (core dumped)\n", 2);
 		sig = kill(g_pid, SIGQUIT);
 	}
 	else
@@ -160,15 +160,21 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths,
 		free_all(envp, 0);
 		//ここで終了ステータスを変更する関数を入れる。
 		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
-		// printf("status = %s\n", num_str);
+
 		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形
 		free(num_str);
 		update_val(d_val, status_str);//終了ステータス更新。
 		free(status_str);
 	}
-	if (WEXITSTATUS(status) == 0)
-		return (0);
-	if (WEXITSTATUS(status) == 1)
-		return (1);
+	if(WIFSIGNALED(status))
+	{
+		if(WTERMSIG(status) == SIGQUIT)
+		{
+			if(WCOREDUMP(status))
+				ft_putendl("^\\Quit: (core dumped)");
+			else
+				ft_putendl("^\\Quit");
+		}
+	}
 	return (WEXITSTATUS(status));
 }
