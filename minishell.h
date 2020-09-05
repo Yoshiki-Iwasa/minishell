@@ -41,7 +41,7 @@ int		command_unset(char **args, t_list *e_val, t_list *d_val);
 int		update_val(t_list **val, char *arg);
 int		ft_isspace(char c);
 int		check_if_key_value(char *arg);
-char	**get_PATH(t_list *e_val);
+char	**get_path(t_list *e_val);
 int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val);
 int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths, char *origin_arg);
 int		child_precess(char **args, char **envp, char **paths, char *origin_arg);
@@ -55,7 +55,7 @@ void	fix_args(char **args, char ascii, char c);
 void	pattern_double(char *line, int *i);
 void	pattern_single(char *line, int *i);
 void	insert_unprintable(char *line);
-int		deal_redirection(char **args, int *fd);
+int		deal_redirection(char **args, int *fd, char **error);
 int	 	change_stdin_fd(char *arg, int *fd);
 void	change_stdout_fd(char *arg, int *fd);
 void	sig_handle_C(int sig);
@@ -78,5 +78,14 @@ int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val);//key=value åž
 char	**add_paths_and_change_arg0(char **argZero, char **paths);
 void	free_args(char **args, char *line, int arglen);
 int		count_strs(char **args);
+void	change_stdout_fd(char *arg, int *fd);
+int		change_stdin_fd(char *arg, int *fd);
+void	change_stdout_fd_for_append(char *arg, int *fd);
+void	change_stderror_fd(char *arg, int *fd);
+void change_stdout_fd_set_null(char **arg, int *flag_out, int *fd, int *i);
+void change_stdout_fd_set_null_append(char **args, int *flag_out, int *fd, int *i);
+void change_stderror_fd_set_null(char **args, int *flag_error, int *fd, int *i);
+
+
 
 #endif

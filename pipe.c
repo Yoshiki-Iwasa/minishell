@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 13:52:21 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 14:39:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,18 @@ char		**check_and_change_equal(char **args)
 	new_args[j] = NULL;
 	return (new_args);
 }
+
+/*
+ ** error出力のための関数。
+*/
+
+static void	put_error(char *arg)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+}
+
 /*
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
@@ -128,16 +140,18 @@ int		no_pipe(char **args, t_edlist *vals)
 	int rv;
 	char *origin_arg;
 	char **paths;
+	char *error;
 
 	args = check_and_change_equal(args);//ここでargs を新しくしている。もともとのargs は free_args で開放している。
 	fix_args(args, 8, '=');
-	paths = get_PATH(vals->e_val);
+	paths = get_path(vals->e_val);
 	escape_fds(&stdin_fd, &stdout_fd, &stderror_fd); //リダイレクトのあとに標準入出力を復帰させるためにエスケープさせる。
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
 	paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)。/
-	in_out = deal_redirection(args, &fd);//リダイレクトの処理を入れている。
+	in_out = deal_redirection(args, &fd, &error);//リダイレクトの処理を入れている。
 	if (in_out == -1)
 	{
+		put_error(error);
 		free_all(paths, origin_arg);
 		return (1);
 	}

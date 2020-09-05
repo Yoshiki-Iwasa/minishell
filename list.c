@@ -6,32 +6,11 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 11:56:09 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 12:30:01 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- ** 一番最初に環境変数をリスト構造に初期化する関数。
-*/
-
-int		init_e_val_list(t_list **e_val, char **envp)
-{
-	t_list *new;
-
-	*e_val = ft_lstnew(*envp);
-	if (*e_val == NULL)
-		return (0);
-	envp++;
-	while (*envp != NULL)
-	{
-		new = ft_lstnew(*envp);
-		ft_lstadd_back(e_val, new);
-		envp++;
-	}
-	return (1);
-}
 
 /*
  ** keyに該当するvalue だけを返す関数。これはfreeを考える必要あり
@@ -106,6 +85,17 @@ t_list		*search_entry(t_list *val, char *key)
 }
 
 /*
+ ** 一個要素を消して、つなげる関数。
+*/
+
+void		del_one(t_list **val, t_list **tmp, void (*del)(void*))
+{
+	*tmp = (*val)->next;
+	ft_lstdelone(*val, del);
+	(*val) = *tmp;
+}
+
+/*
  ** list のなかのkey に該当するlist を消す関数。
 */
 
@@ -122,11 +112,7 @@ void		lst_del_connect(t_list **val, char *key, void (*del)(void*))
 		if (!ft_strncmp(search->content, key, ft_strlen(key)))
 		{
 			if (num == 0)
-			{
-				tmp = (*val)->next;
-				ft_lstdelone(*val, del);
-				(*val) = tmp;
-			}
+				del_one(val, &tmp, del);
 			else
 			{
 				tmp = find_num_list(*val, num - 1);
