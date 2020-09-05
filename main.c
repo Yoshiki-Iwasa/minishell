@@ -6,24 +6,15 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 06:37:57 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 10:10:56 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#ifdef LEAKS
-
-__attribute__((destructor))
-void  end()
-{
-  while(1);
-}
-
-#endif
 /*
  ** コマンドを分割するために  セミコロンの部分をnull にしている
- ** args をあとでまとめてfree するためにNULL で　；　を埋めてる
+ ** args をあとでまとめてfree するためにNULL で ； を埋めてる
 */
 
 void	change_semicon_null(char **args, int *semi_co_place)
