@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 14:23:30 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 11:56:09 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ int		init_e_val_list(t_list **e_val, char **envp)
  ** keyに該当するvalue だけを返す関数。これはfreeを考える必要あり
 */
 
-char*	find_value(t_list **val, char *key)
+char		*find_value(t_list **val, char *key)
 {
-	char *value;
-	int key_len;
-	t_list *search;
-	char *ptr;
+	char	*value;
+	int		key_len;
+	t_list	*search;
+	char	*ptr;
 
 	errno = 0;
 	key_len = ft_strlen(key);
 	search = *val;
-	while(search)
+	while (search)
 	{
 		if (!ft_strncmp(search->content, key, key_len))
 		{
@@ -66,11 +66,11 @@ char*	find_value(t_list **val, char *key)
  ** num 番目のlistのアドレスを返す関数。
 */
 
-t_list *find_num_list(t_list *lst, int num)
+t_list		*find_num_list(t_list *lst, int num)
 {
-	int i = 0;
+	int i;
 
-
+	i = 0;
 	if (!lst)
 		return (0);
 	while (i < num)
@@ -87,9 +87,9 @@ t_list *find_num_list(t_list *lst, int num)
 
 t_list		*search_entry(t_list *val, char *key)
 {
-	char	*key_equal;//ここで、送られて来たkey は "key="の形に変えて、比較してあげる方がいい。
-					//freeが心配だけど。
-	key_equal = ft_strdup(key); //ここでどうも
+	char	*key_equal;
+
+	key_equal = ft_strdup(key);
 	if (!key_equal)
 		return (NULL);
 	while (val)
@@ -97,7 +97,7 @@ t_list		*search_entry(t_list *val, char *key)
 		if (!ft_strncmp(val->content, key_equal, ft_strlen(key_equal)))
 		{
 			free(key_equal);
-			return (val);//見つけた場所のアドレス。
+			return (val);
 		}
 		val = val->next;
 	}
@@ -106,22 +106,22 @@ t_list		*search_entry(t_list *val, char *key)
 }
 
 /*
-	list のなかのkey に該当するlist を消す関数。
+ ** list のなかのkey に該当するlist を消す関数。
 */
 
-void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
+void		lst_del_connect(t_list **val, char *key, void (*del)(void*))
 {
-	t_list *search;
-	t_list *tmp;
-	int num;
+	t_list	*search;
+	t_list	*tmp;
+	int		num;
 
 	num = 0;
 	search = *val;
 	while (search)
 	{
 		if (!ft_strncmp(search->content, key, ft_strlen(key)))
-		{//このエントリーがkeyを含んでたら、valのそこを消して、入れ替える。
-			if (num == 0) //先頭を消さないといけない場合。
+		{
+			if (num == 0)
 			{
 				tmp = (*val)->next;
 				ft_lstdelone(*val, del);
@@ -129,9 +129,8 @@ void	lst_del_connect(t_list **val, char *key ,void (*del)(void*))
 			}
 			else
 			{
-				tmp = find_num_list(*val, num -1); //keyが見つかった一個前のリストのアドレス
-				tmp->next = search->next; //一個前の次を見つかった奴の次にする。
-				// ft_lstdelone(search, free); <- これ入れて領域解放せよ
+				tmp = find_num_list(*val, num - 1);
+				tmp->next = search->next;
 			}
 			return ;
 		}

@@ -10,6 +10,7 @@
 #include "./libft/libft.h"
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <signal.h>

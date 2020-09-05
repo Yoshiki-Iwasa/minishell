@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/08/28 18:05:05 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/05 12:01:00 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_key(char *arg)
 	char	*key_equal;
 
 	key_len = 0;
-	while (arg[key_len] != '=')
+	while (arg[key_len] != '=' && arg[key_len] != '\0')
 		key_len++;
 	key = malloc(key_len + 1); // malloc ガード入れる必要あり。
 	i = 0;
