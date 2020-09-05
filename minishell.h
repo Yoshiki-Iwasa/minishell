@@ -21,6 +21,14 @@ typedef	struct	s_edlist
 	t_list *d_val;
 }				t_edlist;
 
+typedef struct	s_flags
+{
+	int flag_in;
+	int flag_out;
+	int flag_error;
+}				t_flags;
+
+
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_strsdup(char **args);
 char*	find_value(t_list **val, char *key);
@@ -85,7 +93,5 @@ void	change_stderror_fd(char *arg, int *fd);
 void change_stdout_fd_set_null(char **arg, int *flag_out, int *fd, int *i);
 void change_stdout_fd_set_null_append(char **args, int *flag_out, int *fd, int *i);
 void change_stderror_fd_set_null(char **args, int *flag_error, int *fd, int *i);
-
-
 
 #endif
