@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 15:57:59 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 19:22:36 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,10 @@ int		exec_each_command(t_edlist vals, char **args, int cmd_num)
 	int		state;
 	int		semi_co_place;
 
+
 	while(cmd_num)
 	{
+		state = 1;
 		change_semicon_null(args, &semi_co_place);//セミコロンがどこにあるかsemi_co_place に格納。同時に、セミコロンがあった場所はNULLにしてある。
 		if(!translate_dollor_valiable(args, (vals.d_val), vals.e_val)) // ここで、$変数を変換している。
 		{
@@ -174,7 +176,14 @@ int		exec_each_command(t_edlist vals, char **args, int cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
+		if (args[0][0] == 2 || args[0] == 0 || args[0][0] == 0)
+		{
+			cmd_num--;
+			if (cmd_num)
+				args = &args[semi_co_place + 1];
+			continue ;
 
+		}
 		 //エスケープされていた'$'はここで復帰させる。
 								//復帰させるのはここでないと、上の＄変換関数で変換されちゃうから。
 		state = shell_execute(args, &(vals)); // ”;”　で区切られた各コマンドを実行する関数。
@@ -215,7 +224,9 @@ int		launch_shell(t_edlist vals, char *line)
 	char	**args;
 	int		cmd_num;
 	int		arglen;
+	int		esc_flag;
 
+	esc_flag = 0;
 		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable 文字を挿入
 											// ' 'は 1, '$' は 2 にしてある。
 									//加えて、バックスラッシュの

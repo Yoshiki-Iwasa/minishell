@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 15:40:25 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 18:39:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		no_pipe(char **args, t_edlist *vals)
 		return (0);
 	fix_args(args, 2, '$');
 	args = check_and_change_equal(args);//ここでargs を新しくしている。もともとのargs は free_args で開放している。
-	if (args[0] == 0)
+	if (args[0] == 0 || args[0][0] == 0)
 		return (0);
 	fix_args(args, 8, '=');
 	paths = get_path(vals->e_val);
