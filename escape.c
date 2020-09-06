@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 10:49:02 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 16:02:39 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,14 @@ char	*preparation_for_escape(char *line)
 	j = 0;
 	while(line[i] != '\0')
 	{
+		// if (i > 0 && line[i] == '$' )
+		// {
+		// 	new_line[j] = ' ';
+		// 	new_line[j + 1] = '$';
+		// 	j+=2;
+		// 	i++;
+		// 	continue;
+		// }
 		if (i > 0 && line[i] == ';')
 		{
 			new_line[j] = ' ';
