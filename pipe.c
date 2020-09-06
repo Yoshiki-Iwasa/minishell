@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 11:41:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 12:06:33 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int		count_pipe(char **args)
 		{
 			// args[i] = NULL;
 			i++;
+			if (!args[i])
+				break ;
 		}
 		if(!ft_strcmp(args[i], "|"))
 			count++;
@@ -164,6 +166,9 @@ int		no_pipe(char **args, t_edlist *vals)
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
 	paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)。/
 	in_out = deal_redirection(args, &fd, &error);//リダイレクトの処理を入れている。
+	fix_args(args, 3, '>');
+	fix_args(args, 5, '<');
+	fix_args(args, 7, '>');
 	if (in_out == -1)
 	{
 		put_error(error);

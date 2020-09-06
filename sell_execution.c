@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 11:41:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 12:05:48 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,25 +237,22 @@ int		commnad_loop(t_edlist vals)
 			free(line);
 			continue ;
 		}
+		if (!(check_syntax(args)))// リダイレクトのsyntax をチェックしてる。
+		{
+			//ここに入るのは $ pwd > みたいな時。
+			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 2);
+			free_args(args, line, arglen);
+			continue ;
+		}
 		// ここ以降は、エスケープさせてた文字の一部を復帰させる。
 		fix_args(args, 1, ' ');// 非表示文字 1 が入ってる部分をスペースに置き換える。
 		fix_args(args, 4, '\0');
-		fix_args(args, 3, '>');
-		fix_args(args, 5, '<');
 		fix_args(args, 6, '2');
-		fix_args(args, 7, '>');
 		fix_args(args, 9, ' ');
 		if(!(cmd_num = count_commands(args))) //ここで何個コマンド列が ';' で区切られているか数える。
 		{
 			// ここに入ってくるのは、 $ pwd ;; pwd とか $ ; のとき。
 			update_val(&vals.d_val, "?=258");
-			free_args(args, line, arglen);
-			continue ;
-		}
-		if (!(check_syntax(args)))// リダイレクトのsyntax をチェックしてる。
-		{
-			//ここに入るのは $ pwd > みたいな時。
-			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 2);
 			free_args(args, line, arglen);
 			continue ;
 		}
