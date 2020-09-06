@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 20:28:29 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 20:32:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	**add_new_path(char *new_path, char **paths)
 		new_paths[i] = ft_strdup(paths[i]);
 		i++;
 	}
+
 	new_paths[i] = ft_strdup(new_path);
 	i++;
 	new_paths[i] = NULL;
