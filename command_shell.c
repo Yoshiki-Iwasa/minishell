@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 10:14:29 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 10:49:49 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths,
 		if (WTERMSIG(status) == SIGINT)
 		{
 			// ft_putendl("kiteru\n");
-			write (1, "\n", 1);
+			// write (1, "\n", 1);
 		}
 	}
 	return (WEXITSTATUS(status));
