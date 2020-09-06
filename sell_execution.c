@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 11:09:03 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 11:41:43 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ int		commnad_loop(t_edlist vals)
 			continue ;
 		args = ft_split(line, ' '); //スペースごとにコマンドを分割
 		arglen = count_strs(args); //後にargs をfree するために必要。
-									//なぜなら、あとで";" をNULLに置換するので事前に文字列配列の長さを確保しておく。
+
 
 		if (args == NULL || args[0] == NULL)
 		{
