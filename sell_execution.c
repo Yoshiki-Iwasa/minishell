@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 12:05:48 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 15:57:59 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ int		shell_execute(char **args, t_edlist *vals)
 				return (1);
 			free(state_val);
 			free(state);
+			if (rv == 0)
+				return (1);
+			else
+				return (rv);
 		}
 	}
 	else
@@ -170,7 +174,8 @@ int		exec_each_command(t_edlist vals, char **args, int cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
-		fix_args(args, 2, '$'); //エスケープされていた'$'はここで復帰させる。
+
+		 //エスケープされていた'$'はここで復帰させる。
 								//復帰させるのはここでないと、上の＄変換関数で変換されちゃうから。
 		state = shell_execute(args, &(vals)); // ”;”　で区切られた各コマンドを実行する関数。
 		if (!state) //state = 0でminishell 終了。
@@ -204,30 +209,19 @@ int		check_syntax(char **args)
 
 }
 
-/*
- ** コマンドの実行の前に、入力取得ー＞ エスケープの処理 -> セミコロンによるコマンド分割を行う。
-*/
-
-int		commnad_loop(t_edlist vals)
+int		launch_shell(t_edlist vals, char *line)
 {
 	int		state;
-	char	*line;
 	char	**args;
 	int		cmd_num;
 	int		arglen;
 
-	state = 1;
-	while (state)
-	{
-		ft_putstr_fd("minishell$ ", 1);
-		if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
-			continue ;
 		line = preparation_for_escape(line); //クオートで囲まれた文字列に対して、エスケープさせる必要のある文字にunprintable 文字を挿入
 											// ' 'は 1, '$' は 2 にしてある。
 									//加えて、バックスラッシュの
 									// ここで、シングルクオートの場合のみ、'$' を unprintable に変えておく。
 		if (!line)
-			continue ;
+			return (1);
 		args = ft_split(line, ' '); //スペースごとにコマンドを分割
 		arglen = count_strs(args); //後にargs をfree するために必要。
 
@@ -235,14 +229,14 @@ int		commnad_loop(t_edlist vals)
 		if (args == NULL || args[0] == NULL)
 		{
 			free(line);
-			continue ;
+			return (1);
 		}
 		if (!(check_syntax(args)))// リダイレクトのsyntax をチェックしてる。
 		{
 			//ここに入るのは $ pwd > みたいな時。
 			ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n", 2);
 			free_args(args, line, arglen);
-			continue ;
+			return (1) ;
 		}
 		// ここ以降は、エスケープさせてた文字の一部を復帰させる。
 		fix_args(args, 1, ' ');// 非表示文字 1 が入ってる部分をスペースに置き換える。
@@ -254,10 +248,29 @@ int		commnad_loop(t_edlist vals)
 			// ここに入ってくるのは、 $ pwd ;; pwd とか $ ; のとき。
 			update_val(&vals.d_val, "?=258");
 			free_args(args, line, arglen);
-			continue ;
+			return (1) ;
 		}
 		state = exec_each_command(vals, args, cmd_num); //この関数で ; で区切られた各コマンドを実行していく。
 		free_args(args, line, arglen);
+		return (state);
+}
+
+/*
+ ** コマンドの実行の前に、入力取得ー＞ エスケープの処理 -> セミコロンによるコマンド分割を行う。
+*/
+
+int		commnad_loop(t_edlist vals)
+{
+	int		state;
+	char	*line;
+
+	state = 1;
+	while (state != 0)
+	{
+		ft_putstr_fd("minishell$ ", 1);
+			if (!read_command(&line, &state)) //get_next_lineでコマンドラインの入力取得。
+			continue ;
+		state = launch_shell(vals, line);
 	}
 	return (1);
 }

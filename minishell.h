@@ -51,8 +51,8 @@ int		ft_isspace(char c);
 int		check_if_key_value(char *arg);
 char	**get_path(t_list *e_val);
 int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val);
-int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths, char *origin_arg);
-int		child_precess(char **args, char **envp, char **paths, char *origin_arg);
+int		exec_shell_command(char **args, t_edlist *vals, char **paths, char *origin_arg);
+int	child_precess(char **args, t_edlist *vals, char **paths, char *origin_arg);
 char	**change_into_array(t_list *e_val);
 int		count_commands(char **args);
 int		find_semi_co(char	**args);
@@ -100,5 +100,6 @@ int		check_key_str(char *arg);
 int		count_execs(char **args);
 int		count_pipe(char **args);
 void	args_into_array(char **args, char ****args_array, int pipe_num);
+int		launch_shell(t_edlist vals, char *line);
 
 #endif

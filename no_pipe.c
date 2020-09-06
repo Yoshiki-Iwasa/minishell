@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 13:00:40 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 15:40:25 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ int		no_pipe(char **args, t_edlist *vals)
 	char *error;
 
 	escape_fds(&stdin_fd, &stdout_fd, &stderror_fd); //リダイレクトのあとに標準入出力を復帰させるためにエスケープさせる。
+	if (args[0][0] == 2)
+		return (0);
+	fix_args(args, 2, '$');
 	args = check_and_change_equal(args);//ここでargs を新しくしている。もともとのargs は free_args で開放している。
+	if (args[0] == 0)
+		return (0);
 	fix_args(args, 8, '=');
 	paths = get_path(vals->e_val);
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
@@ -81,7 +86,7 @@ int		no_pipe(char **args, t_edlist *vals)
 			rv = 1;
 	}
 	else
-		rv = (exec_shell_command(args, vals->e_val, &(vals->d_val), paths, origin_arg));//build inではないコマンドが呼ばれるときに使われる。
+		rv = (exec_shell_command(args, vals, paths, origin_arg));//build inではないコマンドが呼ばれるときに使われる。
 	recover_stdinout(in_out, &stdin_fd, &stdout_fd, &stderror_fd);//標準入出力のfd を復帰させる。
 	free_all(args, 0);
 	free_all(paths, origin_arg);

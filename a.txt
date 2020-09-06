@@ -1,0 +1,5 @@
+invalid line
+
+echo ${USER}
+
+invalid line

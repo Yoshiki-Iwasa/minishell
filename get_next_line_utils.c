@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 12:02:09 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/06/30 12:03:07 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 15:30:38 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ size_t		ft_strlen(const char *str)
 {
 	int i;
 
+	if (str == NULL)
+		return (0);
 	i = 0;
 	while (*(str + i) != '\0')
 	{

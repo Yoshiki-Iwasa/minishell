@@ -126,3 +126,26 @@
 // printf("MHHUVOOllllllOrtrrvzrrrrrrrrtttlttttrttttttrrrrrvzzzzzzwOz_::;>??======?????>>>????==llttrrrrrtttrtttttttllltlltltlll==???>>>>>>>>???????>?>;;::::(+zrvvvvvvvrtttrtttrvrttttll=???=???>>>>>>><1OUWHH@@@@\n");
 // printf("UZOlllttrrrrtrttttttttttttrtrttttttllllttrrrrrvvvzzzvvzzvO<;:;;>????===???????>>?????==llltttttttttttttllllllllllll===??>>>>>>>>>?????>?>?>>>;:::<+zzzvvvvrrttrtrrrtrrrrtrtttllll==??????>??>?>?<+zOVWHH\n\n\n");
 // }
+
+#ifdef TEST
+#include "minishell.h"
+
+int main(int argc, char **argv, char **envp)
+{
+	char *cmd_ptr = "/Users/iwasayoshiki/42cursus/minishell/a.txt";
+	char *args[2];
+	args[0] = "a.txt";
+	args[1] = 0;
+	printf("%d\n",execve(cmd_ptr, args, envp));
+	printf("%d\n",errno);
+}
+#endif
+
+#ifdef LS
+#include "minishell.h"
+int main(int argc, char **argv, char **envp)
+{
+	printf("ls OK\n");
+
+}
+#endif
