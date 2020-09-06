@@ -28,7 +28,10 @@ SRCS = change_into_array.c \
 		utils2.c \
 		dollor_value.c \
 		change_fd.c \
-		change_fd2.c
+		change_fd2.c \
+		check_equal.c \
+		no_pipe.c \
+		pipe_utils.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell

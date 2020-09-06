@@ -95,6 +95,10 @@ void change_stdout_fd_set_null_append(char **args, int *flag_out, int *fd, int *
 void change_stderror_fd_set_null(char **args, int *flag_error, int *fd, int *i);
 int		free_return(char *arg, int rv);
 void	signel_pipe(int sig);
-
+char		**check_and_change_equal(char **args);
+int		check_key_str(char *arg);
+int		count_execs(char **args);
+int		count_pipe(char **args);
+void	args_into_array(char **args, char ****args_array, int pipe_num);
 
 #endif
