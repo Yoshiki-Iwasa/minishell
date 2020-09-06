@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 15:19:55 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 18:16:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void		sig_handle_bs(int sig)
 	int tmp;
 
 	tmp = sig;
-	// write(1, "\b\b  \b\b", 6);
+
+	write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
+		// ft_putendl("kiteru");
 		sig = kill(g_pid, SIGQUIT);
 	}
 	else
@@ -60,7 +62,9 @@ void		sig_handle_bs(int sig)
 	}
 	if (sig == -1)
 	{
-		signal(tmp, SIG_IGN);
+		// ft_putendl("KITERU");
+		// ft_putnbr_fd(tmp, 1);
+		// signal(tmp, SIG_IGN);
 	}
 }
 
@@ -166,22 +170,22 @@ int		exec_shell_command(char **args, t_edlist *vals, char **paths, char *origin_
 	else
 	{
 		wait(&status);
-	}
-	if(WIFSIGNALED(status))
-	{
-		if(WTERMSIG(status) == SIGQUIT)
+		if(WIFSIGNALED(status))
 		{
-			if(WCOREDUMP(status))
-				ft_putendl("Quit: (core dumped)");
-			else
-				ft_putendl("Quit");
+			if(WTERMSIG(status) == SIGQUIT)
+			{
+				if(WCOREDUMP(status))
+					ft_putendl("Quit: (core dumped)");
+				else
+					ft_putendl("Quit");
+			}
+			if (WTERMSIG(status) == SIGINT)
+			{
+				// ft_putendl("kiteru\n");
+				write (1, "\n", 1);
+			}
+			return (128 + WTERMSIG(status));
 		}
-		if (WTERMSIG(status) == SIGINT)
-		{
-			// ft_putendl("kiteru\n");
-			write (1, "\n", 1);
-		}
-		return (128 + WTERMSIG(status));
 	}
 	return (WEXITSTATUS(status));
 }
