@@ -141,11 +141,25 @@ int main(int argc, char **argv, char **envp)
 }
 #endif
 
-#ifdef LS
-#include "minishell.h"
-int main(int argc, char **argv, char **envp)
-{
-	printf("ls OK\n");
+// #include "minishell.h"
 
-}
-#endif
+// void	sig_ignore(int sig)
+// {
+// 	write(1,"\b\b  \b\b", 6);
+// 	signal(sig, SIG_IGN);
+// }
+
+// int main()
+// {
+// 	char buf[2];
+// 	int rv;
+// 	signal(SIGQUIT, sig_ignore);
+
+// 	rv = read(0,buf, 1);
+// 	buf[rv] = '\0';
+// 	write(1, "\n\n\n", 3);
+// 	ft_putnbr_fd(rv, 1);
+// 	write(1, "\n\n\n", 3);
+// 	ft_putnbr_fd(buf[0], 1);
+// 	write(1, "\n", 1);
+// }

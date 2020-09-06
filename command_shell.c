@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 20:30:38 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 06:51:30 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,12 @@ void		sig_handle_C(int sig)
 
 void		sig_handle_bs(int sig)
 {
-	int tmp;
-
-	tmp = sig;
-
-
 	if (g_pid != 0)
 	{
 		// ft_putendl("kiteru");
 		sig = kill(g_pid, SIGQUIT);
+		// write(1, "sig = ", 6);
+		// ft_putnbr_fd(sig,1);
 	}
 	else
 	{
@@ -62,10 +59,9 @@ void		sig_handle_bs(int sig)
 	}
 	if (sig == -1)
 	{
-		write(1, "\b\b  \b\b", 6);
-		// ft_putendl("KITERU");
-		// ft_putnbr_fd(tmp, 1);
-		// signal(tmp, SIG_IGN);
+		write(1,"\b\b  \b\b", 6);
+		// write(1, "pid = ", 6);
+		// ft_putnbr_fd(g_pid, 1);
 	}
 }
 

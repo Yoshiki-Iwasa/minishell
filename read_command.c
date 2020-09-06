@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 17:32:26 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 06:35:22 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		when_ctrl_d_pushed(char **line)
 int		read_command(char **line, int *state)
 {
 	int gnl_rv;
-
+	// signal(SIGQUIT, signal_read_command);
 	gnl_rv = get_next_line(0, line);
 	if (**line == '\0' && gnl_rv == 1)
 	{
@@ -72,5 +72,6 @@ int		read_command(char **line, int *state)
 	}
 	if (gnl_rv == -1)
 		return (0 * write(1, "GNL Fail\n", 9));
+	setting_signal();
 	return (1);
 }
