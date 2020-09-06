@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 19:22:36 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 20:28:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int		exec_each_command(t_edlist vals, char **args, int cmd_num)
 				args = &args[semi_co_place + 1];
 			continue ;
 		}
-		if (args[0][0] == 2 || args[0] == 0 || args[0][0] == 0)
+		if (args[0] == 0 || args[0][0] == 0)
 		{
 			cmd_num--;
 			if (cmd_num)
