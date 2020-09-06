@@ -6,12 +6,27 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 14:39:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 10:46:36 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+pid_t g_ret;
+int	  g_sig_count;
+
+void	signel_pipe(int sig)
+{
+	if (g_ret != 0)
+	{
+		// g_sig_count++;
+		sig = kill(g_ret, SIGINT);
+		if(!sig && g_sig_count == 1)
+		{
+			write(1, "\n", 1);
+		}
+	}
+}
 
 /*
 	> < >> を見て実行数が何個あるか数える関数。
@@ -221,8 +236,9 @@ void	args_into_array(char **args, char ****args_array, int pipe_num)
 */
 void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals)
 {
-	pid_t ret;
+	// pid_t ret;
 	int rv;
+	int status;
 	int pp[2] = {};
 	if (i == com_num - 1)
 	{
@@ -234,8 +250,9 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals)
 	{
 		// 左端以外ならpipeしてforkして親が実行、子が再帰
 		pipe(pp);
-		ret = fork();
-		if (ret == 0)
+		g_sig_count++;
+		g_ret = fork();
+		if (g_ret == 0)
 		{
 			// 子プロセスならパイプをstdoutにdup2してdopipes(i+1)で再帰し、
 			// 次のforkで親になった側が右からi+1番目のコマンドを実行
@@ -254,8 +271,8 @@ void	exec_pipes(int i, char ***args_array, int com_num, t_edlist *vals)
 				dup2(pp[0], 0);
 				close(pp[0]);
 				no_pipe(args_array[com_num -i -1], vals);
-				wait(NULL);
-				exit(0);
+				wait(&status);
+				exit(WEXITSTATUS(status));
 		}
 	}
 }
@@ -276,11 +293,12 @@ int		yes_pipe(char **args, t_edlist *vals, int pipe_count)
 
 	envp = change_into_array(vals->e_val); //環境変数リストを文字列に変換。
 	args_into_array(args, &args_array, pipe_count);// ここまでで、args_array でコマンドをパイプごとに分割できた
-	pid_t ret;
-
-	ret = fork();
-	if (ret == 0)
+	signal(SIGINT,signel_pipe);
+	g_sig_count = 0;
+	g_ret = fork();
+	if (g_ret == 0)
 	{
+
 		exec_pipes(0, args_array, pipe_count + 1, vals); //一番右のコマンドを親として、右から左にコマンドを順次実行させる。
 	}
 	else
@@ -288,6 +306,7 @@ int		yes_pipe(char **args, t_edlist *vals, int pipe_count)
 		wait(&status);
 		free_all(envp, 0);
 		//ここで終了ステータスを変更する関数を入れる。
+		setting_signal();
 		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
 		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形
 		free(num_str);
@@ -295,9 +314,5 @@ int		yes_pipe(char **args, t_edlist *vals, int pipe_count)
 		free(status_str);
 		free(args_array);
 	}
-	if (WEXITSTATUS(status) == 0)
-		return (1);
-	if (WEXITSTATUS(status) == 1)
-		return (0);
 	return (WEXITSTATUS(status));
 }

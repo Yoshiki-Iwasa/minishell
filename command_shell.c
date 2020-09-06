@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 08:19:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/06 10:14:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ void		sig_handle_C(int sig)
 {
 	if (g_pid != 0)
 	{
-		write(1, "\b\b^C", 4);
+		// write(1, "\b\b^C", 4);
 		sig = kill(g_pid, SIGINT);
-		write(1, "\n",1);
 		if(sig == -1)
+		{
+			write(1, "\n",1);
 			ft_putstr_fd("minishell$ ", 1);
+		}
 
 	}
-	else
+	else//入力途中にCtrl + C されても無視。
 	{
-		write(1, "\n",1);
-		ft_putstr_fd("minishell$ ", 1);
+			write(1, "\n",1);
+			ft_putstr_fd("minishell$ ", 1);
 	}
 }
 
@@ -47,7 +49,7 @@ void		sig_handle_bs(int sig)
 	int tmp;
 
 	tmp = sig;
-	write(1, "\b\b  \b\b", 6);
+	// write(1, "\b\b  \b\b", 6);
 	if (g_pid != 0)
 	{
 		sig = kill(g_pid, SIGQUIT);
@@ -123,10 +125,6 @@ int	child_precess(char **args, char **envp, char **paths, char *origin_arg)// ar
 		ft_putstr_fd(": Permission denied\n", 1);
 		exit(126);
 	}
-	// else if (errno = 8)
-	// {
-
-	// }
 	return (0);
 }
 
@@ -160,7 +158,6 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths,
 		free_all(envp, 0);
 		//ここで終了ステータスを変更する関数を入れる。
 		num_str = ft_itoa(WEXITSTATUS(status)); //終了ステータスを文字列としてゲット
-
 		status_str = ft_strjoin("?=", num_str); //終了ステータスの変数の更新用に整形
 		free(num_str);
 		update_val(d_val, status_str);//終了ステータス更新。
@@ -171,9 +168,14 @@ int		exec_shell_command(char **args, t_list *e_val, t_list **d_val,char **paths,
 		if(WTERMSIG(status) == SIGQUIT)
 		{
 			if(WCOREDUMP(status))
-				ft_putendl("^\\Quit: (core dumped)");
+				ft_putendl("Quit: (core dumped)");
 			else
-				ft_putendl("^\\Quit");
+				ft_putendl("Quit");
+		}
+		if (WTERMSIG(status) == SIGINT)
+		{
+			// ft_putendl("kiteru\n");
+			write (1, "\n", 1);
 		}
 	}
 	return (WEXITSTATUS(status));
