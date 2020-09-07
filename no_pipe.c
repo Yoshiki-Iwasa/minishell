@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 13:39:00 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 13:42:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int		look_argzero_and_exec_command(char **args, t_edlist *vals, char **paths, ch
 int		no_pipe(char **args, t_edlist *vals)
 {
 	t_fds fds;
-	int rv;
-
 	char *origin_arg;
 	char **paths;
 	char *error;
@@ -89,9 +87,9 @@ int		no_pipe(char **args, t_edlist *vals)
 		free_all(paths, origin_arg);
 		return (1);
 	}
-	rv = look_argzero_and_exec_command(args, vals, paths, origin_arg);
+	fds.rv = look_argzero_and_exec_command(args, vals, paths, origin_arg);
 	recover_stdinout(fds.fd_flag, &(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));//標準入出力のfd を復帰させる。
 	free_all(args, 0);
 	free_all(paths, origin_arg);
-	return (rv);
+	return (fds.rv);
 }

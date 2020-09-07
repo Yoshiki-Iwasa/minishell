@@ -35,6 +35,7 @@ typedef struct	s_fds
 	int	stdout_fd;
 	int	stderror_fd;
 	int	fd_flag;
+	int rv;
 }				t_fds;
 
 int		ft_strcmp(const char *s1, const char *s2);
