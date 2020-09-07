@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 13:42:53 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 13:48:40 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ int		look_argzero_and_exec_command(char **args, t_edlist *vals, char **paths, ch
 }
 
 /*
+** fix_args をまとめて行う関数。
+*/
+
+static void	fix_args_compose(char **args)
+{
+	fix_args(args, 3, '>');
+	fix_args(args, 5, '<');
+	fix_args(args, 7, '>');
+}
+
+/*
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
 
@@ -78,9 +89,7 @@ int		no_pipe(char **args, t_edlist *vals)
 	origin_arg = ft_strdup(args[0]);//こいつをmalloc するのはもっと前の別の関数でいい。
 	paths = add_paths_and_change_arg0(&args[0], paths);// 新しいパスを追加。(相対パスまたは絶対パスによるファイル実行のための処理)。/
 	fds.fd_flag = deal_redirection(args, &(fds.fd), &error);//リダイレクトの処理を入れている。
-	fix_args(args, 3, '>');
-	fix_args(args, 5, '<');
-	fix_args(args, 7, '>');
+	fix_args_compose(args);
 	if (fds.fd_flag == -1)
 	{
 		put_error(error);
