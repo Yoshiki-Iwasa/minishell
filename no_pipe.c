@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 14:22:12 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 15:10:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		no_pipe(char **args, t_edlist *vals)
 	char *error;
 
 	escape_fds(&(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
-	if (args[0][0] == 2)
+	if (args[0][0] == 2 && args[0][1] != '\0')
 		return (0);
 	fix_args(args, 2, '$');
 	args = check_and_change_equal(args);//ここでargs を新しくしている。もともとのargs は free_args で開放している。
