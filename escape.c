@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 17:32:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 17:36:39 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,8 @@ char	*preparation_for_escape(char *line)
 			{
 				line[i] = 6;
 				line[i + 1] = 7;
-				new_line[j] = line[i];
-				i++;
-				j++;
-				new_line[j] = line[i];
-				i++;
-				j++;
+				new_line[j++] = line[i++];
+				new_line[j++] = line[i++];
 				continue ;
 			}
 			if (line[i] == '$')
@@ -179,9 +175,7 @@ char	*preparation_for_escape(char *line)
 				line[i] = 8;
 			if(line[i] == ' ')
 				line[i] = 9;
-			new_line[j] = line[i];
-			i++;
-			j++;
+			new_line[j++] = line[i++];
 			continue ;
 		}
 		if (line[i] == '"')
@@ -194,9 +188,7 @@ char	*preparation_for_escape(char *line)
 			if(!escape_single_q(line, new_line, &i, &j))
 				return (put_error_free_return(new_line));
 		}
-		new_line[j] = line[i];
-		i++;
-		j++;
+		new_line[j++] = line[i++];
 	}
 	free(line);
 	new_line[j] = '\0';
