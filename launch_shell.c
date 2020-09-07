@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:00:04 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 12:13:55 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 13:12:54 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** syntax error を履きながら、free をしてreturn する関数。
 */
 
-int		put_syntax_error_free_return(char **args, char *line, int arglen)
+int			put_syntax_error_free_return(char **args, char *line, int arglen)
 {
 	ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n",\
 			2);
@@ -28,7 +28,7 @@ int		put_syntax_error_free_return(char **args, char *line, int arglen)
 ** fix_args をまとめて行う関数。
 */
 
-void	fix_args_compose(char **args)
+static void	fix_args_compose(char **args)
 {
 	fix_args(args, 1, ' ');
 	fix_args(args, 4, '\0');
@@ -40,7 +40,7 @@ void	fix_args_compose(char **args)
 ** コマンドを読み込んでshell を実行する関数。
 */
 
-int		launch_shell(t_edlist vals, char *line)
+int			launch_shell(t_edlist vals, char *line)
 {
 	int		state;
 	char	**args;
@@ -72,7 +72,7 @@ int		launch_shell(t_edlist vals, char *line)
  ** コマンドの実行の前に、入力取得ー＞ エスケープの処理 -> セミコロンによるコマンド分割を行う。
 */
 
-int		commnad_loop(t_edlist vals)
+int			commnad_loop(t_edlist vals)
 {
 	int		state;
 	char	*line;
