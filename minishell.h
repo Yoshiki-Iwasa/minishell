@@ -92,7 +92,7 @@ int		commnad_loop(t_edlist vals);
 void	change_semicon_null(char **args, int *semi_co_place);
 int		translate_dollor_valiable(char **args, t_list *d_val, t_list *e_val);
 int		trans_each_dollor(char **args, t_list *d_val, t_list *e_val);//key=value 型の時に、ちゃんとno such variableを出せるように。
-char	**add_paths_and_change_arg0(char **argZero, char **paths);
+char	**add_paths_and_change_arg0(char **argZero, t_edlist *vals);
 void	free_args(char **args, char *line, int arglen);
 int		count_strs(char **args);
 void	change_stdout_fd(char *arg, int *fd);
@@ -111,7 +111,6 @@ int		count_pipe(char **args);
 void	args_into_array(char **args, char ****args_array, int pipe_num);
 int		launch_shell(t_edlist vals, char *line);
 int		check_redirect_syntax(char **args);
-char	**add_paths_and_change_arg0(char **argZero, char **paths);
 void	put_error(char *arg);
 int		pattern_pipe_not_exit(char **args, t_edlist *vals);
 int		pattern_pipe_exist(char **args, t_edlist *vals, int pipe_count);

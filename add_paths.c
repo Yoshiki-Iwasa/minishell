@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:17:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 12:19:15 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 14:03:10 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ char	**add_new_path(char *new_path, char **paths)
  ** arg[0]が "." または、 "/" で始まっていたら、paths に相対or 絶対パスを追加。そして、arg[0] をパスなしの実行ファイル名に変える。
 */
 
-char	**add_paths_and_change_arg0(char **argZero, char **paths)
+char	**add_paths_and_change_arg0(char **argZero, t_edlist *vals)
 {
 	int i;
 	char *execFile_ptr;
 	char *new_path;
+	char **paths;
 
+	paths = get_path(vals->e_val);
 	i = 0;
 	if (((*argZero)[0] == '.' || (*argZero)[0] == '/' ) && (*argZero)[1] != '\0')
 	{
