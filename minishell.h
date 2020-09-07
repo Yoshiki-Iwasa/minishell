@@ -28,6 +28,14 @@ typedef struct	s_flags
 	int flag_error;
 }				t_flags;
 
+typedef struct	s_fds
+{
+	int	fd;
+	int	stdin_fd;
+	int	stdout_fd;
+	int	stderror_fd;
+	int	fd_flag;
+}				t_fds;
 
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_strsdup(char **args);
