@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:06:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 20:22:51 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 10:52:37 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ void	insert_unprintable(char *line)
 	i = 0;
 	while(line[i] != '\0')
 	{
+		if (line[i] == '$' && (line[i + 1] == '\0' || line[i + 1] == ' '))
+		{
+			line[i] = 2;
+			i++;
+			continue ;
+		}
 		if (line[i] == '"' || line[i] == 39)
 		{
 			if (line[i] == '"')
