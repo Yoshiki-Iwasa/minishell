@@ -1,2 +1,2 @@
-./test_bash/010_EnvironmentVariables.sh: line 121: test$: command not found
-./test_bash/010_EnvironmentVariables.sh: line 126: $: command not found
+rm: a.tx: No such file or directory
+./test_bash/016_Redirection.sh: line 151: a.tx: No such file or directory

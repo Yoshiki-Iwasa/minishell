@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 15:14:33 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 15:32:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,17 @@ int		put_error_and_free_return(char **paths, char *error, char *origin_arg)
 }
 
 /*
+** リダイレクトで変更したfd を変更する共に、必要なすべてのfree を行う。
+*/
+
+void	recover_fd_and_free_all(t_fds fds, char **args, char **paths, char *origin_arg)
+{
+	recover_stdinout(fds.fd_flag, &(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
+	free_all(args, 0);
+	free_all(paths, origin_arg);
+}
+
+/*
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
 
@@ -103,8 +114,9 @@ int		no_pipe(char **args, t_edlist *vals)
 	if (fds.fd_flag == -1)
 		return (put_error_and_free_return(paths, error, origin_arg));
 	fds.rv = look_argzero_and_exec_command(args, vals, paths, origin_arg);
-	recover_stdinout(fds.fd_flag, &(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
-	free_all(args, 0);
-	free_all(paths, origin_arg);
+	recover_fd_and_free_all(fds, args, paths, origin_arg);
+	// recover_stdinout(fds.fd_flag, &(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
+	// free_all(args, 0);
+	// free_all(paths, origin_arg);
 	return (fds.rv);
 }
