@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 15:00:11 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 15:25:10 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char *g_tmp;
 char *g_tmp2;
+t_list *g_d_val;
 
 void	sig_free_line(int sig)
 {
@@ -46,15 +47,25 @@ int		when_ctrl_d_pushed(char **line)
 	return (1);
 }
 
+void	signal_read(int sig)
+{
+	sig = 1;
+	update_val(&g_d_val, "?=130");
+	write(1, "\n", sig);
+	ft_putstr_fd("minishell$ ", 1);
+}
+
 /*
  ** コマンドラインを読んでくる関数。
  ** 読み込むたびに minishell$ を表示する。
 */
 
-int		read_command(char **line, int *state)
+int		read_command(char **line, int *state, t_list *d_val)
 {
 	int gnl_rv;
 
+	g_d_val = d_val;
+	signal(SIGINT, signal_read);
 	gnl_rv = get_next_line(0, line);
 	if (**line == '\0' && gnl_rv == 1)
 	{

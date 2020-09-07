@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 06:51:30 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 15:18:52 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void		sig_handle_C(int sig)
 {
 	if (g_pid != 0)
 	{
-		// write(1, "\b\b^C", 4);
 		sig = kill(g_pid, SIGINT);
 		if(sig == -1)
 		{
@@ -35,8 +34,9 @@ void		sig_handle_C(int sig)
 	}
 	else//入力途中にCtrl + C されても無視。
 	{
-			write(1, "\n",1);
-			ft_putstr_fd("minishell$ ", 1);
+
+		write(1, "\n",1);
+		ft_putstr_fd("minishell$ ", 1);
 	}
 }
 
@@ -60,8 +60,6 @@ void		sig_handle_bs(int sig)
 	if (sig == -1)
 	{
 		write(1,"\b\b  \b\b", 6);
-		// write(1, "pid = ", 6);
-		// ft_putnbr_fd(g_pid, 1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:00:04 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 13:12:54 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 15:25:33 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			commnad_loop(t_edlist vals)
 	while (state != 0)
 	{
 		ft_putstr_fd("minishell$ ", 1);
-		if (!read_command(&line, &state))
+		if (!read_command(&line, &state, vals.d_val))
 			continue ;
 		state = launch_shell(vals, line);
 	}
