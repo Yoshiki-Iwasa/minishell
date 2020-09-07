@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 17:43:05 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 09:34:12 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	*get_key(char *arg)
 
 int		check_if_key_value(char *arg)
 {
+	if (arg[0] == '=')
+		return (0);
 	while (ft_isspace(*arg))
 		arg++;
 	while (*arg != '=' && *arg != '\0')
