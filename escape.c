@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 16:02:39 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 17:18:27 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 	ダブルクオートをline から排除するための関数。
 */
 
-// ダブルクオートの数を数えて、奇数だったらerror
 int	escape_double_q(char *line, char *new_line, int *i, int *j)
 {
 	int quote_count;
@@ -43,7 +42,6 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 	new_line[*j] = '\0';
 	if (quote_count % 2 != 0)
 		return (0);
-	// (*i)++;
 	return (1);
 }
 
