@@ -22,7 +22,7 @@ SRCS = change_into_array.c \
 		pipe.c \
 		read_command.c \
 		redirect.c \
-		sell_execution.c \
+		shell_execution.c \
 		signal_handle.c \
 		utils.c \
 		utils2.c \
@@ -31,7 +31,8 @@ SRCS = change_into_array.c \
 		change_fd2.c \
 		check_equal.c \
 		no_pipe.c \
-		pipe_utils.c
+		pipe_utils.c \
+		launch_shell.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
