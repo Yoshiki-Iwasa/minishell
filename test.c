@@ -141,6 +141,14 @@ int main(int argc, char **argv, char **envp)
 }
 #endif
 
+#ifdef T
+#include "minishell.h"
+
+int main()
+{
+	printf("ls OK\n");
+}
+#endif
 // #include "minishell.h"
 
 // int main(int argc, char **argv, char **envp)

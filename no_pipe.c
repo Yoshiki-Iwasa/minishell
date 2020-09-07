@@ -6,22 +6,11 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 09:46:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 12:32:48 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- ** error出力のための関数。
-*/
-
-static void	put_error(char *arg)
-{
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
-}
 
 /*
  ** コマンドを実行する関数。コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。

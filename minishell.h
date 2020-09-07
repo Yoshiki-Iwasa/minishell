@@ -103,5 +103,6 @@ void	args_into_array(char **args, char ****args_array, int pipe_num);
 int		launch_shell(t_edlist vals, char *line);
 int		check_redirect_syntax(char **args);
 char	**add_paths_and_change_arg0(char **argZero, char **paths);
+void	put_error(char *arg);
 
 #endif
