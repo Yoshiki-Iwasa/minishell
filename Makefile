@@ -36,7 +36,9 @@ SRCS = change_into_array.c \
 		add_paths.c \
 		error.c \
 		pattern_pipe_not_exist.c \
-		pattern_pipe_exist.c
+		pattern_pipe_exist.c \
+		update_shell_value.c
+
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 LIBFT = ./libft/libft.a

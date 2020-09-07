@@ -114,5 +114,6 @@ int		check_redirect_syntax(char **args);
 void	put_error(char *arg);
 int		pattern_pipe_not_exit(char **args, t_edlist *vals);
 int		pattern_pipe_exist(char **args, t_edlist *vals, int pipe_count);
+int		update_shell_value(char **args, t_edlist *vals);
 
 #endif
