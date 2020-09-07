@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 18:39:29 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 09:46:52 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,12 @@ int		no_pipe(char **args, t_edlist *vals)
 	else if(check_if_key_value(args[0]) && check_key_str(args[0]))
 	{
 		rv = (update_val((&vals->d_val), args[0]));
-		rv *= (update_val((&vals->e_val), args[0]));
+		char *key = get_key(args[0]);
+		if (search_entry(vals->e_val, key)!= 0)//環境変数にもエントリーがあったら
+		{
+			free(key);
+			rv *= (update_val((&vals->e_val), args[0]));
+		}
 		if (rv == 1)
 			rv = 0;
 		if (rv == 0)

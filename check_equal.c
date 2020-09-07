@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:15:09 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 06:53:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 10:16:12 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ char		**check_and_change_equal(char **args)
 	while (args[i])
 	{
 		arg = args[i];
+		if (count_strs(args) > 1 && arg[ft_strlen(arg) - 1] == '=')
+		{
+			i++;
+			continue ;
+		}
 		if (args[i + 1] == NULL && ft_strlen(arg) != 1 && (arg[ft_strlen(arg) - 1] == '=' || arg[0] == '='))
 		{
 			if (i > 0)
@@ -43,8 +48,13 @@ char		**check_and_change_equal(char **args)
 					continue;
 				}
 			}
-				i++;
-				continue;
+			else
+			{
+				new_args[j] = ft_strdup(args[i]);
+					i++;
+					j++;
+					continue;
+			}
 		}
 		new_args[j] = ft_strdup(args[i]);
 		i++;

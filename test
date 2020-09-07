@@ -1,10 +1,15 @@
 010_EnvironmentVariables
 
-minishell$ export testenv1=TEST1
+minishell$ testenv1=TEST1
 minishell$ 
 minishell$ 
 minishell$ env | grep testenv1
-testenv1=TEST1
+minishell$ 
+minishell$ 
+minishell$ export testenv1
+minishell$ 
+minishell$ 
+minishell$ env | grep testenv1
 minishell$ 
 minishell$ 
 minishell$ export testenv2=TEST2
