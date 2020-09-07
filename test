@@ -1,2 +1,95 @@
-rm: a.tx: No such file or directory
-./test_bash/016_Redirection.sh: line 151: a.tx: No such file or directory
+010_EnvironmentVariables
+
+minishell$ testenv1=TEST1
+minishell$ 
+minishell$ 
+minishell$ env | grep testenv1
+minishell$ 
+minishell$ 
+minishell$ export testenv1
+minishell$ 
+minishell$ 
+minishell$ env | grep testenv1
+testenv1=TEST1
+minishell$ 
+minishell$ 
+minishell$ export testenv2=TEST2
+minishell$ 
+minishell$ 
+minishell$ env | grep testenv2
+testenv2=TEST2
+minishell$ 
+minishell$ 
+minishell$ echo $testenv1
+TEST1
+minishell$ 
+minishell$ 
+minishell$ echo $testenv2
+TEST2
+minishell$ 
+minishell$ 
+minishell$ echo $testenv1$testenv2
+TEST1TEST2
+minishell$ 
+minishell$ 
+minishell$ echo $testenv1 $testenv2
+TEST1 TEST2
+minishell$ 
+minishell$ 
+minishell$ echo "$testenv1"
+TEST1
+minishell$ 
+minishell$ 
+minishell$ echo "\$testenv1"
+$testenv1
+minishell$ 
+minishell$ 
+minishell$ export testenv1=TEST1
+minishell$ 
+minishell$ 
+minishell$ export testenv1=$testenv1:add
+minishell$ 
+minishell$ 
+minishell$ env | grep testenv1
+testenv1=TEST1:add
+minishell$ 
+minishell$ 
+minishell$ testenv1=\$value
+minishell$ 
+minishell$ 
+minishell$ echo $testenv1
+$value
+minishell$ 
+minishell$ 
+minishell$ testenv1=$value
+minishell$ 
+minishell$ 
+minishell$ echo $testenv1
+
+minishell$ 
+minishell$ 
+minishell$ testenv1=TEST1
+minishell$ 
+minishell$ 
+minishell$ testenv1= pwd
+/Users/iwasayoshiki/42cursus/minishell
+minishell$ 
+minishell$ 
+minishell$ echo $testenv1
+TEST1
+minishell$ 
+minishell$ 
+minishell$ echo test$ test
+test$ test
+minishell$ 
+minishell$ 
+minishell$ test$ test
+minishell$ 
+minishell$ 
+minishell$ $
+minishell$ 
+minishell$ 
+minishell$ echo $
+$
+minishell$ 
+minishell$ 

@@ -13,7 +13,7 @@ echo "minishell\$ "
 echo "minishell\$ "
 
 echo "minishell\$ export testenv1"
-testenv1=TEST1
+export testenv1
 echo "minishell\$ "
 echo "minishell\$ "
 
@@ -109,5 +109,25 @@ echo "minishell\$ "
 
 echo "minishell\$ echo \$testenv1"
 echo $testenv1
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo test\$ test"
+echo test$ test
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ test\$ test"
+test\$ test
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ \$"
+$
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \$"
+echo $
 echo "minishell\$ "
 echo "minishell\$ "
