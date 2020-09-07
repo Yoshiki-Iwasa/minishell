@@ -35,6 +35,7 @@ SRCS = change_into_array.c \
 		launch_shell.c \
 		add_paths.c \
 		error.c \
+		pattern_pipe_not_exist.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
