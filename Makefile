@@ -32,7 +32,8 @@ SRCS = change_into_array.c \
 		check_equal.c \
 		no_pipe.c \
 		pipe_utils.c \
-		launch_shell.c
+		launch_shell.c \
+		add_paths.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
