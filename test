@@ -1,1 +1,43 @@
-bash: ./asdfa: No such file or directory
+017_Pipes
+
+minishell$ cat Makefile | grep .c | wc -l
+      44
+minishell$ 
+minishell$ 
+minishell$ ls -l | grep ^d | wc -l
+       2
+minishell$ 
+minishell$ 
+minishell$ pwd | cut -f 2 -d "/"
+Users
+minishell$ 
+minishell$ 
+minishell$ ls filethatdoesntexist | grep ls | more
+minishell$ 
+minishell$ 
+minishell$ ls filethatdoesntexist | echo echo
+echo
+minishell$ 
+minishell$ 
+minishell$ echo '100+1' > a.txt ; bc < a.txt | wc -c > result.txt ; cat result.txt ; rm result.txt a.txt
+       4
+minishell$ 
+minishell$ 
+minishell$ echo test | cat
+test
+minishell$ 
+minishell$ 
+minishell$ echo test > a.txt | cat
+minishell$ 
+minishell$ 
+minishell$ cat a.txt
+test
+minishell$ 
+minishell$ 
+minishell$ echo echo | cat < a.txt
+test
+minishell$ 
+minishell$ 
+minishell$ rm a.txt
+minishell$ 
+minishell$ 
