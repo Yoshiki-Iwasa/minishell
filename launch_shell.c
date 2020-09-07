@@ -6,11 +6,39 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:00:04 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 12:00:58 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 12:13:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** syntax error を履きながら、free をしてreturn する関数。
+*/
+
+int		put_syntax_error_free_return(char **args, char *line, int arglen)
+{
+	ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n",\
+			2);
+	free_args(args, line, arglen);
+	return (1);
+}
+
+/*
+** fix_args をまとめて行う関数。
+*/
+
+void	fix_args_compose(char **args)
+{
+	fix_args(args, 1, ' ');
+	fix_args(args, 4, '\0');
+	fix_args(args, 6, '2');
+	fix_args(args, 9, ' ');
+}
+
+/*
+** コマンドを読み込んでshell を実行する関数。
+*/
 
 int		launch_shell(t_edlist vals, char *line)
 {
@@ -25,21 +53,10 @@ int		launch_shell(t_edlist vals, char *line)
 	args = ft_split(line, ' ');
 	arglen = count_strs(args);
 	if (args == NULL || args[0] == NULL)
-	{
-		free(line);
-		return (1);
-	}
+		return (free_return(line, 1));
 	if (!(check_redirect_syntax(args)))
-	{
-		ft_putstr_fd("bash: syntax error near unexpected token `newline\'\n",\
-			2);
-		free_args(args, line, arglen);
-		return (1);
-	}
-	fix_args(args, 1, ' ');
-	fix_args(args, 4, '\0');
-	fix_args(args, 6, '2');
-	fix_args(args, 9, ' ');
+		return (put_syntax_error_free_return(args, line, arglen));
+	fix_args_compose(args);
 	if (!(cmd_num = count_commands(args)))
 	{
 		update_val(&vals.d_val, "?=2");
