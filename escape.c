@@ -6,14 +6,14 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 17:18:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 17:32:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-	ダブルクオートをline から排除するための関数。
+** ダブルクオートをline から排除するための関数。
 */
 
 int	escape_double_q(char *line, char *new_line, int *i, int *j)
@@ -29,7 +29,7 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 			quote_count++;
 			continue ;
 		}
-		if (line[*i] == '\\') //エスケープさせる。
+		if (line[*i] == '\\')
 		{
 			(*i)++;
 			if (line[*i] == '$' && line[*i + 1] != '{')
@@ -76,6 +76,19 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 	return (1);
 }
 
+static	char*	put_error_free_return(char *new_line)
+{
+		free(new_line);
+		ft_putendl_fd("bash : Bad quotation", 2);
+		return (0);
+}
+
+static	char*	free_and_return(char *line)
+{
+	free(line);
+	return (0);
+}
+
 /*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にしてクオートを削除
 */
@@ -86,27 +99,14 @@ char	*preparation_for_escape(char *line)
 	int		j;
 	char	*new_line;
 
-	insert_unprintable(line);//バックスラッシュ以外のエスケープ担当。
-							// エスケープさせたい文字にだけunprintable を挿入。
-
+	insert_unprintable(line);
 	new_line = malloc(PATH_MAX + 1);
 	if (!new_line)
-	{
-		free(line);
-		return (0);
-	}
+		return(free_and_return(line));
 	i = 0;
 	j = 0;
 	while(line[i] != '\0')
 	{
-		// if (i > 0 && line[i] == '$' )
-		// {
-		// 	new_line[j] = ' ';
-		// 	new_line[j + 1] = '$';
-		// 	j+=2;
-		// 	i++;
-		// 	continue;
-		// }
 		if (i > 0 && line[i] == ';')
 		{
 			new_line[j] = ' ';
@@ -187,20 +187,12 @@ char	*preparation_for_escape(char *line)
 		if (line[i] == '"')
 		{
 			if(!escape_double_q(line, new_line, &i, &j))
-			{
-				free(new_line);
-				ft_putendl("bash : Bad quotation");
-				return (0);
-			}
+				return (put_error_free_return(new_line));
 		}
 		else if (line[i] == 39)
 		{
 			if(!escape_single_q(line, new_line, &i, &j))
-			{
-				ft_putendl("bash : Bad quotation");
-				free(new_line);
-				return (0);
-			}
+				return (put_error_free_return(new_line));
 		}
 		new_line[j] = line[i];
 		i++;
