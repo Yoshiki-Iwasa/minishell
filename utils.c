@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 14:20:45 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 09:18:14 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 12:15:34 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,28 @@ int		init_e_val_list(t_list **e_val, char **envp)
 		envp++;
 	}
 	return (1);
+}
+
+
+/*
+ ** 文字列配列を複製する関数。
+*/
+
+char	**ft_strsdup(char **args)
+{
+	int i;
+	char **new_args;
+
+	i = 0;
+	while (args[i])
+		i++;
+	new_args = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (args[i])
+	{
+		new_args[i] = ft_strdup(args[i]);
+		i++;
+	}
+	new_args[i] = NULL;
+	return (new_args);
 }
