@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 17:13:41 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/07 17:16:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** 文字列配列の先頭をみて、コマンドの処理先を分ける関数。
 */
 
-int		look_argzero_and_exec_command
+int				look_argzero_and_exec_command
 	(char **args, t_edlist *vals, char **paths, char *origin_arg)
 {
 	int		rv;
@@ -48,7 +48,7 @@ int		look_argzero_and_exec_command
 ** fix_args をまとめて行う関数。
 */
 
-static void	fix_args_compose(char **args)
+static	void	fix_args_compose(char **args)
 {
 	fix_args(args, 3, '>');
 	fix_args(args, 5, '<');
@@ -59,7 +59,8 @@ static void	fix_args_compose(char **args)
 ** errorを表示してreturnする関数。
 */
 
-int		put_error_and_free_return(char **paths, char *error, char *origin_arg)
+int				put_error_and_free_return
+	(char **paths, char *error, char *origin_arg)
 {
 	put_error(error);
 	free_all(paths, origin_arg);
@@ -70,7 +71,7 @@ int		put_error_and_free_return(char **paths, char *error, char *origin_arg)
 ** リダイレクトで変更したfd を変更する共に、必要なすべてのfree を行う。
 */
 
-void	recover_fd_and_free_all
+void			recover_fd_and_free_all
 	(t_fds fds, char **args, char **paths, char *origin_arg)
 {
 	recover_stdinout(fds.fd_flag, \
@@ -84,7 +85,7 @@ void	recover_fd_and_free_all
  ** コマンド実行の前に標準入出力のfd を逃して、リダイレクトの処理をしてから実行。
 */
 
-int		no_pipe(char **args, t_edlist *vals)
+int				no_pipe(char **args, t_edlist *vals)
 {
 	t_fds	fds;
 	char	*origin_arg;
