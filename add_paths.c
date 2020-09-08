@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:17:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 14:03:10 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 11:03:52 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**add_paths_and_change_arg0(char **argZero, t_edlist *vals)
 	char **paths;
 
 	paths = get_path(vals->e_val);
+	if (paths[0][0] == '\0')
+		paths = get_path(vals->d_val);
 	i = 0;
 	if (((*argZero)[0] == '.' || (*argZero)[0] == '/' ) && (*argZero)[1] != '\0')
 	{

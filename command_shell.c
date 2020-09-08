@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 09:21:19 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 11:05:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	child_precess(char **args, t_edlist *vals, char **paths, char *origin_arg)//
 			break ;
 		}
 		command[0] = '\0';
+
 		cmd_ptr = ft_strcat(command, paths[i]); //環境変数PATH を一個ずつ試す。
 		cmd_ptr = ft_strcat(command, "/");
 		cmd_ptr = ft_strcat(command, args[0]); //これで /user/bin/ls みたいにパスを完成させる。
