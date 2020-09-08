@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 22:14:57 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 11:23:16 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 12:31:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	change_bracket_val(char **args, t_list *d_val, t_list *e_val)
 			free_all(splited, 0);
 			args[i] = arg;//これで、いけたかな。
 		}
-		else if (arg[0] == '{')
+		else if (arg[0] == '{' && arg[1] != '\0') //{$TEST} みたいなとき
 		{
 			splited = ft_split(arg, '}'); // これで　${TTT / ddd  みたいになった。
 			substr = ft_substr(&splited[0][1], 0, ft_strlen(&splited[0][1]));//TTT だけとってくる。　
