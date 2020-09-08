@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 13:36:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 13:36:49 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 18:32:27 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	change_stdout_fd(char *arg, int *fd)
 int		change_stdin_fd(char *arg, int *fd)
 {
 	// close(*fd);
-	*fd = open(arg, O_RDWR);
+	*fd = open(arg,  O_RDONLY);
 	if (*fd == -1)
 		return (0);
 	close(0); //標準出力を閉じる。
