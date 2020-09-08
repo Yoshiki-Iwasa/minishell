@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 13:00:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 07:41:34 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 			(*j)++;
 			new_line[*j] = '{';
 			(*j)++;
-			while(line[*i] != '"')
+			while(line[*i] != '"' && line[*i] != '\0')
 			{
 				new_line[*j] = line[*i];
 				(*i)++;
 				(*j)++;
 			}// ここ出るときはline[*i] がダブルクオートのとき。
-			quote_count++;
+			if (line[*i] == '"')
+				quote_count++;
 			new_line[*j] = '}';
 			(*j)++;
 			(*i)++;
