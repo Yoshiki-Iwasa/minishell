@@ -149,17 +149,21 @@ int main()
 	printf("ls OK\n");
 }
 #endif
-// #include "minishell.h"
+// #include <stdio.h>
+// #include <unistd.h>
 
-// int main(int argc, char **argv, char **envp)
+// int main(void)
 // {
-// 	argc = 0;
-// 	argv  = 0;
-// 	int i = 0;
-// 	while (envp[i])
+//     char buf[20];
+// 	int rv;
+//     // printf("input:");
+//     while((rv = read(0, buf, 20)))
 // 	{
-// 		if (!ft_strncmp(envp[i], "PATH", 4))
-// 			printf("%s\n", envp[i]);
-// 		i++;
+// 		// printf("%d\n", rv);
 // 	}
+// 		printf("\n%d\n", rv);
+
+//     printf("get:%s\n", buf);
+
+//     return 0;
 // }

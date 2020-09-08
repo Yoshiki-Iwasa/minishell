@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 15:18:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 09:21:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,15 @@ int	child_precess(char **args, t_edlist *vals, char **paths, char *origin_arg)//
 		int rv;
 		char *line;
 
-		fd = open(args[0], O_RDWR);
+		fd = open(cmd_ptr, O_RDWR);
 		while (get_next_line(fd, &line) > 0)//一行取得。
 		{
+			// ft_putendl(line);
 			rv = launch_shell(*vals, line);
+			// free(line);
 		}
 		close(fd);
+		exit(0);
 		return (rv);
 	}
 	return (0);

@@ -38,7 +38,7 @@ echo "minishell\$ "
 echo "minishell\$ "
 
 echo "minishell\$ /bin/mv ps date"
-/bin/mv ps date
+/bin/cp ps date
 echo "minishell\$ "
 echo "minishell\$ "
 

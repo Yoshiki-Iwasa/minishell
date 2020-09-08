@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 17:36:39 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 10:34:04 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 int	escape_double_q(char *line, char *new_line, int *i, int *j)
 {
 	int quote_count;
+	int doller_flag;
 
+	doller_flag = 0;
 	quote_count = 0;
 	while(line[*i] != '\0')
 	{
@@ -28,6 +30,28 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 			(*i)++;
 			quote_count++;
 			continue ;
+		}
+		if (line[*i] == '$' && line[*i + 1] != '{')
+		{
+			new_line[*j] = line[*i];
+			(*i)++;
+			(*j)++;
+			new_line[*j] = '{';
+			(*j)++;
+			while(line[*i] != '"')
+			{
+				new_line[*j] = line[*i];
+				(*i)++;
+				(*j)++;
+			}// ここ出るときはline[*i] がダブルクオートのとき。
+			quote_count++;
+			new_line[*j] = '}';
+			(*j)++;
+			(*i)++;
+			if (line[*i] == '\0')
+				break;
+			else
+				continue ;
 		}
 		if (line[*i] == '\\')
 		{
@@ -78,6 +102,7 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 
 static	char*	put_error_free_return(char *new_line)
 {
+		ft_putendl(new_line);
 		free(new_line);
 		ft_putendl_fd("bash : Bad quotation", 2);
 		return (0);
@@ -86,6 +111,70 @@ static	char*	put_error_free_return(char *new_line)
 static	char*	free_and_return(char *line)
 {
 	free(line);
+	return (0);
+}
+
+/*
+** ';' や '>' など、近くにスペースがなくても無理やりスペースを作る関数
+*/
+
+int		make_spaces(char *line, char *new_line, int *i, int *j)
+{
+	if (*i > 0 && line[*i] == ';')
+	{
+		new_line[*j] = ' ';
+		new_line[*j + 1] = ';';
+		new_line[*j + 2] = ' ';
+		(*j)+=3;
+		(*i)++;
+		return (1);
+	}
+	if (*i > 0 && line[*i] == '|')
+	{
+		new_line[*j] = ' ';
+		new_line[*j + 1] = '|';
+		new_line[*j + 2] = ' ';
+		(*j)+=3;
+		(*i)++;
+		return (1);
+	}
+	if (*i > 0 && line[*i] == '>' && line[*i + 1] == '>' )
+	{
+		new_line[*j] = ' ';
+		new_line[*j + 1] = '>';
+		new_line[*j + 2] = '>';
+		new_line[*j + 3] = ' ';
+		(*j)+=4;
+		(*i)+=2;
+		return (1);
+	}
+	if (*i > 0 && (line[*i] == '>' || line[*i] == '<' ))
+	{
+		new_line[*j] = ' ';
+		new_line[*j + 1] = line[*i];
+		new_line[*j + 2] = ' ';
+		(*j)+=3;
+		(*i)++;
+		return (1);
+	}
+	if (*i > 0 && line[*i] == '2' && line[*i + 1] == '>' )
+	{
+		new_line[*j] = ' ';
+		new_line[*j + 1] = '2';
+		new_line[*j + 2] = '>';
+		new_line[*j + 3] = ' ';
+		(*j)+=4;
+		(*i)+=2;
+		return (1);
+	}
+	// if (*i > 0 && line[*i] == '"' && line[*i - 1] != ' ' )
+	// {
+	// 	new_line[*j] = ' ';
+	// 	new_line[*j + 1] = '"';
+	// 	(*j)+=2;
+	// 	(*i)++;
+	// 	return (1);
+	// }
 	return (0);
 }
 
@@ -100,60 +189,15 @@ char	*preparation_for_escape(char *line)
 	char	*new_line;
 
 	insert_unprintable(line);
-	new_line = malloc(PATH_MAX + 1);
+	new_line = malloc(PATH_MAX + 1);// 入力の長さ見て変更する必要あるかも
 	if (!new_line)
 		return(free_and_return(line));
 	i = 0;
 	j = 0;
 	while(line[i] != '\0')
 	{
-		if (i > 0 && line[i] == ';')
-		{
-			new_line[j] = ' ';
-			new_line[j + 1] = ';';
-			new_line[j + 2] = ' ';
-			j+=3;
-			i++;
-			continue;
-		}
-		if (i > 0 && line[i] == '|')
-		{
-			new_line[j] = ' ';
-			new_line[j + 1] = '|';
-			new_line[j + 2] = ' ';
-			j+=3;
-			i++;
-			continue;
-		}
-		if (i > 0 && line[i] == '>' && line[i + 1] == '>' )
-		{
-			new_line[j] = ' ';
-			new_line[j + 1] = '>';
-			new_line[j + 2] = '>';
-			new_line[j + 3] = ' ';
-			j+=4;
-			i+=2;
-			continue;
-		}
-		if (i > 0 && (line[i] == '>' || line[i] == '<' ))
-		{
-			new_line[j] = ' ';
-			new_line[j + 1] = line[i];
-			new_line[j + 2] = ' ';
-			j+=3;
-			i++;
-			continue;
-		}
-		if (i > 0 && line[i] == '2' && line[i + 1] == '>' )
-		{
-			new_line[j] = ' ';
-			new_line[j + 1] = '2';
-			new_line[j + 2] = '>';
-			new_line[j + 3] = ' ';
-			j+=4;
-			i+=2;
-			continue;
-		}
+		if(make_spaces(line, new_line, &i, &j))
+			continue ;
 		if (line[i] == '\\') //バックスラッシュによるエスケープ。
 		{
 			i++;
