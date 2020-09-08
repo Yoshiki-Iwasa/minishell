@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:17:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 11:03:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 18:40:04 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,13 @@ char	**add_paths_and_change_arg0(char **argZero, t_edlist *vals)
 		}
 		return (paths);
 	}
-	else
+	else if (paths[0][0] != '\0' && !(((*argZero)[0] == '.' || (*argZero)[0] == '/' ) && (*argZero)[1] != '\0'))
 	{
 		return (add_new_path("/", paths));
 	}
+	else
+		return (paths);
+
+
 
 }
