@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 13:01:59 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 13:02:11 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 18:24:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int		count_pipe(char **args)
 	{
 		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || !ft_strcmp(args[i], ">>"))
 		{
-			// args[i] = NULL;
 			i++;
 			if (!args[i])
 				break ;

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 10:34:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 13:00:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 			quote_count++;
 			continue ;
 		}
-		if (line[*i] == '$' && line[*i + 1] != '{')
+		if (line[*i] == '$' && line[*i + 1] != '{' && line[*i - 1] != '{')
 		{
 			new_line[*j] = line[*i];
 			(*i)++;
