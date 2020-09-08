@@ -6,11 +6,22 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 07:41:34 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 08:19:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** ダブルクオート内でのバックスラッシュでの＄のエスケープ
+*/
+
+void	escape_dollor_in_double_q(char *line, int *i)
+{
+	(*i)++;
+	if (line[*i] == '$' /*&& line[*i + 1] != '{'*/)
+		line[*i] = 2;
+}
 
 /*
 ** ダブルクオートをline から排除するための関数。
@@ -33,36 +44,21 @@ int	escape_double_q(char *line, char *new_line, int *i, int *j)
 		}
 		if (line[*i] == '$' && line[*i + 1] != '{' && line[*i - 1] != '{')
 		{
-			new_line[*j] = line[*i];
-			(*i)++;
-			(*j)++;
-			new_line[*j] = '{';
-			(*j)++;
+			new_line[(*j)++] = line[(*i)++];
+			new_line[(*j)++] = '{';
 			while(line[*i] != '"' && line[*i] != '\0')
-			{
-				new_line[*j] = line[*i];
-				(*i)++;
-				(*j)++;
-			}// ここ出るときはline[*i] がダブルクオートのとき。
+				new_line[(*j)++] = line[(*i)++];
 			if (line[*i] == '"')
 				quote_count++;
-			new_line[*j] = '}';
-			(*j)++;
-			(*i)++;
-			if (line[*i] == '\0')
+			new_line[(*j)++] = '}';
+			if (line[(*i)++] == '\0')
 				break;
 			else
 				continue ;
 		}
 		if (line[*i] == '\\')
-		{
-			(*i)++;
-			if (line[*i] == '$' && line[*i + 1] != '{')
-				line[*i] = 2;
-		}
-		new_line[*j] = line[*i];
-		(*i)++;
-		(*j)++;
+			escape_dollor_in_double_q(line, i);
+		new_line[(*j)++] = line[(*i)++];
 	}
 	new_line[*j] = '\0';
 	if (quote_count % 2 != 0)
@@ -97,7 +93,6 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 
 	if (quote_count % 2 != 0)
 		return (0);
-	// (*i)++;
 	return (1);
 }
 
