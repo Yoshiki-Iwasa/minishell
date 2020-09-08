@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 22:14:57 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 10:44:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/08 11:23:16 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,8 @@ int		is_only_or_many_dollor(char *arg)
 		{
 			count++;
 		}
+		if (arg[i] == '$' && arg[i + 1] == '$')
+			return (1);
 		i++;
 	}
 	if (count == i)
