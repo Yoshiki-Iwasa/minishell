@@ -120,6 +120,8 @@ int		decide_break_or_continue(char *line, int *i);
 int		escape_double_q(char *line, char *new_line, int *i, int *j);
 int		make_spaces(char *line, char *new_line, int *i, int *j);
 int	escape_single_q(char *line, char *new_line, int *i, int *j);
+int		when_meets_single_q(char *line, int *i);
+int		when_meets_double_q(char *line, int *i);
 
 
 #endif
