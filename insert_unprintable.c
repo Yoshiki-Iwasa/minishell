@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:06:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 22:13:51 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 06:35:24 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		when_meets_double_q(char *line, int *i)
 	else
 	{
 		pattern_double(line, i);
-		return (1);
+		return (2);
 	}
 }
 
@@ -130,10 +130,32 @@ int		when_meets_single_q(char *line, int *i)
 		return (1);
 	}
 	else
+	{
 		pattern_single(line, i);
-	return (1);
+		return (2);
+	}
 }
 
+/*
+** クォーテーションマークによる処理を分岐する
+*/
+
+int		process_quotations(char *line, int *i)
+{
+	if (line[*i] == '"')
+	{
+		if (when_meets_double_q(line, i))
+			return (1) ;
+		else if (!when_meets_double_q(line, i))
+			return (0) ;
+	}
+	else if (line[*i] == 39)
+	{
+		if (when_meets_single_q(line, i))
+			return (1);
+	}
+	return (2);
+}
 
 /*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にする。
@@ -148,24 +170,27 @@ void	insert_unprintable(char *line)
 	{
 		if (line[i] == '$' && (line[i + 1] == '\0' || line[i + 1] == ' '))
 		{
-			line[i] = 2;
-			i++;
+			line[i++] = 2;
 			continue ;
 		}
 		if (line[i] == '"' || line[i] == 39)
 		{
-			if (line[i] == '"')
-			{
-				if (when_meets_double_q(line, &i))
-					continue ;
-				else
-					break ;
-			}
-			else if (line[i] == 39)
-			{
-				if (when_meets_single_q(line, &i))
-					continue ;
-			}
+			if (process_quotations(line, &i))
+				continue ;
+			else if (!process_quotations(line, &i))
+				break ;
+			// if (line[i] == '"')
+			// {
+			// 	if (when_meets_double_q(line, &i))
+			// 		continue ;
+			// 	else
+			// 		break ;
+			// }
+			// else if (line[i] == 39)
+			// {
+			// 	if (when_meets_single_q(line, &i))
+			// 		continue ;
+			// }
 		}
 		if (line[i] == '"' || line[i] == 39)
 			i++;

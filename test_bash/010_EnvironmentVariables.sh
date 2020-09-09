@@ -132,9 +132,78 @@ echo $
 echo "minishell\$ "
 echo "minishell\$ "
 
+echo "minishell\$ echo \"$ \""
+echo "$ "
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ testenv3=TEST"
+testenv3=TEST
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \"\$testenv3\"_after"
+echo "$testenv3"_after
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \$testenv3_after"
+echo $testenv3_after
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \${testenv3}_after"
+echo ${testenv3}_after
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo {\$testenv3}"
+echo {$testenv3}
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo before{\$testenv3}after"
+echo before{$testenv3}after
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo before{testenv3}after"
+echo before{testenv3}after
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo {}"
+echo {}
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \${testenv3}{\$testenv3}\$testenv3"
+echo ${testenv3}{$testenv3}$testenv3
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ TEST=ABCD"
 TEST=ABCD
-TEST=ABCD
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \"{\$TEST}\${TEST}\$TEST\" {\$TEST}\${TEST}\$TEST"
 echo "{$TEST}${TEST}$TEST" {$TEST}${TEST}$TEST
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \"{\$TEST}\${TEST}{\$TEST}\" {\$TEST}\${TEST}{\$TEST}"
 echo "{$TEST}${TEST}{$TEST}" {$TEST}${TEST}{$TEST}
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \"{\$TEST}\${TEST}\$TEST\"{\$TEST}\${TEST}\$TEST"
 echo "{$TEST}${TEST}$TEST"{$TEST}${TEST}$TEST
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ echo \"k\\\${USER} k\""
 echo "k\${USER} k"
+echo "minishell\$ "
+echo "minishell\$ "
+

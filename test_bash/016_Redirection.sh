@@ -182,6 +182,26 @@ ls>a.txt
 echo "minishell\$ "
 echo "minishell\$ "
 
+echo "minishell\$ chmod 400 a.txt"
+chmod 400 a.txt
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ cat < a.txt"
+cat < a.txt
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ chmod 000 a.txt"
+chmod 000 a.txt
+echo "minishell\$ "
+echo "minishell\$ "
+
+echo "minishell\$ cat < a.txt"
+cat < a.txt
+echo "minishell\$ "
+echo "minishell\$ "
+
 echo "minishell\$ rm a.txt b.txt c.txt d.txt"
 rm a.txt b.txt c.txt d.txt
 echo "minishell\$ "

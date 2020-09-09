@@ -36,5 +36,3 @@ echo "minishell\$ echo '>>'"
 echo '>>'
 echo "minishell\$ "
 echo "minishell\$ "
-
-echo "'$USER'"
