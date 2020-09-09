@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   update_shell_value.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/09 11:43:21 by yiwasa            #+#    #+#             */
+/*   Updated: 2020/09/09 11:43:35 by yiwasa           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -7,7 +19,7 @@
 int		update_shell_value(char **args, t_edlist *vals)
 {
 	int		rv;
-	char 	*key;
+	char	*key;
 
 	rv = (update_val((&vals->d_val), args[0]));
 	key = get_key(args[0]);

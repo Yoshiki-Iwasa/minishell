@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 11:52:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 11:45:35 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,11 @@ int				deal_redirection(char **args, int *fd, char **error)
 		return (3);
 }
 
-
 /*
  ** リダイレクトの文法をチェックする関数。
 */
 
-int		check_redirect_syntax(char **args)
+int				check_redirect_syntax(char **args)
 {
 	int i;
 
@@ -99,5 +98,4 @@ int		check_redirect_syntax(char **args)
 		i++;
 	}
 	return (1);
-
 }

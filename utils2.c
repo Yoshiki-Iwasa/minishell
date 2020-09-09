@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 17:40:03 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 11:42:47 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,28 @@ int		check_doller_exit(char *arg)
 int		free_return(char *arg, int rv)
 {
 	free(arg);
-	return(rv);
+	return (rv);
+}
+
+/*
+ ** 文字列配列を複製する関数。
+*/
+
+char	**ft_strsdup(char **args)
+{
+	int		i;
+	char	**new_args;
+
+	i = 0;
+	while (args[i])
+		i++;
+	new_args = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (args[i])
+	{
+		new_args[i] = ft_strdup(args[i]);
+		i++;
+	}
+	new_args[i] = NULL;
+	return (new_args);
 }

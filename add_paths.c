@@ -6,12 +6,11 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:17:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 18:40:04 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 11:38:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*
  ** paths に新しいパスを追加する関数。
@@ -39,7 +38,6 @@ char	**add_new_path(char *new_path, char **paths)
 	free_all(paths, 0);
 	return (new_paths);
 }
-
 
 /*
  ** arg[0]が "." または、 "/" で始まっていたら、paths に相対or 絶対パスを追加。そして、arg[0] をパスなしの実行ファイル名に変える。
@@ -84,7 +82,4 @@ char	**add_paths_and_change_arg0(char **argZero, t_edlist *vals)
 	}
 	else
 		return (paths);
-
-
-
 }
