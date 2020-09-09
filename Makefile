@@ -40,7 +40,8 @@ SRCS = change_into_array.c \
 		update_shell_value.c \
 		escape_double_q.c \
 		make_space.c \
-		escape_single_q.c
+		escape_single_q.c \
+		fix_args.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
