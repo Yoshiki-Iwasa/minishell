@@ -6,11 +6,29 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:15:09 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 14:31:21 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 11:23:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		pattern_multi_args(char **args, int *i)
+{
+	if (*i > 0)
+	{
+		if (ft_strcmp(args[*i - 1], "export") != 0)
+		{
+			(*i)++;
+			return (1) ;
+		}
+		return (0);
+	}
+	else
+	{
+		(*i)++;
+		return (1) ;
+	}
+}
 
 /*
  ** TEST= pwd とか TEST = pwd みたいなのに対応
@@ -31,24 +49,12 @@ char		**check_and_change_equal(char **args)
 	while (args[i])
 	{
 		arg = args[i];
-		if (count_strs(args) > 1 && arg[ft_strlen(arg) - 1] == '=')
+		if (count_strs(args) > 1 && arg[ft_strlen(arg) - 1] == '=')//args 複数ある
 		{
-			if (i > 0)
-			{
-				if (ft_strcmp(args[i - 1], "export") != 0)
-				{
-					i++;
-					continue ;
-				}
-			}
-			else
-			{
-				i++;
+			if (pattern_multi_args(args, &i))
 				continue ;
-			}
-
 		}
-		if (args[i + 1] == NULL && ft_strlen(arg) != 1 && (arg[ft_strlen(arg) - 1] == '=' || arg[0] == '='))
+		if (args[i + 1] == NULL && ft_strlen(arg) != 1 && (arg[ft_strlen(arg) - 1] == '=' || arg[0] == '='))// args 一個だけ。
 		{
 			if (i > 0)
 			{
@@ -63,9 +69,9 @@ char		**check_and_change_equal(char **args)
 			else
 			{
 				new_args[j] = ft_strdup(args[i]);
-					i++;
-					j++;
-					continue;
+				i++;
+				j++;
+				continue;
 			}
 		}
 		new_args[j] = ft_strdup(args[i]);
