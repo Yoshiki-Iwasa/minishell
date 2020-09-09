@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:04:28 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 10:06:09 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,57 +57,57 @@ static	char*	free_and_return(char *line)
 ** ';' や '>' など、近くにスペースがなくても無理やりスペースを作る関数
 */
 
-int		make_spaces(char *line, char *new_line, int *i, int *j)
-{
-	if (*i > 0 && line[*i] == ';')
-	{
-		new_line[*j] = ' ';
-		new_line[*j + 1] = ';';
-		new_line[*j + 2] = ' ';
-		(*j)+=3;
-		(*i)++;
-		return (1);
-	}
-	if (*i > 0 && line[*i] == '|')
-	{
-		new_line[*j] = ' ';
-		new_line[*j + 1] = '|';
-		new_line[*j + 2] = ' ';
-		(*j)+=3;
-		(*i)++;
-		return (1);
-	}
-	if (*i > 0 && line[*i] == '>' && line[*i + 1] == '>' )
-	{
-		new_line[*j] = ' ';
-		new_line[*j + 1] = '>';
-		new_line[*j + 2] = '>';
-		new_line[*j + 3] = ' ';
-		(*j)+=4;
-		(*i)+=2;
-		return (1);
-	}
-	if (*i > 0 && (line[*i] == '>' || line[*i] == '<' ))
-	{
-		new_line[*j] = ' ';
-		new_line[*j + 1] = line[*i];
-		new_line[*j + 2] = ' ';
-		(*j)+=3;
-		(*i)++;
-		return (1);
-	}
-	if (*i > 0 && line[*i] == '2' && line[*i + 1] == '>' )
-	{
-		new_line[*j] = ' ';
-		new_line[*j + 1] = '2';
-		new_line[*j + 2] = '>';
-		new_line[*j + 3] = ' ';
-		(*j)+=4;
-		(*i)+=2;
-		return (1);
-	}
-	return (0);
-}
+// int		make_spaces(char *line, char *new_line, int *i, int *j)
+// {
+// 	if (*i > 0 && line[*i] == ';')
+// 	{
+// 		new_line[*j] = ' ';
+// 		new_line[*j + 1] = ';';
+// 		new_line[*j + 2] = ' ';
+// 		(*j)+=3;
+// 		(*i)++;
+// 		return (1);
+// 	}
+// 	if (*i > 0 && line[*i] == '|')
+// 	{
+// 		new_line[*j] = ' ';
+// 		new_line[*j + 1] = '|';
+// 		new_line[*j + 2] = ' ';
+// 		(*j)+=3;
+// 		(*i)++;
+// 		return (1);
+// 	}
+// 	if (*i > 0 && line[*i] == '>' && line[*i + 1] == '>' )
+// 	{
+// 		new_line[*j] = ' ';
+// 		new_line[*j + 1] = '>';
+// 		new_line[*j + 2] = '>';
+// 		new_line[*j + 3] = ' ';
+// 		(*j)+=4;
+// 		(*i)+=2;
+// 		return (1);
+// 	}
+// 	if (*i > 0 && (line[*i] == '>' || line[*i] == '<' ))
+// 	{
+// 		new_line[*j] = ' ';
+// 		new_line[*j + 1] = line[*i];
+// 		new_line[*j + 2] = ' ';
+// 		(*j)+=3;
+// 		(*i)++;
+// 		return (1);
+// 	}
+// 	if (*i > 0 && line[*i] == '2' && line[*i + 1] == '>' )
+// 	{
+// 		new_line[*j] = ' ';
+// 		new_line[*j + 1] = '2';
+// 		new_line[*j + 2] = '>';
+// 		new_line[*j + 3] = ' ';
+// 		(*j)+=4;
+// 		(*i)+=2;
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 /*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にしてクオートを削除
