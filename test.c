@@ -148,6 +148,7 @@ int main()
 	printf("ls OK\n");
 }
 #endif
+// -rwxr-xr-x  1 root  wheel    51888  8 11 05:56 ls
 // #include <stdio.h>
 // #include <unistd.h>
 
