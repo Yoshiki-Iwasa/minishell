@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:06:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 06:46:13 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:49:11 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,20 @@
 
 int		process_quotations(char *line, int *i)
 {
+	int rv;
+
 	if (line[*i] == '"')
 	{
-		if (when_meets_double_q(line, i))
+		rv = when_meets_double_q(line, i);
+		if (rv == 1)
 			return (1);
-		else if (!when_meets_double_q(line, i))
+		else if (rv == 0)
 			return (0);
 	}
 	else if (line[*i] == 39)
 	{
-		if (when_meets_single_q(line, i))
+		rv = when_meets_single_q(line, i);
+		if (rv == 1)
 			return (1);
 	}
 	return (2);
@@ -40,7 +44,7 @@ int		process_quotations(char *line, int *i)
 void	insert_unprintable(char *line)
 {
 	int		i;
-
+	int		rv;
 	i = 0;
 	while (line[i] != '\0')
 	{
@@ -51,9 +55,10 @@ void	insert_unprintable(char *line)
 		}
 		if (line[i] == '"' || line[i] == 39)
 		{
-			if (process_quotations(line, &i))
+			rv = process_quotations(line, &i);
+			if (rv == 1)
 				continue ;
-			else if (!process_quotations(line, &i))
+			else if (rv == 0)
 				break ;
 		}
 		if (line[i] == '"' || line[i] == 39)

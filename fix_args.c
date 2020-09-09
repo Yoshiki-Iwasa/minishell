@@ -6,14 +6,14 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 10:45:50 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:45:54 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:19:05 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- ** argsに含まれているascii文字をcに変える関数
+** argsに含まれているascii文字をcに変える関数
 */
 
 void	fix_args(char **args, char ascii, char c)
@@ -22,12 +22,12 @@ void	fix_args(char **args, char ascii, char c)
 	int j;
 
 	i = 0;
-	while(args[i] != NULL)
+	while (args[i] != NULL)
 	{
 		j = 0;
-		while(args[i][j] != '\0')
+		while (args[i][j] != '\0')
 		{
-			if (args[i][j] == ascii) // エスケープさせるために非表示文字にしてたところをスペースに直す
+			if (args[i][j] == ascii)
 				args[i][j] = c;
 			j++;
 		}

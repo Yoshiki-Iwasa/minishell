@@ -6,13 +6,13 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 14:02:47 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 15:06:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:10:26 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void change_stdout_fd_set_null(char **args, int *flag_out, int *fd, int *i)
+void	change_stdout_fd_set_null(char **args, int *flag_out, int *fd, int *i)
 {
 	args[*i] = NULL;
 	(*i)++;
@@ -20,7 +20,8 @@ void change_stdout_fd_set_null(char **args, int *flag_out, int *fd, int *i)
 	*flag_out = 1;
 }
 
-void change_stdout_fd_set_null_append(char **args, int *flag_out, int *fd, int *i)
+void	change_stdout_fd_set_null_append
+	(char **args, int *flag_out, int *fd, int *i)
 {
 	args[*i] = NULL;
 	(*i)++;
@@ -28,7 +29,8 @@ void change_stdout_fd_set_null_append(char **args, int *flag_out, int *fd, int *
 	*flag_out = 1;
 }
 
-void change_stderror_fd_set_null(char **args, int *flag_error, int *fd, int *i)
+void	change_stderror_fd_set_null
+	(char **args, int *flag_error, int *fd, int *i)
 {
 	args[*i] = NULL;
 	(*i)++;

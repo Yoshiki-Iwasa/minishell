@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 15:43:21 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:58:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@ static	void	init_flags(t_flags *flag)
 	flag->flag_out = 0;
 }
 
-void			set_error_and_flag(char **error, char *arg, t_flags *flag)
+int				set_in_flag(char **args, t_flags *flag, int *fd, int i)
 {
-	*error = arg;
-	flag->flag_in = -1;
+	if (change_stdin_fd(args[i], fd))
+		flag->flag_in = 1;
+	else
+	{
+		flag->flag_in = -1;
+		return (0);
+	}
+	return (1);
 }
 
 void			change_fd_based_on_redirection
@@ -40,13 +46,8 @@ void			change_fd_based_on_redirection
 		if (!ft_strcmp(args[i], "<"))
 		{
 			args[i++] = NULL;
-			if (change_stdin_fd(args[i], fd))
-				flag->flag_in = 1;
-			else
-			{
-				flag->flag_in = -1;
+			if (set_in_flag(args, flag, fd, i) == 0)
 				return ;
-			}
 		}
 		else if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|") \
 			|| !ft_strcmp(args[i], "1>"))
@@ -93,10 +94,14 @@ int				check_redirect_syntax(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if (!ft_strcmp(">", args[i]) || !ft_strcmp("<", args[i]) || !ft_strcmp(">>", args[i]) || !ft_strcmp("2>", args[i]))
+		if (!ft_strcmp(">", args[i]) || !ft_strcmp("<", args[i]) || \
+			!ft_strcmp(">>", args[i]) || !ft_strcmp("2>", args[i]))
 		{
-			if (!ft_strcmp(args[i + 1], ";") || !args[i + 1] || !ft_strcmp(args[i + 1], ">") || !ft_strcmp(args[i + 1], "<") || !ft_strcmp(args[i + 1], ">>") || !ft_strcmp(args[i + 1], "2>"))
-			return (0);
+			if (!ft_strcmp(args[i + 1], ";") || !args[i + 1] || \
+				!ft_strcmp(args[i + 1], ">") || !ft_strcmp(args[i + 1], "<") \
+				|| !ft_strcmp(args[i + 1], ">>") || \
+				!ft_strcmp(args[i + 1], "2>"))
+				return (0);
 		}
 		i++;
 	}

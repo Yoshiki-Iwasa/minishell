@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 15:42:12 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:12:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int	export_error(char *arg)
 ** exportコマンドを司る関数。
 */
 
-int		command_export(char **args, t_edlist *vals)
+int			command_export(char **args, t_edlist *vals)
 {
-	int i;
-	t_list *find;
+	int		i;
+	t_list	*find;
 
 	i = 0;
 	while (args[i])
@@ -41,7 +41,7 @@ int		command_export(char **args, t_edlist *vals)
 		}
 		else
 		{
-			if ((find = search_entry(vals->d_val ,args[i]))!= NULL)
+			if ((find = search_entry(vals->d_val, args[i])) != NULL)
 				update_val((&vals->e_val), find->content);
 		}
 		i++;

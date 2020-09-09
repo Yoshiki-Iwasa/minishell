@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 10:23:09 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:23:17 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:19:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 	int quote_count;
 
 	quote_count = 0;
-	while(line[*i] != '\0')
+	while (line[*i] != '\0')
 	{
 		if (line[*i] == 39)
 		{
@@ -30,7 +30,7 @@ int	escape_single_q(char *line, char *new_line, int *i, int *j)
 			continue ;
 		}
 		if (line[*i] == '$')
-				line[*i] = 2;
+			line[*i] = 2;
 		new_line[*j] = line[*i];
 		(*i)++;
 		(*j)++;

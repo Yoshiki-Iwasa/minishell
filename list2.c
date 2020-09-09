@@ -6,14 +6,14 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:17:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 15:54:14 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 08:18:17 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- ** key=value の形をした引数からkeyだけを取り出す
+** key=value の形をした引数からkeyだけを取り出す
 */
 
 char	*get_key(char *arg)
@@ -26,7 +26,7 @@ char	*get_key(char *arg)
 	key_len = 0;
 	while (arg[key_len] != '=' && arg[key_len] != '\0')
 		key_len++;
-	key = malloc(key_len + 1); // malloc ガード入れる必要あり。
+	key = malloc(key_len + 1);
 	i = 0;
 	while (i < key_len)
 	{
@@ -40,7 +40,7 @@ char	*get_key(char *arg)
 }
 
 /*
- ** arg が　key=valu　の形をしているか判定する関数
+** arg が　key=valu　の形をしているか判定する関数
 */
 
 int		check_if_key_value(char *arg)
@@ -51,7 +51,7 @@ int		check_if_key_value(char *arg)
 		arg++;
 	while (*arg != '=' && *arg != '\0')
 		arg++;
-	if(*arg == '\0')
+	if (*arg == '\0')
 		return (0);
 	else
 	{
@@ -64,7 +64,7 @@ int		check_if_key_value(char *arg)
 }
 
 /*
- ** 新しい要素をリストの一番後ろに追加する関数
+** 新しい要素をリストの一番後ろに追加する関数
 */
 
 int		add_val(t_list **val, char *arg)
