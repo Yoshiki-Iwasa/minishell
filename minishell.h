@@ -119,6 +119,7 @@ int		skip_double_q(char *line, int *i, int *quote_count);
 int		decide_break_or_continue(char *line, int *i);
 int		escape_double_q(char *line, char *new_line, int *i, int *j);
 int		make_spaces(char *line, char *new_line, int *i, int *j);
+int	escape_single_q(char *line, char *new_line, int *i, int *j);
 
 
 #endif

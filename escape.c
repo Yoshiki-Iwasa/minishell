@@ -6,38 +6,38 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:06:09 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 10:22:59 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** シングルクオートをline から排除するための関数。
-*/
+// /*
+// ** シングルクオートをline から排除するための関数。
+// */
 
-int	escape_single_q(char *line, char *new_line, int *i, int *j)
-{
-	int quote_count;
+// int	escape_single_q(char *line, char *new_line, int *i, int *j)
+// {
+// 	int quote_count;
 
-	quote_count = 0;
-	while(line[*i] != '\0')
-	{
-		if (line[*i] == 39)
-		{
-			(*i)++;
-			quote_count++;
-			continue ;
-		}
-		if (line[*i] == '$')
-				line[*i] = 2;
-		new_line[*j] = line[*i];
-		(*i)++;
-		(*j)++;
-	}
-	new_line[*j] = '\0';
-	return (quote_count % 2);
-}
+// 	quote_count = 0;
+// 	while(line[*i] != '\0')
+// 	{
+// 		if (line[*i] == 39)
+// 		{
+// 			(*i)++;
+// 			quote_count++;
+// 			continue ;
+// 		}
+// 		if (line[*i] == '$')
+// 				line[*i] = 2;
+// 		new_line[*j] = line[*i];
+// 		(*i)++;
+// 		(*j)++;
+// 	}
+// 	new_line[*j] = '\0';
+// 	return (quote_count % 2);
+// }
 
 static	char*	put_error_free_return(char *new_line)
 {
@@ -52,62 +52,6 @@ static	char*	free_and_return(char *line)
 	free(line);
 	return (0);
 }
-
-/*
-** ';' や '>' など、近くにスペースがなくても無理やりスペースを作る関数
-*/
-
-// int		make_spaces(char *line, char *new_line, int *i, int *j)
-// {
-// 	if (*i > 0 && line[*i] == ';')
-// 	{
-// 		new_line[*j] = ' ';
-// 		new_line[*j + 1] = ';';
-// 		new_line[*j + 2] = ' ';
-// 		(*j)+=3;
-// 		(*i)++;
-// 		return (1);
-// 	}
-// 	if (*i > 0 && line[*i] == '|')
-// 	{
-// 		new_line[*j] = ' ';
-// 		new_line[*j + 1] = '|';
-// 		new_line[*j + 2] = ' ';
-// 		(*j)+=3;
-// 		(*i)++;
-// 		return (1);
-// 	}
-// 	if (*i > 0 && line[*i] == '>' && line[*i + 1] == '>' )
-// 	{
-// 		new_line[*j] = ' ';
-// 		new_line[*j + 1] = '>';
-// 		new_line[*j + 2] = '>';
-// 		new_line[*j + 3] = ' ';
-// 		(*j)+=4;
-// 		(*i)+=2;
-// 		return (1);
-// 	}
-// 	if (*i > 0 && (line[*i] == '>' || line[*i] == '<' ))
-// 	{
-// 		new_line[*j] = ' ';
-// 		new_line[*j + 1] = line[*i];
-// 		new_line[*j + 2] = ' ';
-// 		(*j)+=3;
-// 		(*i)++;
-// 		return (1);
-// 	}
-// 	if (*i > 0 && line[*i] == '2' && line[*i + 1] == '>' )
-// 	{
-// 		new_line[*j] = ' ';
-// 		new_line[*j + 1] = '2';
-// 		new_line[*j + 2] = '>';
-// 		new_line[*j + 3] = ' ';
-// 		(*j)+=4;
-// 		(*i)+=2;
-// 		return (1);
-// 	}
-// 	return (0);
-// }
 
 /*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にしてクオートを削除
