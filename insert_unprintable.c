@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:06:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 16:07:18 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 22:13:51 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	pattern_single(char *line, int *i)
 }
 
 /*
-** ダブルクオートに出会った
+** ダブルクオートに出会ったときに入る。
+** エスケープさせたり、クオート文字を抜かす役割。
 */
 
 int		when_meets_double_q(char *line, int *i)
@@ -103,6 +104,38 @@ int		when_meets_double_q(char *line, int *i)
 }
 
 /*
+** シングルクオートに出会ったときに入る。
+** エスケープさせたり、クオート文字を抜かす役割。
+*/
+
+int		when_meets_single_q(char *line, int *i)
+{
+	if (line[*i + 1] == 39)
+	{
+		line[*i] = ' ';
+		line[*i + 1] = 4;
+		(*i) += 2;
+		return (1);
+	}
+	if (line[*i + 1] == 39 && (line[*i + 2] == '\0' || line[*i + 2] == ' '))//'' を空文字にする処理。
+	{
+		line[*i] = ' ';
+		line[*i + 1] = 4;
+		(*i) += 2;
+		return (1);
+	}
+	if (line[*i + 1] == '\\')
+	{
+		(*i)+=2;
+		return (1);
+	}
+	else
+		pattern_single(line, i);
+	return (1);
+}
+
+
+/*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にする。
 */
 
@@ -130,27 +163,8 @@ void	insert_unprintable(char *line)
 			}
 			else if (line[i] == 39)
 			{
-				if (line[i + 1] == 39)
-				{
-					line[i] = ' ';
-					line[i + 1] = 4;
-					i += 2;
+				if (when_meets_single_q(line, &i))
 					continue ;
-				}
-				if (line[i + 1] == 39 && (line[i + 2] == '\0' || line[i + 2] == ' '))//'' を空文字にする処理。
-				{
-					line[i] = ' ';
-					line[i + 1] = 4;
-					i += 2;
-					continue ;
-				}
-				if (line[i + 1] == '\\')
-				{
-					i+=2;
-					continue ;
-				}
-				else
-					pattern_single(line, &i);
 			}
 		}
 		if (line[i] == '"' || line[i] == 39)
