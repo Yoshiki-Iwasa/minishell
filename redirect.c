@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 11:45:35 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:14:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void			change_fd_based_on_redirection
 			if (change_stdin_fd(args[i], fd))
 				flag->flag_in = 1;
 			else
-				set_error_and_flag(error, args[i], flag);
+			{
+				flag->flag_in = -1;
+				return ;
+			}
 		}
 		else if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">|") \
 			|| !ft_strcmp(args[i], "1>"))

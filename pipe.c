@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/06 13:08:03 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 14:16:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ void	signel_pipe(int sig)
 		{
 			write(1, "\n", 1);
 		}
+	}
+}
+
+void	signel_pipe_bs(int sig)
+{
+	if (g_ret != 0)
+	{
+		g_sig_count++;
+		sig = kill(g_ret, SIGQUIT);
+		// if(!sig && g_sig_count == 1)
+		// {
+		// 	write(1, "\n", 1);
+		// }
 	}
 }
 
@@ -79,6 +92,7 @@ int		yes_pipe(char **args, t_edlist *vals, int pipe_count)
 	envp = change_into_array(vals->e_val); //環境変数リストを文字列に変換。
 	args_into_array(args, &args_array, pipe_count);// ここまでで、args_array でコマンドをパイプごとに分割できた
 	signal(SIGINT,signel_pipe);
+	signal(SIGQUIT, signel_pipe_bs);
 	g_sig_count = 0;
 	g_ret = fork();
 	if (g_ret == 0)
@@ -94,6 +108,7 @@ int		yes_pipe(char **args, t_edlist *vals, int pipe_count)
 		update_val(&(vals->d_val), status_str);//終了ステータス更新。
 		free(status_str);
 		free(args_array);
+		g_sig_count = 0;
 	}
 	return (WEXITSTATUS(status));
 }
