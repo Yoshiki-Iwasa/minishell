@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:06:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 09:40:47 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 16:02:17 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,36 @@ void	pattern_single(char *line, int *i)
 }
 
 /*
+** ダブルクオートに出会った
+*/
+
+int		when_meets_double_q(char *line, int *i)
+{
+	if (line[*i + 1] == '\0')
+	{
+		(*i)++;
+		return(0) ;
+	}
+	if (line[*i + 1] == '"' && (line[*i + 2] == '\0' || line[*i + 2] == ' '))//"" を空文字にする処理。
+	{
+		if (*i > 0 && line[*i - 1] == '\\')
+		{
+			(*i) += 2;
+			return(1) ;
+		}
+		line[*i] = ' ';
+		line[*i + 1] = 4;
+		(*i) += 2;
+		return(1) ;
+	}
+	else
+	{
+		pattern_double(line, i);
+		return (1);
+	}
+}
+
+/*
 	クオーテーションで囲まれた文字列のスペースを非表示文字にする。
 */
 
@@ -93,25 +123,10 @@ void	insert_unprintable(char *line)
 		{
 			if (line[i] == '"')
 			{
-				if (line[i + 1] == '\0')
-				{
-					i++;
-					break ;
-				}
-				if (line[i + 1] == '"' && (line[i + 2] == '\0' || line[i + 2] == ' '))//"" を空文字にする処理。
-				{
-					if (i > 0 && line[i - 1] == '\\')
-					{
-						i += 2;
-						continue ;
-					}
-					line[i] = ' ';
-					line[i + 1] = 4;
-					i += 2;
+				if (when_meets_double_q(line, &i))
 					continue ;
-				}
 				else
-					pattern_double(line, &i);
+					break ;
 			}
 			else if (line[i] == 39)
 			{
