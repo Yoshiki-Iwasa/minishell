@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 15:14:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:43:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			set_error_and_flag(char **error, char *arg, t_flags *flag)
 }
 
 void			change_fd_based_on_redirection
-	(t_flags *flag, char **args, int *fd, char **error)
+	(t_flags *flag, char **args, int *fd)
 {
 	int i;
 
@@ -64,12 +64,12 @@ void			change_fd_based_on_redirection
  ** リダイレクトの処理をする。具体的には、fd の値を書き換えて標準入出力先を変更する。
 */
 
-int				deal_redirection(char **args, int *fd, char **error)
+int				deal_redirection(char **args, int *fd)
 {
 	t_flags flag;
 
 	init_flags(&flag);
-	change_fd_based_on_redirection(&flag, args, fd, error);
+	change_fd_based_on_redirection(&flag, args, fd);
 	if (flag.flag_in > 0 && !flag.flag_out)
 		return (0);
 	else if (flag.flag_out && !flag.flag_in)

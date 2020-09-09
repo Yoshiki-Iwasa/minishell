@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 15:03:12 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:45:30 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int				no_pipe(char **args, t_edlist *vals)
 	t_fds	fds;
 	char	*origin_arg;
 	char	**paths;
-	char	*error;
 
 	escape_fds(&(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
 	if (args[0][0] == 2 && args[0][1] != '\0')
@@ -101,7 +100,7 @@ int				no_pipe(char **args, t_edlist *vals)
 	fix_args(args, 8, '=');
 	origin_arg = ft_strdup(args[0]);
 	paths = add_paths_and_change_arg0(&args[0], vals);
-	fds.fd_flag = deal_redirection(args, &(fds.fd), &error);
+	fds.fd_flag = deal_redirection(args, &(fds.fd));
 	fix_args_compose(args);
 	if (fds.fd_flag == -1)
 		return (free_and_return(paths, origin_arg));

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 11:00:02 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:42:12 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		command_export(char **args, t_edlist *vals)
 	i = 0;
 	while (args[i])
 	{
-		if (!ft_isalpha(args[i][0]))
+		if (!check_key_str(args[i]))
 			return (export_error(args[i]));
 		if (check_if_key_value(args[i]))
 		{

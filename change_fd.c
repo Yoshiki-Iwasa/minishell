@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 13:36:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 15:12:50 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:48:41 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int		change_stdin_fd(char *arg, int *fd)
 	*fd = open(arg,  O_RDONLY);
 	if (*fd == -1)
 	{
-		ft_putstr_fd("bash :", 1);
-		ft_putstr_fd(arg, 1);
-		ft_putstr_fd(": ", 1);
+		ft_putstr_fd("bash :", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 		return (0);
 	}

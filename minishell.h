@@ -72,7 +72,7 @@ void	fix_args(char **args, char ascii, char c);
 void	pattern_double(char *line, int *i);
 void	pattern_single(char *line, int *i);
 void	insert_unprintable(char *line);
-int		deal_redirection(char **args, int *fd, char **error);
+int				deal_redirection(char **args, int *fd);
 int	 	change_stdin_fd(char *arg, int *fd);
 void	change_stdout_fd(char *arg, int *fd);
 void	sig_handle_C(int sig);
