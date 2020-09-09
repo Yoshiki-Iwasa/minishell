@@ -133,6 +133,8 @@ echo "minishell\$ "
 echo "minishell\$ "
 
 TEST=ABCD
+TEST=ABCD
 echo "{$TEST}${TEST}$TEST" {$TEST}${TEST}$TEST
 echo "{$TEST}${TEST}{$TEST}" {$TEST}${TEST}{$TEST}
+echo "{$TEST}${TEST}$TEST"{$TEST}${TEST}$TEST
 echo "k\${USER} k"

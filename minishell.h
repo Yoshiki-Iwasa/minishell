@@ -115,5 +115,9 @@ void	put_error(char *arg);
 int		pattern_pipe_not_exit(char **args, t_edlist *vals);
 int		pattern_pipe_exist(char **args, t_edlist *vals, int pipe_count);
 int		update_shell_value(char **args, t_edlist *vals);
+int		skip_double_q(char *line, int *i, int *quote_count);
+int		decide_break_or_continue(char *line, int *i);
+int		escape_double_q(char *line, char *new_line, int *i, int *j);
+
 
 #endif
