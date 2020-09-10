@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 14:16:36 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 14:17:45 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		sig_handle_bs(int sig)
 ** 終了ステータスコアダンプをだすかどうか決める関数
 */
 
-void	put_quit_message(int status)
+void		put_quit_message(int status)
 {
 	if (WCOREDUMP(status))
 		ft_putendl("Quit: (core dumped)");
