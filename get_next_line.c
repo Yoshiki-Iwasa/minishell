@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:11:34 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/04 13:47:34 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 10:03:13 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ int				get_next_line(int fd, char **line)
 		return (-1);
 	while ((rv = read(fd, buf, 20)) > 0)
 	{
-		if (buf[1] == -1)
-			continue ;
 		buf[rv] = '\0';
 		if (s[fd] == NULL)
 			tmp = ft_strdup(buf);
