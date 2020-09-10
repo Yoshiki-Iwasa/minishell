@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:51:18 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 09:14:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char			*preparation_for_escape(char *line)
 	char	*new_line;
 
 	insert_unprintable(line);
-	if (!(new_line = malloc(PATH_MAX + 1)))
+	if (!(new_line = malloc(ARG_MAX + 1)))
 		return (free_and_return(line));
 	i = 0;
 	j = 0;

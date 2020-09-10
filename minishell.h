@@ -122,6 +122,8 @@ int		make_spaces(char *line, char *new_line, int *i, int *j);
 int	escape_single_q(char *line, char *new_line, int *i, int *j);
 int		when_meets_single_q(char *line, int *i);
 int		when_meets_double_q(char *line, int *i);
+void	close_and_dup2_2(int pp_zero, int pp_one);
+void	close_and_dup2_1(int pp_zero, int pp_one);
 
 
 #endif
