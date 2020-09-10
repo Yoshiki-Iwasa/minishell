@@ -44,7 +44,8 @@ SRCS = change_into_array.c \
 		fix_args.c \
 		single_quote.c \
 		double_quote.c \
-		close_and_dup2.c
+		close_and_dup2.c \
+		child_process.c
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 LIBFT = ./libft/libft.a

@@ -61,7 +61,6 @@ int		check_if_key_value(char *arg);
 char	**get_path(t_list *e_val);
 int		trans_dollor_valiable(char **args, t_list *d_val, t_list *e_val);
 int		exec_shell_command(char **args, t_edlist *vals, char **paths, char *origin_arg);
-int	child_precess(char **args, t_edlist *vals, char **paths, char *origin_arg);
 char	**change_into_array(t_list *e_val);
 int		count_commands(char **args);
 int		find_semi_co(char	**args);
@@ -75,7 +74,7 @@ void	insert_unprintable(char *line);
 int				deal_redirection(char **args, int *fd);
 int	 	change_stdin_fd(char *arg, int *fd);
 void	change_stdout_fd(char *arg, int *fd);
-void	sig_handle_C(int sig);
+void	sig_handle_c(int sig);
 void	sig_handle_bs(int sig);
 void	setting_signal(void);
 int		count_pipe(char **args);
@@ -124,6 +123,7 @@ int		when_meets_single_q(char *line, int *i);
 int		when_meets_double_q(char *line, int *i);
 void	close_and_dup2_2(int pp_zero, int pp_one);
 void	close_and_dup2_1(int pp_zero, int pp_one);
+int	child_precess(char **args, t_edlist *vals, char **paths, char *origin_arg);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 09:35:24 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/07 11:51:37 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 10:14:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@
 
 void	setting_signal(void)
 {
-	signal(SIGINT, sig_handle_C);
+	signal(SIGINT, sig_handle_c);
 	signal(SIGQUIT, sig_handle_bs);
 }
