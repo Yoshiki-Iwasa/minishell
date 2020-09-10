@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 10:08:19 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 10:43:52 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 10:53:58 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ void	exec_execve(t_edlist *vals, char **args, char **paths, char **cmd_ptr)
 {
 	int		i;
 	char	**envp;
-	char	command[PATH_MAX + 1];
+	char	*command;
 
 	i = 0;
+	command = malloc(PATH_MAX + 1);
 	envp = change_into_array(vals->e_val);
 	while (paths[i])
 	{
@@ -71,7 +72,7 @@ void	exec_execve(t_edlist *vals, char **args, char **paths, char **cmd_ptr)
 		(*cmd_ptr)[0] = '\0';
 		i++;
 	}
-	free_all(envp, 0);
+	free_all(envp, *cmd_ptr);
 }
 
 /*

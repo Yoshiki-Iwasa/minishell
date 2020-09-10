@@ -124,6 +124,14 @@ int		when_meets_double_q(char *line, int *i);
 void	close_and_dup2_2(int pp_zero, int pp_one);
 void	close_and_dup2_1(int pp_zero, int pp_one);
 int	child_precess(char **args, t_edlist *vals, char **paths, char *origin_arg);
-
+char *joint_strs(char **args);
+int	add_dollor(char **args);
+void	chage_dollor_val_space(char **args);
+int		count_dollor(char *str);
+int		count_strs(char **args);
+int		is_only_or_many_dollor(char *arg);
+void	triple_free(char *one, char *two, char *three);
+int		seek_in_e_val(char **args, t_list *e_val, char *strs[3]);
+int		seek_in_d_val(char **args, t_list *d_val, char *strs[3]);
 
 #endif

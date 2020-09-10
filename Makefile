@@ -45,7 +45,13 @@ SRCS = change_into_array.c \
 		single_quote.c \
 		double_quote.c \
 		close_and_dup2.c \
-		child_process.c
+		child_process.c \
+		dollor_utils.c \
+		dollor_utils2.c \
+		trans_each_dollor.c \
+		seek_in_d_val.c \
+		seek_in_e_val.c
+
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 LIBFT = ./libft/libft.a
