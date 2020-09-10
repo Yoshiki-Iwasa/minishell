@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 10:14:31 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:35:50 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		sig_handle_bs(int sig)
 ** build in 以外の関数が呼ばれたときに使う関数
 */
 
-int		exec_shell_command
+int			exec_shell_command
 	(char **args, t_edlist *vals, char **paths, char *origin_arg)
 {
 	int		status;

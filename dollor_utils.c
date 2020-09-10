@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 11:01:06 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 11:10:31 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:37:08 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
  ** 文字列を結合させる関数。
 */
 
-char *joint_strs(char **args)
+char		*joint_strs(char **args)
 {
-	char *ret;
-	char *tmp;
-	int i;
+	char	*ret;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	ret = ft_strdup("");
@@ -38,10 +38,10 @@ char *joint_strs(char **args)
  ** 先頭に無理やり、'$' をつける関数。
 */
 
-int	add_dollor(char **args)
+int			add_dollor(char **args)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (args[i])
@@ -61,10 +61,10 @@ int	add_dollor(char **args)
  ** 存在しない$変数を、空文字列に変えるための関数。
 */
 
-void	chage_dollor_val_space(char **args)
+void		chage_dollor_val_space(char **args)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (args[i])
@@ -79,7 +79,7 @@ void	chage_dollor_val_space(char **args)
 	}
 }
 
-void	triple_free(char *one, char *two, char *three)
+void		triple_free(char *one, char *two, char *three)
 {
 	free(one);
 	free(two);

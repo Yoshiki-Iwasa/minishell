@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:06:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 08:49:11 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:34:40 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	insert_unprintable(char *line)
 {
 	int		i;
 	int		rv;
+
 	i = 0;
 	while (line[i] != '\0')
 	{
