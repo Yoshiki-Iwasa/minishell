@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 13:01:59 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 08:15:40 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 09:15:13 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	args_into_array(char **args, char ****args_array, int pipe_num)
 		if (!ft_strcmp(args[i], "|"))
 		{
 			(*args_array)[j] = &args[i + 1];
+			free(args[i]);
 			args[i] = NULL;
 			j++;
 		}

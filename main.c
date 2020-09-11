@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 09:00:42 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 09:09:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int		main(int argc, char **argv, char **envp)
 	argc = 0;
 	argv = 0;
 	shell_start(envp);
+	while (1);
 	if (argc == 0 && argv == 0)
 		return (EXIT_SUCCESS);
 	if (argc != 0 && argv != 0)
