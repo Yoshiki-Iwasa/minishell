@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/05 12:30:01 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:34:00 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void		lst_del_connect(t_list **val, char *key, void (*del)(void*))
 			{
 				tmp = find_num_list(*val, num - 1);
 				tmp->next = search->next;
+				ft_lstdelone(search, del);
 			}
 			return ;
 		}

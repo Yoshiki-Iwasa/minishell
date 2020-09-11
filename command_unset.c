@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 10:53:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:53:12 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:35:59 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ int	command_unset(char **args, t_list *e_val, t_list *d_val)
 		key = get_key(args[i]);
 		find = search_entry(e_val, key);
 		if (find != NULL)
+		{
 			lst_del_connect(&e_val, key, free);
+			free(key);
+		}
+		else
+			free(key);
 		i++;
 	}
 	i = 0;
@@ -39,7 +44,10 @@ int	command_unset(char **args, t_list *e_val, t_list *d_val)
 		if (find != NULL)
 		{
 			lst_del_connect(&d_val, key, free);
+			free(key);
 		}
+		else
+			free(key);
 		i++;
 	}
 	return (0);
