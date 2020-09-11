@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 10:09:51 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 11:37:49 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 09:04:29 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**change_into_array(t_list *e_val)
 	char	**ret;
 	int		i;
 
-	ret = malloc(sizeof(char *) * ft_lstsize(e_val) + 1);
+	ret = malloc(sizeof(char *) * (ft_lstsize(e_val) + 1));
 	if (!ret)
 		return (0);
 	i = 0;
