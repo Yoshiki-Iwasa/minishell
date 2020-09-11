@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:59:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/07/01 15:17:48 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 10:18:34 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <limits.h>
+# include "minishell.h"
 
 # define MAX_FD 4096
 

@@ -6,14 +6,13 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 08:05:49 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 08:31:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 10:23:26 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define PATH_MAX 2047
 # define FUNC_NUM 7
 
 # include <unistd.h>
