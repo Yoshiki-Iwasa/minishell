@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 10:08:19 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 14:49:58 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:16:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,21 @@ void	put_error_2(char **paths, char *origin_arg)
 	exit(127);
 }
 
+void	make_cmp_ptr
+	(char **cmd_ptr, char **command, char *paths_i, char *args_zero)
+{
+	(*command)[0] = '\0';
+	*cmd_ptr = ft_strcat(*command, paths_i);
+	*cmd_ptr = ft_strcat(*command, "/");
+	*cmd_ptr = ft_strcat(*command, args_zero);
+}
+
+void	free_dup(char **args_zero, char **cmd_ptr)
+{
+	free(*args_zero);
+	*args_zero = ft_strdup(*cmd_ptr);
+}
+
 /*
 ** path をつくって、execve を実行する関数。
 */
@@ -51,31 +66,24 @@ void	exec_execve(t_edlist *vals, char **args, char **paths, char **cmd_ptr)
 	int		i;
 	char	**envp;
 	char	*command;
-	char	*tmp;
 
-	i = 0;
-	tmp = args[0];
+	i = -1;
 	command = malloc(PATH_MAX + 1);
 	envp = change_into_array(vals->e_val);
-	while (paths[i])
+	while (paths[++i])
 	{
 		if (args[0][0] == '\0')
 		{
 			errno = 2;
 			break ;
 		}
-		command[0] = '\0';
-		*cmd_ptr = ft_strcat(command, paths[i]);
-		*cmd_ptr = ft_strcat(command, "/");
-		*cmd_ptr = ft_strcat(command, args[0]);
+		make_cmp_ptr(cmd_ptr, &command, paths[i], args[0]);
 		if ((*cmd_ptr)[0] == '/')
-			args[0] = *cmd_ptr;
+			free_dup(&args[0], cmd_ptr);
 		execve(*cmd_ptr, args, envp);
 		if (errno == 8)
 			break ;
-		args[0] = tmp;
 		(*cmd_ptr)[0] = '\0';
-		i++;
 	}
 	free_all(envp, *cmd_ptr);
 }
