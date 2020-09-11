@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:17:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 15:54:29 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 23:33:49 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,16 @@ int		add_root_path(char **arg_zero, char ***paths, int i)
 }
 
 /*
+** 環境変数にPATH がなかった場合にシェル変数に PATHを探しにいく関数。
+*/
+
+void	get_path_from_shell_value(char ***paths, t_edlist *vals)
+{
+	free_all(*paths, 0);
+	*paths = get_path(vals->d_val);
+}
+
+/*
 ** arg[0]が "." または、 "/" で始まっていたら、paths に相対or 絶対パスを追加。
 ** そして、arg[0] をパスなしの実行ファイル名に変える。
 */
@@ -74,10 +84,7 @@ char	**add_paths_and_change_arg0(char **arg_zero, t_edlist *vals)
 
 	paths = get_path(vals->e_val);
 	if (paths[0][0] == '\0')
-	{
-		free_all(paths, 0);
-		paths = get_path(vals->d_val);
-	}
+		get_path_from_shell_value(&paths, vals);
 	i = 0;
 	if (((*arg_zero)[0] == '.' && (*arg_zero)[1] != '\0') || \
 	((*arg_zero)[0] == '/' && (*arg_zero)[1] != '\0' && paths[0][0] != '\0'))
