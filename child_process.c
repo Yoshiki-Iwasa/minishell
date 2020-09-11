@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 10:08:19 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 15:16:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 23:14:55 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	exec_execve(t_edlist *vals, char **args, char **paths, char **cmd_ptr)
 			break ;
 		}
 		make_cmp_ptr(cmd_ptr, &command, paths[i], args[0]);
-		if ((*cmd_ptr)[0] == '/')
+		if ((*cmd_ptr)[0] == '/' && paths[1] == NULL)
 			free_dup(&args[0], cmd_ptr);
 		execve(*cmd_ptr, args, envp);
 		if (errno == 8)
