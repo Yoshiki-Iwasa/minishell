@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 07:51:15 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 09:48:42 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,10 @@ static int		free_and_return
 */
 
 void			recover_fd_and_free_all
-	(t_fds fds, char **args, char **paths, char *origin_arg)
+	(t_fds fds, char **paths, char *origin_arg)
 {
 	recover_stdinout(fds.fd_flag, \
 		&(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
-	free_all(args, 0);
 	free_all(paths, origin_arg);
 }
 
@@ -89,6 +88,7 @@ int				no_pipe(char **args, t_edlist *vals)
 	t_fds	fds;
 	char	*origin_arg;
 	char	**paths;
+	int		arg_len;
 
 	escape_fds(&(fds.stdin_fd), &(fds.stdout_fd), &(fds.stderror_fd));
 	if (args[0][0] == 2 && args[0][1] != '\0')
@@ -98,6 +98,7 @@ int				no_pipe(char **args, t_edlist *vals)
 	if (args[0] == 0 || args[0][0] == 0)
 		return (0);
 	fix_args(args, 8, '=');
+	arg_len = count_strs(args);
 	origin_arg = ft_strdup(args[0]);
 	paths = add_paths_and_change_arg0(&args[0], vals);
 	fds.fd_flag = deal_redirection(args, &(fds.fd));
@@ -105,6 +106,7 @@ int				no_pipe(char **args, t_edlist *vals)
 	if (fds.fd_flag == -1)
 		return (free_and_return(paths, origin_arg));
 	fds.rv = look_argzero_and_exec_command(args, vals, paths, origin_arg);
-	recover_fd_and_free_all(fds, args, paths, origin_arg);
+	free_args(args, 0, arg_len);
+	recover_fd_and_free_all(fds, paths, origin_arg);
 	return (fds.rv);
 }

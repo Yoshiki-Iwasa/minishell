@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 11:12:42 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 08:58:19 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 09:25:30 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void			change_fd_based_on_redirection
 	{
 		if (!ft_strcmp(args[i], "<"))
 		{
+			free(args[i]);
 			args[i++] = NULL;
 			if (set_in_flag(args, flag, fd, i) == 0)
 				return ;
