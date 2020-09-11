@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 10:08:19 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 10:53:58 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 10:41:38 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		child_precess(char **args, t_edlist *vals,\
 	char	*line;
 
 	exec_execve(vals, args, paths, &cmd_ptr);
-	if (errno == 2)
+	if (errno == 2 || errno == 63)
 		put_error_2(paths, origin_arg);
 	else if (errno == 13)
 	{
