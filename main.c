@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 09:51:27 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 11:15:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,19 @@ int		main(int argc, char **argv, char **envp)
 {
 	argc = 0;
 	argv = 0;
+	write(1, "\n\n", 2);
+	ft_putendl("                                   ■■■             ■■■ ■■■ ");
+	ft_putendl("              ■            ■        ■■              ■■  ■■ ");
+	ft_putendl("              ■            ■        ■■              ■■  ■■ ");
+	ft_putendl("                                    ■■              ■■  ■■ ");
+	ft_putendl("■■ ■■■ ■■■   ■■  ■■ ■■■   ■■  ■■■■  ■■■■■■    ■■■■  ■■  ■■ ");
+	ft_putendl(" ■■ ■■■  ■■   ■   ■■  ■    ■  ■  ■  ■■■ ■■   ■■  ■  ■■  ■■ ");
+	ft_putendl(" ■   ■   ■■   ■   ■   ■■   ■  ■■    ■■   ■   ■   ■■ ■■  ■■ ");
+	ft_putendl(" ■   ■   ■■   ■   ■   ■■   ■   ■■■  ■■   ■   ■■■■■■ ■■  ■■ ");
+	ft_putendl(" ■   ■   ■■   ■   ■   ■■   ■     ■■ ■■   ■   ■      ■■  ■■ ");
+	ft_putendl(" ■   ■   ■■   ■   ■   ■■   ■  ■  ■■ ■■   ■   ■■     ■■  ■■ ");
+	ft_putendl("■■■ ■■■ ■■■■ ■■■ ■■■ ■■■  ■■■ ■■■■ ■■■■ ■■■   ■■■■ ■■■■■■■■\
+	\n\n");
 	shell_start(envp);
 	if (argc == 0 && argv == 0)
 		return (EXIT_SUCCESS);
