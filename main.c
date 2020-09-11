@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 15:34:49 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:42:12 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		main(int argc, char **argv, char **envp)
 	ft_putendl("■■■ ■■■ ■■■■ ■■■ ■■■ ■■■  ■■■ ■■■■ ■■■■ ■■■   ■■■■ ■■■■■■■■\
 	\n\n");
 	shell_start(envp);
+	while(1);
 	if (argc == 0 && argv == 0)
 		return (EXIT_SUCCESS);
 	if (argc != 0 && argv != 0)

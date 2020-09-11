@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 09:07:55 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 15:34:00 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:41:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char		*find_value(t_list **val, char *key)
 		}
 		search = search->next;
 	}
-	return ("not_found");
+	return (ft_strdup("not_found"));
 }
 
 /*

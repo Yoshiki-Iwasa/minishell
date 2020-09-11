@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 11:42:47 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:41:51 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	**get_path(t_list *e_val)
 		tmp = malloc(sizeof(char*) * 2);
 		tmp[0] = ft_strdup("");
 		tmp[1] = NULL;
+		free(cmd_path);
 		return (tmp);
 	}
 	tmp = ft_split(cmd_path, ':');
