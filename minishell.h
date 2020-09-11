@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 08:05:49 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 08:16:48 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/11 08:31:06 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # include <unistd.h>
 # include <stdio.h>
-# include <syslimits.h>
+# include <limits.h>
 # include "get_next_line.h"
 # include "./libft/libft.h"
 # include <stdlib.h>
