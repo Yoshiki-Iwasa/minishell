@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 10:53:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/12 12:56:43 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/12 12:58:52 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		delete_entry_and_free_key(t_list *val, char *key)
 t_list		*find_entry(char **key, char *args_i, t_list *val)
 {
 	*key = get_key(args_i);
-	return(search_entry(val, *key));
+	return (search_entry(val, *key));
 }
 
 /*
