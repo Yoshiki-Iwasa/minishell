@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 10:12:41 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/12 11:31:37 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char			*preparation_for_escape(char *line)
 		return (free_and_return(line));
 	i = 0;
 	j = 0;
-	while (line[i] != '\0')
+	while (line[i] != '\0' && i < (int)ft_strlen(line))
 	{
 		if (make_spaces(line, new_line, &i, &j))
 			continue ;

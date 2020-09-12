@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 09:35:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 10:02:33 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/12 11:44:16 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ int		decide_break_or_continue(char *line, int *i)
 }
 
 /*
+** 無理やり開カッコをつける関数
+*/
+
+void	insert_open_bracket(char *new_line, char *line, int *i, int *j)
+{
+	new_line[(*j)++] = line[(*i)++];
+	new_line[(*j)++] = '{';
+}
+
+/*
 ** ダブルクオートをline から排除するための関数。
 */
 
@@ -70,10 +80,10 @@ int		escape_double_q(char *line, char *new_line, int *i, int *j)
 	{
 		if (skip_double_q(line, i, &quote_count))
 			continue;
-		if (line[*i] == '$' && line[*i + 1] != '{' && line[*i - 1] != '{')
+		if (line[*i] == '$' && line[*i + 1] != '{' && line[*i - 1] != '{' \
+			&& line[*i + 1] != ' ')
 		{
-			new_line[(*j)++] = line[(*i)++];
-			new_line[(*j)++] = '{';
+			insert_open_bracket(new_line, line, i, j);
 			while (line[*i] != '"' && line[*i] != '\0')
 				new_line[(*j)++] = line[(*i)++];
 			if (line[*i] == '"')
