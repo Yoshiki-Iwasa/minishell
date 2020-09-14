@@ -62,7 +62,6 @@ all: ${NAME}
 $(NAME) : ${OBJS}
 	$(MAKE) bonus -C ./libft
 	mv $(LIBFT) .
-	# stty noflsh
 	$(CC) -o $(NAME) $(OBJS) libft.a
 
 clean:

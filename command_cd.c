@@ -6,13 +6,21 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 11:05:57 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/09 11:06:48 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/14 09:19:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	command_cd(char *arg, t_list **e_val)
+void	put_error_cd(char *arg)
+{
+	ft_putstr_fd("bash: cd: ", 1);
+	ft_putstr_fd(arg, 1);
+	ft_putstr_fd(": ", 1);
+	ft_putendl_fd(strerror(errno), 1);
+}
+
+int		command_cd(char *arg, t_list **e_val)
 {
 	char	path[PATH_MAX + 1];
 	char	*home;
@@ -32,7 +40,7 @@ int	command_cd(char *arg, t_list **e_val)
 	chdir_rv = chdir(arg);
 	if (chdir_rv == -1)
 	{
-		ft_putendl_fd(strerror(errno), 1);
+		put_error_cd(arg);
 		return (1);
 	}
 	return (0);
