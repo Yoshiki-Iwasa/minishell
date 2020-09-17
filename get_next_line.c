@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:11:34 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 10:24:24 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 08:47:39 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int		just_for_return(char **line, char **tmp)
 	return (-1);
 }
 
-static int		end_of_file(char **line, char *s_fd)
+static int		end_of_file(char **line, char **s_fd)
 {
-	*line = ft_strdup(s_fd);
-	free(s_fd);
+	*line = ft_strdup(*s_fd);
+	free(*s_fd);
 	if (!*line)
 		return (-1);
-	s_fd = NULL;
+	*s_fd = NULL;
 	return (0);
 }
 
@@ -38,7 +38,7 @@ static int		pattern_rv_positive(char **s, int fd, char **line, int len)
 	while (s[fd][len] != '\n' && s[fd][len] != '\0')
 		len++;
 	if (s[fd][len] == '\0')
-		return (end_of_file(line, s[fd]));
+		return (end_of_file(line, &s[fd]));
 	else
 	{
 		*line = ft_substr(s[fd], 0, len);
