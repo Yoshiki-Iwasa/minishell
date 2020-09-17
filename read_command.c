@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:23:44 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/18 08:48:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 08:56:40 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int		when_ctrl_d_pushed(char **line)
 {
 	signal(SIGINT, sig_free_line);
 	g_tmp = ft_strdup(*line);
+	free(*line);
 	while ((get_next_line(0, line)) == 0)
 	{
 		g_tmp2 = *line;
