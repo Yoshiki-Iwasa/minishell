@@ -50,7 +50,8 @@ SRCS = change_into_array.c \
 		dollor_utils2.c \
 		trans_each_dollor.c \
 		seek_in_d_val.c \
-		seek_in_e_val.c
+		seek_in_e_val.c \
+		sort.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell

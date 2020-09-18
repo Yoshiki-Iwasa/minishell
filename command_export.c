@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/18 09:56:32 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 11:14:19 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,44 @@ static int	export_error(char *arg)
 }
 
 /*
+** イコールの後に"" をつけて出力する関数。
+*/
+
+void		put_str_with_dq(char *str)
+{
+	int		i;
+	char	dq;
+
+	dq = '"';
+	i = 0;
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		if ((str[i] == '=' && str[i + 1] != '"') \
+		|| (str[i] != '"' && str[i + 1] == '\0'))
+			write(1, &dq, 1);
+		i++;
+	}
+}
+
+/*
 ** export コマンドに引数がなかったとき、環境変数を、一覧で表示する。
 */
 
-static int	show_e_val(t_list *e_val, void (*f)(void *))
+static int	show_e_val(t_list *e_val)
 {
-	if (!f)
-		return (1);
-	while (e_val)
+	char	**array;
+	int		i;
+
+	array = change_into_array(e_val);
+	ascii_sort(array);
+	i = 0;
+	while (array[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		(*f)(e_val->content);
-		e_val = e_val->next;
+		put_str_with_dq(array[i]);
+		write(1, "\n", 1);
+		i++;
 	}
 	return (0);
 }
@@ -48,7 +74,7 @@ int			command_export(char **args, t_edlist *vals)
 
 	i = 0;
 	if (args[1] == NULL)
-		return (show_e_val(vals->e_val, ft_putendl));
+		return (show_e_val(vals->e_val));
 	while (args[i])
 	{
 		if (!check_key_str(args[i]))

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 08:05:49 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/18 09:02:44 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 11:01:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int				when_meets_double_q(char *line, int *i);
 int				when_meets_single_q(char *line, int *i);
 int				yes_pipe(char **args, t_edlist *vals, int pipe_count);
 t_list			*search_entry(t_list *val, char *key);
+void			ascii_sort(char **args);
 void			args_into_array(char **args, char ****args_array, int pipe_num);
 void			chage_dollor_val_space(char **args);
 void			change_semicon_null(char **args, int *semi_co_place);
