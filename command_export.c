@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 08:12:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 09:56:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ static int	export_error(char *arg)
 }
 
 /*
+** export コマンドに引数がなかったとき、環境変数を、一覧で表示する。
+*/
+
+static int	show_e_val(t_list *e_val, void (*f)(void *))
+{
+	if (!f)
+		return (1);
+	while (e_val)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		(*f)(e_val->content);
+		e_val = e_val->next;
+	}
+	return (0);
+}
+
+/*
 ** exportコマンドを司る関数。
 */
 
@@ -30,6 +47,8 @@ int			command_export(char **args, t_edlist *vals)
 	t_list	*find;
 
 	i = 0;
+	if (args[1] == NULL)
+		return (show_e_val(vals->e_val, ft_putendl));
 	while (args[i])
 	{
 		if (!check_key_str(args[i]))
