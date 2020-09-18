@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 08:05:49 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/17 18:04:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 09:02:44 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,50 +49,6 @@ typedef struct	s_fds
 	int	fd_flag;
 	int rv;
 }				t_fds;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-cat < main.c | grep main
-
-cat の stdout -> 親プロセスの出口
-grep の stdin -> 子プロセスの入り口。
-pipe(int fd[2])
-fd[0] -> 入り口
-fd[1] -> 出口
-
-fd[0] <- dup2()でstdin をあてがう。
-fd[1] <- dup2()でstdout をあてがう。
-
-args[0] = "ls"
-args[1] = "-la"
-aegs[2] = ";"
-
-execve (~, args,~)
-*/
-
-
-
-
-
-
-
-
-
 
 char			**add_paths_and_change_arg0(char **arg_zero, t_edlist *vals);
 char			**change_into_array(t_list *e_val);
