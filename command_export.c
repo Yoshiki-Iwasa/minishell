@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:05:12 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/18 11:14:19 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/18 11:31:53 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,19 @@ void		put_str_with_dq(char *str)
 {
 	int		i;
 	char	dq;
+	int		flag;
 
 	dq = '"';
 	i = 0;
+	flag = 1;
 	while (str[i])
 	{
 		write(1, &str[i], 1);
-		if ((str[i] == '=' && str[i + 1] != '"') \
-		|| (str[i] != '"' && str[i + 1] == '\0'))
+		if ((str[i] == '=' && flag == 1) || (str[i + 1] == '\0'))
+		{
 			write(1, &dq, 1);
+			flag = 0;
+		}
 		i++;
 	}
 }
