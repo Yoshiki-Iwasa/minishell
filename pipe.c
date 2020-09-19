@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 13:27:58 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 08:36:33 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/19 12:19:58 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	signel_pipe(int sig)
 	{
 		g_sig_count++;
 		sig = kill(g_ret, SIGINT);
-		if (!sig && g_sig_count == 1)
+		if (!sig && g_sig_count % 2 == 0)
 		{
-			write(1, "\n", 1);
 		}
 	}
 }
