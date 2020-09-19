@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:14:29 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/19 09:13:30 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/19 12:22:58 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void		sig_handle_c(int sig)
 	{
 		sig = kill(g_pid, SIGINT);
 		g_pid = 0;
+		if (sig == -1)
+		{
+		}
 	}
 	else
 	{
