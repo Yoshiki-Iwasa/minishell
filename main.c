@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/18 08:57:23 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 11:51:07 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	change_semicon_null(char **args, int *semi_co_place)
 ** 環境変数はe_valにシェル変数はd_val に。
 */
 
-void	shell_start(char **envp)
+int		shell_start(char **envp)
 {
-	t_edlist vals;
+	t_edlist	vals;
+	int			rv;
 
 	vals.d_val = NULL;
 	vals.e_val = NULL;
@@ -46,9 +47,10 @@ void	shell_start(char **envp)
 		ft_lstclear(&(vals.d_val), free);
 		exit(EXIT_FAILURE);
 	}
-	commnad_loop(vals);
+	rv = commnad_loop(vals);
 	ft_lstclear(&(vals.d_val), free);
 	ft_lstclear(&(vals.e_val), free);
+	return (rv);
 }
 
 /*
@@ -72,7 +74,7 @@ int		main(int argc, char **argv, char **envp)
 	ft_putendl(" ■   ■   ■■   ■   ■   ■■   ■  ■  ■■ ■■   ■   ■■     ■■  ■■ ");
 	ft_putendl("■■■ ■■■ ■■■■ ■■■ ■■■ ■■■  ■■■ ■■■■ ■■■■ ■■■   ■■■■ ■■■■■■■■\
 	\n\n");
-	shell_start(envp);
+	return (shell_start(envp));
 	if (argc == 0 && argv == 0)
 		return (EXIT_SUCCESS);
 	if (argc != 0 && argv != 0)

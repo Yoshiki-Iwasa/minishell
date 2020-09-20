@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:18:11 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 15:41:51 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 12:09:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,24 @@ char	**ft_strsdup(char **args)
 	}
 	new_args[i] = NULL;
 	return (new_args);
+}
+
+/*
+** 文字列が数字だけで構成されているかチェックする関数
+*/
+
+int		is_only_digit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && str[i] != '-')
+			return (0);
+		if (str[i] == '-' && i != 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }

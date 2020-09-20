@@ -6,24 +6,30 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:39:27 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/08 09:01:50 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 11:55:03 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		pattern_pipe_not_exit(char **args, t_edlist *vals)
+static	int	update_exit_state_return(t_edlist *vals)
+{
+	update_val(&(vals->d_val), "?=1");
+	return (1);
+}
+
+int			pattern_pipe_not_exit(char **args, t_edlist *vals)
 {
 	int		rv;
 	char	*state_val;
 	char	*state;
 
 	rv = no_pipe(args, vals);
-	if (rv == 100)
+	if (rv >= 1000)
 	{
-		if (!update_val(&(vals->d_val), "?=0"))
-			return (1);
-		return (0);
+		if (rv == 2001)
+			return (update_exit_state_return(vals));
+		return (rv);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 08:05:49 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/18 11:01:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 11:40:02 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int				child_precess
 int				command_cd(char *arg, t_list **e_val);
 int				command_echo(char **args);
 int				command_env(t_list **e_val);
-int				command_exit(void);
+int				command_exit(char **args, t_edlist *vals);
 int				command_export(char **args, t_edlist *vals);
 int				command_pwd(void);
 int				command_unset(char **args, t_list *e_val, t_list *d_val);
@@ -95,6 +95,7 @@ int				free_return(char *arg, int rv);
 int				ft_isspace(char c);
 int				ft_strcmp(const char *s1, const char *s2);
 int				init_e_val_list(t_list **e_val, char **envp);
+int				is_only_digit(char *str);
 int				is_only_or_many_dollor(char *arg);
 int				launch_shell(t_edlist vals, char *line);
 int				make_spaces(char *line, char *new_line, int *i, int *j);

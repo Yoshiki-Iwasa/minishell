@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/11 09:48:42 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 11:41:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				look_argzero_and_exec_command
 	int		rv;
 
 	if (!ft_strncmp(args[0], "exit", 5))
-		rv = (command_exit());
+		rv = (command_exit(&args[1], vals));
 	else if (!ft_strncmp(args[0], "pwd", 4))
 		rv = (command_pwd());
 	else if (!ft_strncmp(args[0], "cd", 3))
