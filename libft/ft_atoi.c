@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yiwasa <yiwasa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:49:33 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/06/28 13:44:13 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 08:14:54 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int		answer(char *num, long k, long m)
 
 	i = 0;
 	ans = 0;
-	while (k >= 0)
+	while (k > 0)
 	{
-		ans = ans + ((num[i] - 48) * ft_iterative_power(10, k - 1));
+		ans = ans * 10 + (num[i] - 48);
 		k--;
 		i++;
 	}
@@ -45,7 +45,6 @@ static int		answer(char *num, long k, long m)
 	else
 		return (ans);
 }
-
 static long		get_number(const char *str, char *num)
 {
 	long	k;
