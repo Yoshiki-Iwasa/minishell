@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 06:37:32 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/20 11:51:07 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/21 11:36:41 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int		shell_start(char **envp)
 	setting_signal();
 	if (!update_val(&(vals.d_val), "?=0"))
 	{
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	if (!init_e_val_list(&(vals.e_val), envp))
 	{
 		ft_lstclear(&(vals.d_val), free);
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	rv = commnad_loop(vals);
 	ft_lstclear(&(vals.d_val), free);
@@ -59,6 +59,8 @@ int		shell_start(char **envp)
 
 int		main(int argc, char **argv, char **envp)
 {
+	int rv;
+
 	argc = 0;
 	argv = 0;
 	write(1, "\n\n", 2);
@@ -74,7 +76,8 @@ int		main(int argc, char **argv, char **envp)
 	ft_putendl(" ■   ■   ■■   ■   ■   ■■   ■  ■  ■■ ■■   ■   ■■     ■■  ■■ ");
 	ft_putendl("■■■ ■■■ ■■■■ ■■■ ■■■ ■■■  ■■■ ■■■■ ■■■■ ■■■   ■■■■ ■■■■■■■■\
 	\n\n");
-	return (shell_start(envp));
+	rv = shell_start(envp);
+	return (rv);
 	if (argc == 0 && argv == 0)
 		return (EXIT_SUCCESS);
 	if (argc != 0 && argv != 0)

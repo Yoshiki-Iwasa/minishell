@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 06:40:41 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/21 10:36:21 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 06:42:20 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	change_special_char(char *line, int *i)
 		line[*i] = 6;
 		line[*i + 1] = 7;
 	}
-	if (line[*i] == '\\' && line[*i + 1] != '"')
+	if (line[*i] == '\\' && line[*i + 1] != '"' && line[*i + 1] != '$')
 		line[*i] = 16;
 }
 /*
