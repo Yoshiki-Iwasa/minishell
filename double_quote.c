@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 06:40:41 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/21 09:18:46 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/21 10:36:21 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,32 @@ int		when_meets_double_q(char *line, int *i)
 }
 
 /*
+** 該当する文字を非表示文字に変換
+*/
+void	change_special_char(char *line, int *i)
+{
+	if (line[*i] == ' ')
+			line[*i] = 1;
+	if (line[*i] == '$' && (line[*i + 1] == '\0' || line[*i + 1] == ' ' \
+		|| line[*i + 1] == 1 || line[*i + 1] == '"'))
+		line[*i] = 2;
+	if (line[*i] == '>')
+		line[*i] = 3;
+	if (line[*i] == '<')
+		line[*i] = 5;
+	if (line[*i] == '=')
+		line[*i] = 8;
+	if (line[*i] == '|')
+		line[*i] = 15;
+	if (line[*i] == '2' && line[*i + 1] == '>')
+	{
+		line[*i] = 6;
+		line[*i + 1] = 7;
+	}
+	if (line[*i] == '\\' && line[*i + 1] != '"')
+		line[*i] = 16;
+}
+/*
 ** ダブルクオーテーションでエスケープする時に下処理する関数。
 */
 
@@ -53,27 +79,8 @@ void	pattern_double(char *line, int *i)
 	(*i)++;
 	while (line[*i] != '"')
 	{
-		if (line[*i] == ' ')
-			line[*i] = 1;
-		if (line[*i] == '$' && (line[*i + 1] == '\0' || line[*i + 1] == ' ' \
-			|| line[*i + 1] == 1 || line[*i + 1] == '"'))
-			line[*i] = 2;
-		if (line[*i] == '>')
-			line[*i] = 3;
-		if (line[*i] == '<')
-			line[*i] = 5;
-		if (line[*i] == '=')
-			line[*i] = 8;
-		if (line[*i] == '|')
-			line[*i] = 15;
-		if (line[*i] == '2' && line[*i + 1] == '>')
-		{
-			line[*i] = 6;
-			line[*i + 1] = 7;
-		}
-		if (line[*i] == '\\' && line[*i + 1] != '"')
-			line[*i] = 16;
-		else if (line[*i] == '\0')
+		change_special_char(line, i);
+		if (line[*i] == '\0')
 			break ;
 		(*i)++;
 	}
