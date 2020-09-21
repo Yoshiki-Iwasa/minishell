@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:00:04 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/20 11:39:23 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/21 09:19:38 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	fix_args_compose(char **args)
 	fix_args(args, 4, '\0');
 	fix_args(args, 6, '2');
 	fix_args(args, 9, ' ');
+	fix_args(args, 16, '\\');
 }
 
 /*

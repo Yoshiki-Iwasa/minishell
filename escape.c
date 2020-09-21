@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/12 11:31:37 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 16:58:41 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void			change_chars_unprintable
 		line[*i] = 8;
 	if (line[*i] == ' ')
 		line[*i] = 9;
+	if (line[*i] == '|')
+		line[*i] = 15;
 	new_line[(*j)++] = line[(*i)++];
 	return ;
 }

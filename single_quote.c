@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 06:40:56 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/10 06:51:53 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 17:10:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	pattern_single(char *line, int *i)
 			line[*i] = 5;
 		if (line[*i] == '=')
 			line[*i] = 8;
+		if (line[*i] == '|')
+			line[*i] = 15;
 		if (line[*i] == '2' && line[*i + 1] == '>')
 		{
 			line[*i] = 6;

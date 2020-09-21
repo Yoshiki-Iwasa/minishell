@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 07:47:02 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/20 11:37:06 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/20 17:08:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int			shell_execute(char **args, t_edlist *vals)
 	int pipe_count;
 
 	pipe_count = count_pipe(args);
+	fix_args(args, 15, '|');
 	if (pipe_count == 0)
 	{
 		return (pattern_pipe_not_exit(args, vals));
