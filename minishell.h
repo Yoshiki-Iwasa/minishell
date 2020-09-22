@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 08:05:49 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/20 11:40:02 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 10:23:46 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int				when_meets_single_q(char *line, int *i);
 int				yes_pipe(char **args, t_edlist *vals, int pipe_count);
 t_list			*search_entry(t_list *val, char *key);
 void			ascii_sort(char **args);
+void			add_q_count_and_close_bracket
+				(char *line_i, char *new_line, int *j, int *quote_count);
 void			args_into_array(char **args, char ****args_array, int pipe_num);
 void			chage_dollor_val_space(char **args);
 void			change_semicon_null(char **args, int *semi_co_place);
@@ -136,7 +138,10 @@ void			close_and_dup2_1(int pp_zero, int pp_one);
 void			close_and_dup2_2(int pp_zero, int pp_one);
 void			del_str(void *str);
 void			del_str(void *str);
-void			escape_double(char *line, char *new_line, int *i, int *j);
+void			escape_double
+				(char *line, char *new_line, int *i, int *j);
+void			escape_dollor_in_double_q
+				(char *line, int *i, char *new_line, int *j);
 void			escape_fds(int *stdin_fd, int *stdout_fd, int *stderror_fd);
 void			escape_single(char *line, char *new_line, int *i, int *j);
 void			fix_args(char **args, char ascii, char c);
@@ -144,6 +149,7 @@ void			free_all(char **args, char *line);
 void			free_args(char **args, char *line, int arglen);
 void			ft_putendl(void *str);
 void			insert_unprintable(char *line);
+void			insert_open_bracket(char *new_line, char *line, int *i, int *j);
 void			lst_del_connect(t_list **val, char *key, void (*del)(void*));
 void			pattern_double(char *line, int *i);
 void			pattern_single(char *line, int *i);

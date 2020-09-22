@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 09:06:46 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/20 16:58:41 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 10:31:49 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ int				deal_quotations(char *line, char *new_line, int *i, int *j)
 	if (line[*i] == '"')
 	{
 		if (escape_double_q(line, new_line, i, j))
+		{
+			new_line[*j] = '\0';
 			return (put_error_free_return(new_line));
+		}
+		new_line[*j] = '\0';
 	}
 	else if (line[*i] == 39)
 	{

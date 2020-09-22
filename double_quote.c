@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 06:40:41 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/22 06:42:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 08:54:18 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ int		when_meets_double_q(char *line, int *i)
 /*
 ** 該当する文字を非表示文字に変換
 */
+
 void	change_special_char(char *line, int *i)
 {
 	if (line[*i] == ' ')
-			line[*i] = 1;
+		line[*i] = 1;
 	if (line[*i] == '$' && (line[*i + 1] == '\0' || line[*i + 1] == ' ' \
 		|| line[*i + 1] == 1 || line[*i + 1] == '"'))
 		line[*i] = 2;
@@ -67,9 +68,11 @@ void	change_special_char(char *line, int *i)
 		line[*i] = 6;
 		line[*i + 1] = 7;
 	}
-	if (line[*i] == '\\' && line[*i + 1] != '"' && line[*i + 1] != '$')
+	if (line[*i] == '\\' && line[*i + 1] != '"' \
+		&& line[*i + 1] != '$' && line[*i + 1] != '\\')
 		line[*i] = 16;
 }
+
 /*
 ** ダブルクオーテーションでエスケープする時に下処理する関数。
 */

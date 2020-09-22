@@ -6,69 +6,15 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 09:35:53 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/12 11:44:16 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 10:32:39 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** クォーテーションマークをスキップする関数。
-*/
-
-int		skip_double_q(char *line, int *i, int *quote_count)
-{
-	if (line[*i] == '"')
-	{
-		(*i)++;
-		(*quote_count)++;
-		return (1);
-	}
-	return (0);
-}
-
-/*
-** ダブルクオート内でのバックスラッシュでの＄のエスケープ
-*/
-
-void	escape_dollor_in_double_q(char *line, int *i, char *new_line, int *j)
-{
-	if (line[*i] == '\\')
-	{
-		(*i)++;
-		if (line[*i] == '$')
-			line[*i] = 2;
-	}
-	new_line[(*j)++] = line[(*i)++];
-}
-
-/*
-** while に break するか continue するか
-*/
-
-int		decide_break_or_continue(char *line, int *i)
-{
-	if (line[*i] == '\0')
-		return (1);
-	else
-	{
-		(*i)++;
-		return (0);
-	}
-}
-
-/*
-** 無理やり開カッコをつける関数
-*/
-
-void	insert_open_bracket(char *new_line, char *line, int *i, int *j)
-{
-	new_line[(*j)++] = line[(*i)++];
-	new_line[(*j)++] = '{';
-}
-
-/*
 ** ダブルクオートをline から排除するための関数。
+** new_line のnull 終端は呼び出し先で。
 */
 
 int		escape_double_q(char *line, char *new_line, int *i, int *j)
@@ -78,17 +24,18 @@ int		escape_double_q(char *line, char *new_line, int *i, int *j)
 	quote_count = 0;
 	while (line[*i] != '\0')
 	{
+		if (quote_count > 0 && quote_count % 2 == 0)
+		{
+			if (make_spaces(line, new_line, i, j))
+				continue ;
+		}
 		if (skip_double_q(line, i, &quote_count))
 			continue;
 		if (line[*i] == '$' && line[*i + 1] != '{' && line[*i - 1] != '{' \
 			&& line[*i + 1] != ' ')
 		{
 			insert_open_bracket(new_line, line, i, j);
-			while (line[*i] != '"' && line[*i] != '\0')
-				new_line[(*j)++] = line[(*i)++];
-			if (line[*i] == '"')
-				quote_count = quote_count + 1;
-			new_line[(*j)++] = '}';
+			add_q_count_and_close_bracket(&line[*i], new_line, j, &quote_count);
 			if (decide_break_or_continue(line, i))
 				break ;
 			else
@@ -96,6 +43,5 @@ int		escape_double_q(char *line, char *new_line, int *i, int *j)
 		}
 		escape_dollor_in_double_q(line, i, new_line, j);
 	}
-	new_line[*j] = '\0';
 	return (quote_count % 2);
 }
