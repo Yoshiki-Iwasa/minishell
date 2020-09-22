@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 12:58:31 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/20 11:41:20 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 12:57:32 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ static	void	fix_args_compose(char **args)
 */
 
 static int		free_and_return
-	(char **paths, char *origin_arg)
+	(char **args, int arg_len, char **paths, char *origin_arg)
 {
+	free_args(args, 0, arg_len);
 	free_all(paths, origin_arg);
 	return (1);
 }
@@ -104,7 +105,7 @@ int				no_pipe(char **args, t_edlist *vals)
 	fds.fd_flag = deal_redirection(args, &(fds.fd));
 	fix_args_compose(args);
 	if (fds.fd_flag == -1)
-		return (free_and_return(paths, origin_arg));
+		return (free_and_return(args, arg_len, paths, origin_arg));
 	fds.rv = look_argzero_and_exec_command(args, vals, paths, origin_arg);
 	free_args(args, 0, arg_len);
 	recover_fd_and_free_all(fds, paths, origin_arg);
