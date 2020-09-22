@@ -52,7 +52,8 @@ SRCS = change_into_array.c \
 		seek_in_d_val.c \
 		seek_in_e_val.c \
 		sort.c \
-		escape_double_q2.c
+		escape_double_q2.c \
+		flag.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell

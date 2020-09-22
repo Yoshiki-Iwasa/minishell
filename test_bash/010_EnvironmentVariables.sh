@@ -206,4 +206,3 @@ echo "minishell\$ echo \"k\\\${USER} k\""
 echo "k\${USER} k"
 echo "minishell\$ "
 echo "minishell\$ "
-
