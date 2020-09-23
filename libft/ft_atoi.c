@@ -6,7 +6,7 @@
 /*   By: yiwasa <yiwasa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:49:33 by yiwasa            #+#    #+#             */
-/*   Updated: 2020/09/22 08:14:54 by yiwasa           ###   ########.fr       */
+/*   Updated: 2020/09/22 13:48:34 by yiwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int		answer(char *num, long k, long m)
 	else
 		return (ans);
 }
+
 static long		get_number(const char *str, char *num)
 {
 	long	k;
